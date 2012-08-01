@@ -10,6 +10,9 @@
 
 @interface AppDelegate : NSObject <NSApplicationDelegate>
 
+- (NSString*)GetTimeRemainingText;
+
 @property (assign) IBOutlet NSWindow *window;
+@property (strong) NSStatusItem *statusItem;
 
 @end

@@ -7,49 +7,138 @@
 //
 
 #import "AppDelegate.h"
+#import "StartAtLoginHelper.h"
 #import <IOKit/ps/IOPowerSources.h>
+#import <IOKit/ps/IOPSKeys.h>
 
-static void PowerSourceChanged(void * context) {
-    
-    AppDelegate * self = (__bridge AppDelegate *)context;
-    [self.statusItem setTitle:[self GetTimeRemainingText]];
+// IOPS notification callback on power source change
+static void PowerSourceChanged(void * context)
+{
+    // Update the time remaining text
+    AppDelegate *self = (__bridge AppDelegate *)context;
+    [self updateStatusItem];
 }
 
 @implementation AppDelegate
 
-@synthesize statusItem;
+@synthesize statusItem, startupToggle;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    NSMenu *stackMenu = [[NSMenu alloc] initWithTitle:@"Status Menu"];
-    [stackMenu addItemWithTitle:@"Quit" action:@selector(terminate:) keyEquivalent:@""];
+    // Create the startup at login toggle
+    self.startupToggle = [[NSMenuItem alloc] initWithTitle:@"Start at login" action:@selector(toggleStartAtLogin:) keyEquivalent:@""];
+    self.startupToggle.target = self;
+    self.startupToggle.state = ([StartAtLoginHelper isInLoginItems]) ? NSOnState : NSOffState;
     
-    statusItem = [[NSStatusBar systemStatusBar]
-                  statusItemWithLength:NSVariableStatusItemLength];
-    [statusItem setHighlightMode:YES];
-    [statusItem setMenu:stackMenu];
+    // Build the status menu
+    NSMenu *statusMenu = [[NSMenu alloc] initWithTitle:@"Status Menu"];
+    [statusMenu addItem:self.startupToggle];
+    [statusMenu addItemWithTitle:@"Quit" action:@selector(terminate:) keyEquivalent:@""];
     
-    NSString *title = [self GetTimeRemainingText];
+    // Create the status item and set initial text
+    statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
+    statusItem.highlightMode = YES;
+    statusItem.menu = statusMenu;
+    [self updateStatusItem];
     
-    [statusItem setTitle:title];
-    
-    // Update Power Source
+    // Capture Power Source updates and make sure our callback is called
     CFRunLoopSourceRef loop = IOPSNotificationCreateRunLoopSource(PowerSourceChanged, (__bridge void *)self);
     CFRunLoopAddSource(CFRunLoopGetCurrent(), loop, kCFRunLoopDefaultMode);
     CFRelease(loop);
 }
 
-- (NSString*)GetTimeRemainingText
+- (void)updateStatusItem
 {
-    if (kIOPSTimeRemainingUnlimited == IOPSGetTimeRemainingEstimate()) {
-        return @"Ω Unlimited Ω";
-    } else if (kIOPSTimeRemainingUnknown == IOPSGetTimeRemainingEstimate()) {
-        return @"Ω Calculating Ω";
-    } else {
-        CFTimeInterval time = IOPSGetTimeRemainingEstimate();
-        NSInteger hour = (int)time / 3600;
-        NSInteger minut = (int)time % 3600 / 60;
-        return [NSString stringWithFormat:@"<%ld:%02ld>", hour, minut];
+    // Get the estimated time remaining
+    CFTimeInterval timeRemaining = IOPSGetTimeRemainingEstimate();
+    
+    // We're connected to an unlimited power source (AC adapter probably)
+    if (kIOPSTimeRemainingUnlimited == timeRemaining)
+    {
+        // Get list of power sources
+        CFTypeRef psBlob = IOPSCopyPowerSourcesInfo();
+        CFArrayRef psList = IOPSCopyPowerSourcesList(psBlob);
+        
+        // Loop through the list of power sources
+        CFIndex count = CFArrayGetCount(psList);
+        for (CFIndex i = 0; i < count; i++)
+        {
+            CFTypeRef powersource = CFArrayGetValueAtIndex(psList, i);
+            CFDictionaryRef description = IOPSGetPowerSourceDescription(psBlob, powersource);
+            
+            // Skip if not present or not a battery
+            if (CFDictionaryGetValue(description, CFSTR(kIOPSIsPresentKey)) == kCFBooleanFalse || !CFStringCompare(CFDictionaryGetValue(description, CFSTR(kIOPSPowerSourceStateKey)), CFSTR(kIOPSBatteryPowerValue), 0))
+            {
+                continue;
+            }
+                
+            // Check if the battery is charging atm
+            if (CFDictionaryGetValue(description, CFSTR(kIOPSIsChargingKey)) == kCFBooleanTrue)
+            {
+                CFNumberRef timeToChargeNum = CFDictionaryGetValue(description, CFSTR(kIOPSTimeToFullChargeKey));
+                int timeTilCharged = [(__bridge NSNumber *)timeToChargeNum intValue];
+                
+                if (timeTilCharged > 0)
+                {
+                    // Calculate the hour/minutes
+                    NSInteger hour = (int)timeTilCharged / 3600;
+                    NSInteger minute = (int)timeTilCharged % 3600;
+                    
+                    // Return the time remaining string
+                    self.statusItem.image = [self getBatteryIconNamed:@"BatteryCharging"];
+                    self.statusItem.title = [NSString stringWithFormat:@" %ld:%02ld", hour, minute];
+                }
+                else
+                {
+                    self.statusItem.image = [self getBatteryIconNamed:@"BatteryCharging"];
+                    self.statusItem.title = @" Calculating…";
+                }
+            }
+            else
+            {
+                // Not charging and on a endless powersource
+                self.statusItem.image = [self getBatteryIconNamed:@"BatteryCharged"];
+                self.statusItem.title = @"";
+            }
+        }
+    }
+    // Still calculating the estimated time remaining...
+    else if (kIOPSTimeRemainingUnknown == timeRemaining)
+    {
+        self.statusItem.image = [self getBatteryIconNamed:@"BatteryEmpty"];
+        self.statusItem.title = @" Calculating…";
+    }
+    // Time is known!
+    else
+    {
+        // Calculate the hour/minutes 
+        NSInteger hour = (int)timeRemaining / 3600;
+        NSInteger minute = (int)timeRemaining % 3600 / 60;
+        
+        // Return the time remaining string
+        self.statusItem.image = [self getBatteryIconNamed:@"BatteryEmpty"];
+        self.statusItem.title = [NSString stringWithFormat:@" %ld:%02ld", hour, minute];
+    }
+}
+
+- (NSImage *)getBatteryIconNamed:(NSString *)iconName
+{
+    NSString *fileName = [NSString stringWithFormat:@"/System/Library/CoreServices/Menu Extras/Battery.menu/Contents/Resources/%@.pdf", iconName];
+    return [[NSImage alloc] initWithContentsOfFile:fileName];
+}
+
+- (void)toggleStartAtLogin:(id)sender
+{
+    // Check the state of start at login 
+    if ([StartAtLoginHelper isInLoginItems])
+    {
+        [StartAtLoginHelper removeFromLoginItems];
+        self.startupToggle.state = NSOffState;
+    }
+    else
+    {
+        [StartAtLoginHelper addToLoginItems];
+        self.startupToggle.state = NSOnState;
     }
 }
 

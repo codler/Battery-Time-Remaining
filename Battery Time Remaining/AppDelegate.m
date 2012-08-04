@@ -54,12 +54,12 @@ static void PowerSourceChanged(void * context)
     // We're connected to an unlimited power source (AC adapter probably)
     if (kIOPSTimeRemainingUnlimited == timeRemaining)
     {
-        return @"Unlimited";
+        return @"∞";
     }
     // Still calculating the estimated time remaining...
     else if (kIOPSTimeRemainingUnknown == timeRemaining)
     {
-        return @"Calculating";
+        return @"Calculating…";
     }
     // Time is known!
     else

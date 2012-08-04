@@ -21,5 +21,5 @@ The App shows the exact same time as you will see when you click the battery ico
 Who did make this app?
 ----------------------
 
-codler / Han Lin Yap: created the first version of the app
-mac-cain13 / Mathijs Kadijk: made some improvements
+* codler / Han Lin Yap: created the first version of the app
+* mac-cain13 / Mathijs Kadijk: made some improvements

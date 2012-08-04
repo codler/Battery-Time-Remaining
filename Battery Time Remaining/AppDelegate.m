@@ -16,12 +16,12 @@ static void PowerSourceChanged(void * context)
 {
     // Update the time remaining text
     AppDelegate *self = (__bridge AppDelegate *)context;
-    self.statusItem.title = [self getTimeRemainingText];
+    [self updateStatusItem];
 }
 
 @implementation AppDelegate
 
-@synthesize statusItem;
+@synthesize statusItem, startupToggle;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
@@ -39,7 +39,7 @@ static void PowerSourceChanged(void * context)
     statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
     statusItem.highlightMode = YES;
     statusItem.menu = statusMenu;
-    statusItem.title = [self getTimeRemainingText];
+    [self updateStatusItem];
     
     // Capture Power Source updates and make sure our callback is called
     CFRunLoopSourceRef loop = IOPSNotificationCreateRunLoopSource(PowerSourceChanged, (__bridge void *)self);
@@ -47,7 +47,7 @@ static void PowerSourceChanged(void * context)
     CFRelease(loop);
 }
 
-- (NSString *)getTimeRemainingText
+- (void)updateStatusItem
 {
     // Get the estimated time remaining
     CFTimeInterval timeRemaining = IOPSGetTimeRemainingEstimate();
@@ -85,26 +85,28 @@ static void PowerSourceChanged(void * context)
                     NSInteger minute = (int)timeTilCharged % 3600;
                     
                     // Return the time remaining string
-                    return [NSString stringWithFormat:@"🔌 %ld:%02ld", hour, minute];
+                    [self getBatteryIconNamed:@"BatteryCharging"];
+                    self.statusItem.title = [NSString stringWithFormat:@" %ld:%02ld", hour, minute];
                 }
                 else
                 {
-                    return @"🔌 Calculating…";
+                    [self getBatteryIconNamed:@"BatteryCharging"];
+                    self.statusItem.title = @" Calculating…";
                 }
             }
             else
             {
                 // Not charging and on a endless powersource
-                return @"🔌";
+                self.statusItem.image = [self getBatteryIconNamed:@"BatteryCharged"];
+                self.statusItem.title = @"";
             }
-            
-            return @"Error…";
         }
     }
     // Still calculating the estimated time remaining...
     else if (kIOPSTimeRemainingUnknown == timeRemaining)
     {
-        return @"Calculating…";
+        self.statusItem.image = [self getBatteryIconNamed:@"BatteryEmpty"];
+        self.statusItem.title = @" Calculating…";
     }
     // Time is known!
     else
@@ -114,8 +116,15 @@ static void PowerSourceChanged(void * context)
         NSInteger minute = (int)timeRemaining % 3600 / 60;
         
         // Return the time remaining string
-        return [NSString stringWithFormat:@"%ld:%02ld", hour, minute];
+        self.statusItem.image = [self getBatteryIconNamed:@"BatteryEmpty"];
+        self.statusItem.title = [NSString stringWithFormat:@" %ld:%02ld", hour, minute];
     }
+}
+
+- (NSImage *)getBatteryIconNamed:(NSString *)iconName
+{
+    NSString *fileName = [NSString stringWithFormat:@"/System/Library/CoreServices/Menu Extras/Battery.menu/Contents/Resources/%@.pdf", iconName];
+    return [[NSImage alloc] initWithContentsOfFile:fileName];
 }
 
 - (void)toggleStartAtLogin:(id)sender

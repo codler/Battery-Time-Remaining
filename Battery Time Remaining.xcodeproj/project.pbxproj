@@ -52,7 +52,6 @@
 		2841C7D115C91CC100F4F15F = {
 			isa = PBXGroup;
 			children = (
-				2841C7FD15C91CEF00F4F15F /* IOKit.framework */,
 				2841C7E615C91CC100F4F15F /* Battery Time Remaining */,
 				2841C7DF15C91CC100F4F15F /* Frameworks */,
 				2841C7DD15C91CC100F4F15F /* Products */,
@@ -70,6 +69,7 @@
 		2841C7DF15C91CC100F4F15F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2841C7FD15C91CEF00F4F15F /* IOKit.framework */,
 				2841C7E015C91CC100F4F15F /* Cocoa.framework */,
 				2841C7E215C91CC100F4F15F /* Other Frameworks */,
 			);

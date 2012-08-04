@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "StartAtLoginHelper.h"
 #import <IOKit/ps/IOPowerSources.h>
+#import <IOKit/ps/IOPSKeys.h>
 
 // IOPS notification callback on power source change
 static void PowerSourceChanged(void * context)
@@ -54,7 +55,51 @@ static void PowerSourceChanged(void * context)
     // We're connected to an unlimited power source (AC adapter probably)
     if (kIOPSTimeRemainingUnlimited == timeRemaining)
     {
-        return @"∞";
+        // Get list of power sources
+        CFTypeRef psBlob = IOPSCopyPowerSourcesInfo();
+        CFArrayRef psList = IOPSCopyPowerSourcesList(psBlob);
+        
+        // Loop through the list of power sources
+        CFIndex count = CFArrayGetCount(psList);
+        for (CFIndex i = 0; i < count; i++)
+        {
+            CFTypeRef powersource = CFArrayGetValueAtIndex(psList, i);
+            CFDictionaryRef description = IOPSGetPowerSourceDescription(psBlob, powersource);
+            
+            // Skip if not present or not a battery
+            if (CFDictionaryGetValue(description, CFSTR(kIOPSIsPresentKey)) == kCFBooleanFalse || !CFStringCompare(CFDictionaryGetValue(description, CFSTR(kIOPSPowerSourceStateKey)), CFSTR(kIOPSBatteryPowerValue), 0))
+            {
+                continue;
+            }
+                
+            // Check if the battery is charging atm
+            if (CFDictionaryGetValue(description, CFSTR(kIOPSIsChargingKey)) == kCFBooleanTrue)
+            {
+                CFNumberRef timeToChargeNum = CFDictionaryGetValue(description, CFSTR(kIOPSTimeToFullChargeKey));
+                int timeTilCharged = [(__bridge NSNumber *)timeToChargeNum intValue];
+                
+                if (timeTilCharged > 0)
+                {
+                    // Calculate the hour/minutes
+                    NSInteger hour = (int)timeTilCharged / 3600;
+                    NSInteger minute = (int)timeTilCharged % 3600;
+                    
+                    // Return the time remaining string
+                    return [NSString stringWithFormat:@"🔌 %ld:%02ld", hour, minute];
+                }
+                else
+                {
+                    return @"🔌 Calculating…";
+                }
+            }
+            else
+            {
+                // Not charging and on a endless powersource
+                return @"🔌";
+            }
+            
+            return @"Error…";
+        }
     }
     // Still calculating the estimated time remaining...
     else if (kIOPSTimeRemainingUnknown == timeRemaining)

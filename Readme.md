@@ -6,7 +6,7 @@ Show the estimated battery time remaining on top of your screen in Mac OS X 10.8
 Why does this project exists?
 -----------------------------
 
-In Mountain Lion Apple removed the option to show the battery time remaining in the statusbar. This App will do exactly that, show the battery time remaining on top of your screen.
+Apple removed the option to show the battery time remaining in the statusbar since the Mountain Lion release. This App will do exactly that, show the battery time remaining on top of your screen.
 
 How do I install it?
 --------------------

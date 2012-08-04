@@ -9,10 +9,12 @@
 #import "AppDelegate.h"
 #import <IOKit/ps/IOPowerSources.h>
 
-static void PowerSourceChanged(void * context) {
-    
-    AppDelegate * self = (__bridge AppDelegate *)context;
-    [self.statusItem setTitle:[self GetTimeRemainingText]];
+// IOPS notification callback on power source change
+static void PowerSourceChanged(void * context)
+{
+    // Update the time remaining text
+    AppDelegate *self = (__bridge AppDelegate *)context;
+    self.statusItem.title = [self getTimeRemainingText];
 }
 
 @implementation AppDelegate
@@ -21,35 +23,46 @@ static void PowerSourceChanged(void * context) {
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    NSMenu *stackMenu = [[NSMenu alloc] initWithTitle:@"Status Menu"];
-    [stackMenu addItemWithTitle:@"Quit" action:@selector(terminate:) keyEquivalent:@""];
+    // Build the status menu
+    NSMenu *statusMenu = [[NSMenu alloc] initWithTitle:@"Status Menu"];
+    [statusMenu addItemWithTitle:@"Quit" action:@selector(terminate:) keyEquivalent:@""];
     
-    statusItem = [[NSStatusBar systemStatusBar]
-                  statusItemWithLength:NSVariableStatusItemLength];
-    [statusItem setHighlightMode:YES];
-    [statusItem setMenu:stackMenu];
+    // Create the status item and set initial text
+    statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
+    statusItem.highlightMode = YES;
+    statusItem.menu = statusMenu;
+    statusItem.title = [self getTimeRemainingText];
     
-    NSString *title = [self GetTimeRemainingText];
-    
-    [statusItem setTitle:title];
-    
-    // Update Power Source
+    // Capture Power Source updates and make sure our callback is called
     CFRunLoopSourceRef loop = IOPSNotificationCreateRunLoopSource(PowerSourceChanged, (__bridge void *)self);
     CFRunLoopAddSource(CFRunLoopGetCurrent(), loop, kCFRunLoopDefaultMode);
     CFRelease(loop);
 }
 
-- (NSString*)GetTimeRemainingText
+- (NSString *)getTimeRemainingText
 {
-    if (kIOPSTimeRemainingUnlimited == IOPSGetTimeRemainingEstimate()) {
-        return @"Ω Unlimited Ω";
-    } else if (kIOPSTimeRemainingUnknown == IOPSGetTimeRemainingEstimate()) {
-        return @"Ω Calculating Ω";
-    } else {
-        CFTimeInterval time = IOPSGetTimeRemainingEstimate();
-        NSInteger hour = (int)time / 3600;
-        NSInteger minut = (int)time % 3600 / 60;
-        return [NSString stringWithFormat:@"<%ld:%02ld>", hour, minut];
+    // Get the estimated time remaining
+    CFTimeInterval timeRemaining = IOPSGetTimeRemainingEstimate();
+    
+    // We're connected to an unlimited power source (AC adapter probably)
+    if (kIOPSTimeRemainingUnlimited == timeRemaining)
+    {
+        return @"Unlimited";
+    }
+    // Still calculating the estimated time remaining...
+    else if (kIOPSTimeRemainingUnknown == timeRemaining)
+    {
+        return @"Calculating";
+    }
+    // Time is known!
+    else
+    {
+        // Calculate the hour/minutes 
+        NSInteger hour = (int)timeRemaining / 3600;
+        NSInteger minute = (int)timeRemaining % 3600 / 60;
+        
+        // Return the time remaining string
+        return [NSString stringWithFormat:@"%ld:%02ld", hour, minute];
     }
 }
 

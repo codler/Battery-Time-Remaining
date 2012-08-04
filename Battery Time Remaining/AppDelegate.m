@@ -85,12 +85,12 @@ static void PowerSourceChanged(void * context)
                     NSInteger minute = (int)timeTilCharged % 3600;
                     
                     // Return the time remaining string
-                    [self getBatteryIconNamed:@"BatteryCharging"];
+                    self.statusItem.image = [self getBatteryIconNamed:@"BatteryCharging"];
                     self.statusItem.title = [NSString stringWithFormat:@" %ld:%02ld", hour, minute];
                 }
                 else
                 {
-                    [self getBatteryIconNamed:@"BatteryCharging"];
+                    self.statusItem.image = [self getBatteryIconNamed:@"BatteryCharging"];
                     self.statusItem.title = @" Calculating…";
                 }
             }

@@ -14,6 +14,7 @@
 		2841C7F415C91CC100F4F15F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2841C7F315C91CC100F4F15F /* AppDelegate.m */; };
 		2841C7F715C91CC200F4F15F /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2841C7F515C91CC200F4F15F /* MainMenu.xib */; };
 		2841C7FE15C91CEF00F4F15F /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2841C7FD15C91CEF00F4F15F /* IOKit.framework */; };
+		D58C7EF815CD7C6100C07E0C /* StartAtLoginHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D58C7EF715CD7C6100C07E0C /* StartAtLoginHelper.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +32,8 @@
 		2841C7F315C91CC100F4F15F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		2841C7F615C91CC200F4F15F /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		2841C7FD15C91CEF00F4F15F /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		D58C7EF615CD7C6100C07E0C /* StartAtLoginHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StartAtLoginHelper.h; sourceTree = "<group>"; };
+		D58C7EF715CD7C6100C07E0C /* StartAtLoginHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StartAtLoginHelper.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +91,8 @@
 			children = (
 				2841C7F215C91CC100F4F15F /* AppDelegate.h */,
 				2841C7F315C91CC100F4F15F /* AppDelegate.m */,
+				D58C7EF615CD7C6100C07E0C /* StartAtLoginHelper.h */,
+				D58C7EF715CD7C6100C07E0C /* StartAtLoginHelper.m */,
 				2841C7F515C91CC200F4F15F /* MainMenu.xib */,
 				2841C7E715C91CC100F4F15F /* Supporting Files */,
 			);
@@ -172,6 +177,7 @@
 			files = (
 				2841C7ED15C91CC100F4F15F /* main.m in Sources */,
 				2841C7F415C91CC100F4F15F /* AppDelegate.m in Sources */,
+				D58C7EF815CD7C6100C07E0C /* StartAtLoginHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -297,6 +303,7 @@
 				2841C7FC15C91CC200F4F15F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

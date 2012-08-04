@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "StartAtLoginHelper.h"
 #import <IOKit/ps/IOPowerSources.h>
 
 // IOPS notification callback on power source change
@@ -23,8 +24,14 @@ static void PowerSourceChanged(void * context)
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
+    // Create the startup at login toggle
+    self.startupToggle = [[NSMenuItem alloc] initWithTitle:@"Start at login" action:@selector(toggleStartAtLogin:) keyEquivalent:@""];
+    self.startupToggle.target = self;
+    self.startupToggle.state = ([StartAtLoginHelper isInLoginItems]) ? NSOnState : NSOffState;
+    
     // Build the status menu
     NSMenu *statusMenu = [[NSMenu alloc] initWithTitle:@"Status Menu"];
+    [statusMenu addItem:self.startupToggle];
     [statusMenu addItemWithTitle:@"Quit" action:@selector(terminate:) keyEquivalent:@""];
     
     // Create the status item and set initial text
@@ -63,6 +70,21 @@ static void PowerSourceChanged(void * context)
         
         // Return the time remaining string
         return [NSString stringWithFormat:@"%ld:%02ld", hour, minute];
+    }
+}
+
+- (void)toggleStartAtLogin:(id)sender
+{
+    // Check the state of start at login 
+    if ([StartAtLoginHelper isInLoginItems])
+    {
+        [StartAtLoginHelper removeFromLoginItems];
+        self.startupToggle.state = NSOffState;
+    }
+    else
+    {
+        [StartAtLoginHelper addToLoginItems];
+        self.startupToggle.state = NSOnState;
     }
 }
 

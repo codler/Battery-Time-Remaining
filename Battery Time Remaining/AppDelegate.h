@@ -10,7 +10,8 @@
 
 @interface AppDelegate : NSObject <NSApplicationDelegate>
 
-- (NSString*)getTimeRemainingText;
+- (void)updateStatusItem;
+- (NSImage *)getBatteryIconNamed:(NSString *)iconName;
 
 @property (assign) IBOutlet NSWindow *window;
 @property (strong) NSStatusItem *statusItem;

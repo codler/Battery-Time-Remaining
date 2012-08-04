@@ -14,5 +14,6 @@
 
 @property (assign) IBOutlet NSWindow *window;
 @property (strong) NSStatusItem *statusItem;
+@property (strong) NSMenuItem *startupToggle;
 
 @end

@@ -14,6 +14,7 @@
 		2841C7F415C91CC100F4F15F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2841C7F315C91CC100F4F15F /* AppDelegate.m */; };
 		2841C7F715C91CC200F4F15F /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2841C7F515C91CC200F4F15F /* MainMenu.xib */; };
 		2841C7FE15C91CEF00F4F15F /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2841C7FD15C91CEF00F4F15F /* IOKit.framework */; };
+		D570489C15CF1B9200E488C4 /* battery.icns in Resources */ = {isa = PBXBuildFile; fileRef = D570489B15CF1B9200E488C4 /* battery.icns */; };
 		D58C7EF815CD7C6100C07E0C /* StartAtLoginHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D58C7EF715CD7C6100C07E0C /* StartAtLoginHelper.m */; };
 /* End PBXBuildFile section */
 
@@ -32,6 +33,7 @@
 		2841C7F315C91CC100F4F15F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		2841C7F615C91CC200F4F15F /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		2841C7FD15C91CEF00F4F15F /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		D570489B15CF1B9200E488C4 /* battery.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = battery.icns; sourceTree = "<group>"; };
 		D58C7EF615CD7C6100C07E0C /* StartAtLoginHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StartAtLoginHelper.h; sourceTree = "<group>"; };
 		D58C7EF715CD7C6100C07E0C /* StartAtLoginHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StartAtLoginHelper.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -52,6 +54,7 @@
 		2841C7D115C91CC100F4F15F = {
 			isa = PBXGroup;
 			children = (
+				D570489B15CF1B9200E488C4 /* battery.icns */,
 				2841C7E615C91CC100F4F15F /* Battery Time Remaining */,
 				2841C7DF15C91CC100F4F15F /* Frameworks */,
 				2841C7DD15C91CC100F4F15F /* Products */,
@@ -165,6 +168,7 @@
 				2841C7EB15C91CC100F4F15F /* InfoPlist.strings in Resources */,
 				2841C7F115C91CC100F4F15F /* Credits.rtf in Resources */,
 				2841C7F715C91CC200F4F15F /* MainMenu.xib in Resources */,
+				D570489C15CF1B9200E488C4 /* battery.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -81,8 +81,8 @@ static void PowerSourceChanged(void * context)
                 if (timeTilCharged > 0)
                 {
                     // Calculate the hour/minutes
-                    NSInteger hour = (int)timeTilCharged / 3600;
-                    NSInteger minute = (int)timeTilCharged % 3600;
+                    NSInteger hour = timeTilCharged / 60;
+                    NSInteger minute = timeTilCharged % 60;
                     
                     // Return the time remaining string
                     self.statusItem.image = [self getBatteryIconNamed:@"BatteryCharging"];
@@ -111,13 +111,60 @@ static void PowerSourceChanged(void * context)
     // Time is known!
     else
     {
-        // Calculate the hour/minutes 
-        NSInteger hour = (int)timeRemaining / 3600;
-        NSInteger minute = (int)timeRemaining % 3600 / 60;
+        // Get list of power sources
+        CFTypeRef psBlob = IOPSCopyPowerSourcesInfo();
+        CFArrayRef psList = IOPSCopyPowerSourcesList(psBlob);
         
-        // Return the time remaining string
-        self.statusItem.image = [self getBatteryIconNamed:@"BatteryEmpty"];
-        self.statusItem.title = [NSString stringWithFormat:@" %ld:%02ld", hour, minute];
+        // Loop through the list of power sources
+        CFIndex count = CFArrayGetCount(psList);
+        for (CFIndex i = 0; i < count; i++)
+        {
+            CFTypeRef powersource = CFArrayGetValueAtIndex(psList, i);
+            CFDictionaryRef description = IOPSGetPowerSourceDescription(psBlob, powersource);
+            
+            // Calculate the percent
+            NSNumber *currentBatteryCapacity = CFDictionaryGetValue(description, CFSTR(kIOPSCurrentCapacityKey));
+            NSNumber *maxBatteryCapacity = CFDictionaryGetValue(description, CFSTR(kIOPSMaxCapacityKey));
+
+            NSInteger percent = (int)[currentBatteryCapacity doubleValue] / [maxBatteryCapacity doubleValue] * 100;
+            
+            // Calculate the hour/minutes
+            NSInteger hour = (int)timeRemaining / 3600;
+            NSInteger minute = (int)timeRemaining % 3600 / 60;
+            
+            // Make dynamic Battery icon
+            NSImage *batteryDynamic = [self getBatteryIconNamed:@"BatteryEmpty"];
+            
+            [batteryDynamic lockFocus];
+            
+            NSRect sourceRect;
+            sourceRect.origin = NSZeroPoint;
+            sourceRect.origin.x += [batteryDynamic size].width / 100 * 15;
+            sourceRect.origin.y += [batteryDynamic size].height / 50 * 10;
+            sourceRect.size = [batteryDynamic size];
+            sourceRect.size.width -= [batteryDynamic size].width / 100 * 40;
+            sourceRect.size.height -= [batteryDynamic size].height / 50 * 20;
+
+            sourceRect.size.width -= [batteryDynamic size].width / 100 * (60.0f - (60.0f / 100.0f * percent));
+            
+            if (percent > 15)
+            {
+                [[NSColor blackColor] set];
+            }
+            else
+            {
+                [[NSColor redColor] set];
+            }
+
+            NSRectFill (sourceRect);
+            
+            [batteryDynamic unlockFocus];
+            
+            // Return the time remaining string
+            self.statusItem.image = batteryDynamic;
+            self.statusItem.title = [NSString stringWithFormat:@" %ld:%02ld", hour, minute];
+        }
+        
     }
 }
 

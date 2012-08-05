@@ -132,20 +132,20 @@ static void PowerSourceChanged(void * context)
             NSInteger hour = (int)timeRemaining / 3600;
             NSInteger minute = (int)timeRemaining % 3600 / 60;
             
-            // Make dynamic Battery icon
+            // Make dynamic battery icon
             NSImage *batteryDynamic = [self getBatteryIconNamed:@"BatteryEmpty"];
             
             [batteryDynamic lockFocus];
-            
+              
             NSRect sourceRect;
             sourceRect.origin = NSZeroPoint;
             sourceRect.origin.x += [batteryDynamic size].width / 100 * 15;
-            sourceRect.origin.y += [batteryDynamic size].height / 50 * 10;
+            sourceRect.origin.y += [batteryDynamic size].height / 50 * 15;
             sourceRect.size = [batteryDynamic size];
-            sourceRect.size.width -= [batteryDynamic size].width / 100 * 40;
-            sourceRect.size.height -= [batteryDynamic size].height / 50 * 20;
+            sourceRect.size.width -= [batteryDynamic size].width / 100 * 43;
+            sourceRect.size.height -= [batteryDynamic size].height / 50 * 30;
 
-            sourceRect.size.width -= [batteryDynamic size].width / 100 * (60.0f - (60.0f / 100.0f * percent));
+            sourceRect.size.width -= [batteryDynamic size].width / 100 * (60.f - (60.f / 100.f * percent));
             
             if (percent > 15)
             {
@@ -156,7 +156,7 @@ static void PowerSourceChanged(void * context)
                 [[NSColor redColor] set];
             }
 
-            NSRectFill (sourceRect);
+            NSRectFill(sourceRect);
             
             [batteryDynamic unlockFocus];
             

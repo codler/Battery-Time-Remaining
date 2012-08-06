@@ -13,7 +13,7 @@ How do I install it?
 
 Two options:
 
-- Download [version 1.1](https://github.com/codler/Battery-Time-Remaining/downloads), run the App
+- Download [latest version](https://github.com/codler/Battery-Time-Remaining/downloads), unzip and run the App
 - Download the source here from Github and compile it with XCode
 
 Is it accurate?

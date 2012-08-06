@@ -13,7 +13,6 @@
 - (void)updateStatusItem;
 - (NSImage *)getBatteryIconNamed:(NSString *)iconName;
 
-@property (assign) IBOutlet NSWindow *window;
 @property (strong) NSStatusItem *statusItem;
 @property (strong) NSMenuItem *startupToggle;
 

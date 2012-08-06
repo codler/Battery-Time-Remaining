@@ -12,7 +12,6 @@
 		2841C7ED15C91CC100F4F15F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2841C7EC15C91CC100F4F15F /* main.m */; };
 		2841C7F115C91CC100F4F15F /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 2841C7EF15C91CC100F4F15F /* Credits.rtf */; };
 		2841C7F415C91CC100F4F15F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2841C7F315C91CC100F4F15F /* AppDelegate.m */; };
-		2841C7F715C91CC200F4F15F /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2841C7F515C91CC200F4F15F /* MainMenu.xib */; };
 		2841C7FE15C91CEF00F4F15F /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2841C7FD15C91CEF00F4F15F /* IOKit.framework */; };
 		D570489C15CF1B9200E488C4 /* battery.icns in Resources */ = {isa = PBXBuildFile; fileRef = D570489B15CF1B9200E488C4 /* battery.icns */; };
 		D58C7EF815CD7C6100C07E0C /* StartAtLoginHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D58C7EF715CD7C6100C07E0C /* StartAtLoginHelper.m */; };
@@ -31,7 +30,6 @@
 		2841C7F015C91CC100F4F15F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
 		2841C7F215C91CC100F4F15F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		2841C7F315C91CC100F4F15F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		2841C7F615C91CC200F4F15F /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		2841C7FD15C91CEF00F4F15F /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		D570489B15CF1B9200E488C4 /* battery.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = battery.icns; sourceTree = "<group>"; };
 		D58C7EF615CD7C6100C07E0C /* StartAtLoginHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StartAtLoginHelper.h; sourceTree = "<group>"; };
@@ -96,7 +94,6 @@
 				2841C7F315C91CC100F4F15F /* AppDelegate.m */,
 				D58C7EF615CD7C6100C07E0C /* StartAtLoginHelper.h */,
 				D58C7EF715CD7C6100C07E0C /* StartAtLoginHelper.m */,
-				2841C7F515C91CC200F4F15F /* MainMenu.xib */,
 				2841C7E715C91CC100F4F15F /* Supporting Files */,
 			);
 			path = "Battery Time Remaining";
@@ -167,7 +164,6 @@
 			files = (
 				2841C7EB15C91CC100F4F15F /* InfoPlist.strings in Resources */,
 				2841C7F115C91CC100F4F15F /* Credits.rtf in Resources */,
-				2841C7F715C91CC200F4F15F /* MainMenu.xib in Resources */,
 				D570489C15CF1B9200E488C4 /* battery.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -202,14 +198,6 @@
 				2841C7F015C91CC100F4F15F /* en */,
 			);
 			name = Credits.rtf;
-			sourceTree = "<group>";
-		};
-		2841C7F515C91CC200F4F15F /* MainMenu.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				2841C7F615C91CC200F4F15F /* en */,
-			);
-			name = MainMenu.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

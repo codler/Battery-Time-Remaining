@@ -6,9 +6,13 @@
 //  Copyright (c) 2012 Han Lin Yap. All rights reserved.
 //
 
+#import "AppDelegate.h"
 #import <Cocoa/Cocoa.h>
 
 int main(int argc, char *argv[])
 {
-    return NSApplicationMain(argc, (const char **)argv);
+    AppDelegate * delegate = [[AppDelegate alloc] init];
+    [[NSApplication sharedApplication] setDelegate:delegate];
+    [NSApp run];
+    //return NSApplicationMain(argc, (const char **)argv);
 }

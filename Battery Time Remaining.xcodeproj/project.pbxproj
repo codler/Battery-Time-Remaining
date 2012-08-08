@@ -13,7 +13,7 @@
 		2841C7F115C91CC100F4F15F /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 2841C7EF15C91CC100F4F15F /* Credits.rtf */; };
 		2841C7F415C91CC100F4F15F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2841C7F315C91CC100F4F15F /* AppDelegate.m */; };
 		2841C7FE15C91CEF00F4F15F /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2841C7FD15C91CEF00F4F15F /* IOKit.framework */; };
-		D570489C15CF1B9200E488C4 /* battery.icns in Resources */ = {isa = PBXBuildFile; fileRef = D570489B15CF1B9200E488C4 /* battery.icns */; };
+		28BA61A815D1B12500EDB674 /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 28BA61A715D1B12500EDB674 /* icon.icns */; };
 		D58C7EF815CD7C6100C07E0C /* StartAtLoginHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D58C7EF715CD7C6100C07E0C /* StartAtLoginHelper.m */; };
 /* End PBXBuildFile section */
 
@@ -31,7 +31,8 @@
 		2841C7F215C91CC100F4F15F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		2841C7F315C91CC100F4F15F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		2841C7FD15C91CEF00F4F15F /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
-		D570489B15CF1B9200E488C4 /* battery.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = battery.icns; sourceTree = "<group>"; };
+		28BA61A715D1B12500EDB674 /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = icon.icns; path = ../icon.icns; sourceTree = "<group>"; };
+		28BA61A915D1B63300EDB674 /* Battery Time Remaining.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Battery Time Remaining.entitlements"; sourceTree = "<group>"; };
 		D58C7EF615CD7C6100C07E0C /* StartAtLoginHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StartAtLoginHelper.h; sourceTree = "<group>"; };
 		D58C7EF715CD7C6100C07E0C /* StartAtLoginHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StartAtLoginHelper.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -52,7 +53,6 @@
 		2841C7D115C91CC100F4F15F = {
 			isa = PBXGroup;
 			children = (
-				D570489B15CF1B9200E488C4 /* battery.icns */,
 				2841C7E615C91CC100F4F15F /* Battery Time Remaining */,
 				2841C7DF15C91CC100F4F15F /* Frameworks */,
 				2841C7DD15C91CC100F4F15F /* Products */,
@@ -102,6 +102,8 @@
 		2841C7E715C91CC100F4F15F /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				28BA61A715D1B12500EDB674 /* icon.icns */,
+				28BA61A915D1B63300EDB674 /* Battery Time Remaining.entitlements */,
 				2841C7E815C91CC100F4F15F /* Battery Time Remaining-Info.plist */,
 				2841C7E915C91CC100F4F15F /* InfoPlist.strings */,
 				2841C7EC15C91CC100F4F15F /* main.m */,
@@ -164,7 +166,7 @@
 			files = (
 				2841C7EB15C91CC100F4F15F /* InfoPlist.strings in Resources */,
 				2841C7F115C91CC100F4F15F /* Credits.rtf in Resources */,
-				D570489C15CF1B9200E488C4 /* battery.icns in Resources */,
+				28BA61A815D1B12500EDB674 /* icon.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -255,11 +257,13 @@
 		2841C7FB15C91CC200F4F15F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Developer ID Application: Han Lin Yap";
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Battery Time Remaining/Battery Time Remaining-Prefix.pch";
 				INFOPLIST_FILE = "Battery Time Remaining/Battery Time Remaining-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -267,11 +271,13 @@
 		2841C7FC15C91CC200F4F15F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Developer ID Application: Han Lin Yap";
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Battery Time Remaining/Battery Time Remaining-Prefix.pch";
 				INFOPLIST_FILE = "Battery Time Remaining/Battery Time Remaining-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

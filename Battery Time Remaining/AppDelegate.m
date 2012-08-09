@@ -27,7 +27,6 @@ static void PowerSourceChanged(void * context)
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-#ifndef SANDBOX
     // Init notification
     [[NSUserNotificationCenter defaultUserNotificationCenter] setDelegate:self];
     [self fetchNotificationSettings];
@@ -42,11 +41,13 @@ static void PowerSourceChanged(void * context)
     
     [self saveNotificationSettings];
     
+#ifndef SANDBOX
     // Create the startup at login toggle
     self.startupToggle = [[NSMenuItem alloc] initWithTitle:@"Start at login" action:@selector(toggleStartAtLogin:) keyEquivalent:@""];
     self.startupToggle.target = self;
     self.startupToggle.state = ([StartAtLoginHelper isInLoginItems]) ? NSOnState : NSOffState;
-
+#endif
+    
     // Build the notification submenu
     NSMenu *notificationSubmenu = [[NSMenu alloc] initWithTitle:@"Notification Menu"];
     for (int i = 5; i <= 100; i = i + 5) {
@@ -60,14 +61,15 @@ static void PowerSourceChanged(void * context)
     
     NSMenuItem *notificationMenu = [[NSMenuItem alloc] initWithTitle:@"Notifications" action:nil keyEquivalent:@""];
     [notificationMenu setSubmenu:notificationSubmenu];
-#endif   
+
     // Build the status menu
     NSMenu *statusMenu = [[NSMenu alloc] initWithTitle:@"Status Menu"];
 #ifndef SANDBOX
     [statusMenu addItem:self.startupToggle];
+#endif
     [statusMenu addItem:notificationMenu];
     [statusMenu addItem:[NSMenuItem separatorItem]];
-#endif
+
     [statusMenu addItemWithTitle:@"Energy Saver Preferences…" action:@selector(openEnergySaverPreference:) keyEquivalent:@""];
     [statusMenu addItem:[NSMenuItem separatorItem]];
     [statusMenu addItemWithTitle:@"Quit" action:@selector(terminate:) keyEquivalent:@""];
@@ -137,14 +139,12 @@ static void PowerSourceChanged(void * context)
                 self.statusItem.image = [self getBatteryIconNamed:@"BatteryCharged"];
                 self.statusItem.title = @"";
 
-#ifndef SANDBOX
                 NSNumber *currentBatteryCapacity = CFDictionaryGetValue(description, CFSTR(kIOPSCurrentCapacityKey));
                 NSNumber *maxBatteryCapacity = CFDictionaryGetValue(description, CFSTR(kIOPSMaxCapacityKey));
                 
                 if ([currentBatteryCapacity intValue] == [maxBatteryCapacity intValue]) {
                     [self notify:@"Charged"];
                 }
-#endif
             }
         }
     }
@@ -210,7 +210,6 @@ static void PowerSourceChanged(void * context)
             self.statusItem.image = batteryDynamic;
             self.statusItem.title = [NSString stringWithFormat:@" %ld:%02ld", hour, minute];
 
-#ifndef SANDBOX
             for (NSString *key in self.notifications) {
                 if ([[self.notifications valueForKey:key] boolValue] && [key intValue] == percent) {
                     // Send notification once
@@ -221,7 +220,6 @@ static void PowerSourceChanged(void * context)
                 }
             }
             self.previousPercent = percent;
-#endif
         }
         
     }
@@ -253,6 +251,7 @@ static void PowerSourceChanged(void * context)
         self.startupToggle.state = NSOnState;
     }
 }
+#endif
 
 - (void)notify:(NSString *)message
 {
@@ -269,7 +268,11 @@ static void PowerSourceChanged(void * context)
     // Fetch user settings for notifications
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSDictionary *immutableNotifications = [defaults dictionaryForKey:@"notifications"];
-    self.notifications = [immutableNotifications mutableCopy];
+    if (immutableNotifications) {
+        self.notifications = [immutableNotifications mutableCopy];
+    } else {
+        self.notifications = [NSMutableDictionary new];
+    }
 }
 
 - (void)saveNotificationSettings
@@ -298,6 +301,5 @@ static void PowerSourceChanged(void * context)
 {
     return YES;
 }
-#endif
 
 @end

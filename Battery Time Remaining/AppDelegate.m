@@ -11,6 +11,8 @@
 #import <IOKit/ps/IOPowerSources.h>
 #import <IOKit/ps/IOPSKeys.h>
 
+//#define SANDBOX
+
 // IOPS notification callback on power source change
 static void PowerSourceChanged(void * context)
 {
@@ -21,20 +23,52 @@ static void PowerSourceChanged(void * context)
 
 @implementation AppDelegate
 
-@synthesize statusItem, startupToggle;
+@synthesize statusItem, startupToggle, notifications, previousPercent;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
+#ifndef SANDBOX
+    // Init notification
+    [[NSUserNotificationCenter defaultUserNotificationCenter] setDelegate:self];
+    [self fetchNotificationSettings];
+
+    // Set default settings if not set
+    if (![self.notifications objectForKey:@"15"]) {
+        [self.notifications setValue:[NSNumber numberWithBool:YES] forKey:@"15"];
+    }
+    if (![self.notifications objectForKey:@"100"]) {
+        [self.notifications setValue:[NSNumber numberWithBool:YES] forKey:@"100"];
+    }
+    
+    [self saveNotificationSettings];
+    
     // Create the startup at login toggle
     self.startupToggle = [[NSMenuItem alloc] initWithTitle:@"Start at login" action:@selector(toggleStartAtLogin:) keyEquivalent:@""];
     self.startupToggle.target = self;
     self.startupToggle.state = ([StartAtLoginHelper isInLoginItems]) ? NSOnState : NSOffState;
+
+    // Build the notification submenu
+    NSMenu *notificationSubmenu = [[NSMenu alloc] initWithTitle:@"Notification Menu"];
+    for (int i = 5; i <= 100; i = i + 5) {
+        BOOL state = [[self.notifications valueForKey:[NSString stringWithFormat:@"%d", i]] boolValue];
+        
+        NSMenuItem *notificationSubmenuItem = [[NSMenuItem alloc] initWithTitle:[NSString stringWithFormat:@"%d%%", i] action:@selector(toggleNotification:) keyEquivalent:@""];
+        notificationSubmenuItem.tag = i;
+        notificationSubmenuItem.state = (state) ? NSOnState : NSOffState;
+        [notificationSubmenu addItem:notificationSubmenuItem];
+    }
     
+    NSMenuItem *notificationMenu = [[NSMenuItem alloc] initWithTitle:@"Notifications" action:nil keyEquivalent:@""];
+    [notificationMenu setSubmenu:notificationSubmenu];
+#endif   
     // Build the status menu
     NSMenu *statusMenu = [[NSMenu alloc] initWithTitle:@"Status Menu"];
+#ifndef SANDBOX
     [statusMenu addItem:self.startupToggle];
+    [statusMenu addItem:notificationMenu];
+#endif
     [statusMenu addItemWithTitle:@"Quit" action:@selector(terminate:) keyEquivalent:@""];
-    
+
     // Create the status item and set initial text
     statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
     statusItem.highlightMode = YES;
@@ -99,6 +133,15 @@ static void PowerSourceChanged(void * context)
                 // Not charging and on a endless powersource
                 self.statusItem.image = [self getBatteryIconNamed:@"BatteryCharged"];
                 self.statusItem.title = @"";
+
+#ifndef SANDBOX
+                NSNumber *currentBatteryCapacity = CFDictionaryGetValue(description, CFSTR(kIOPSCurrentCapacityKey));
+                NSNumber *maxBatteryCapacity = CFDictionaryGetValue(description, CFSTR(kIOPSMaxCapacityKey));
+                
+                if ([currentBatteryCapacity intValue] == [maxBatteryCapacity intValue]) {
+                    [self notify:@"Charged"];
+                }
+#endif
             }
         }
     }
@@ -163,6 +206,19 @@ static void PowerSourceChanged(void * context)
             // Return the time remaining string
             self.statusItem.image = batteryDynamic;
             self.statusItem.title = [NSString stringWithFormat:@" %ld:%02ld", hour, minute];
+
+#ifndef SANDBOX
+            for (NSString *key in self.notifications) {
+                if ([[self.notifications valueForKey:key] boolValue] && [key intValue] == percent) {
+                    // Send notification once
+                    if (self.previousPercent != percent) {
+                        [self notify:[NSString stringWithFormat:@"%ld:%02ld left (%ld%%)", hour, minute, percent]];
+                    }
+                    break;
+                }
+            }
+            self.previousPercent = percent;
+#endif
         }
         
     }
@@ -174,6 +230,7 @@ static void PowerSourceChanged(void * context)
     return [[NSImage alloc] initWithContentsOfFile:fileName];
 }
 
+#ifndef SANDBOX
 - (void)toggleStartAtLogin:(id)sender
 {
     // Check the state of start at login 
@@ -188,5 +245,51 @@ static void PowerSourceChanged(void * context)
         self.startupToggle.state = NSOnState;
     }
 }
+
+- (void)notify:(NSString *)message
+{
+    NSUserNotification *notification = [[NSUserNotification alloc] init];
+    [notification setTitle:@"Battery Time Remaining"];
+    [notification setInformativeText:message];
+    [notification setSoundName:NSUserNotificationDefaultSoundName];
+    NSUserNotificationCenter *center = [NSUserNotificationCenter defaultUserNotificationCenter];
+    [center scheduleNotification:notification];
+}
+
+- (void)fetchNotificationSettings
+{
+    // Fetch user settings for notifications
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSDictionary *immutableNotifications = [defaults dictionaryForKey:@"notifications"];
+    self.notifications = [immutableNotifications mutableCopy];
+}
+
+- (void)saveNotificationSettings
+{
+    // Save user settings for notifications
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setValue:self.notifications forKey:@"notifications"];
+    [defaults synchronize];
+}
+
+- (void)toggleNotification:(id)sender
+{
+    // Get menu item
+    NSMenuItem *item = (NSMenuItem *)sender;
+    
+    // Toggle state
+    item.state = (item.state==NSOnState) ? NSOffState : NSOnState;
+
+    [self.notifications setValue:[NSNumber numberWithBool:(item.state==NSOnState)?YES:NO] forKey:[NSString stringWithFormat:@"%ld", item.tag]];
+    
+    [self saveNotificationSettings];
+}
+
+// Force show notification
+- (BOOL)userNotificationCenter:(NSUserNotificationCenter *)center shouldPresentNotification:(NSUserNotification *)notification
+{
+    return YES;
+}
+#endif
 
 @end

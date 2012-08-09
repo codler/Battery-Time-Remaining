@@ -66,7 +66,10 @@ static void PowerSourceChanged(void * context)
 #ifndef SANDBOX
     [statusMenu addItem:self.startupToggle];
     [statusMenu addItem:notificationMenu];
+    [statusMenu addItem:[NSMenuItem separatorItem]];
 #endif
+    [statusMenu addItemWithTitle:@"Energy Saver Preferences…" action:@selector(openEnergySaverPreference:) keyEquivalent:@""];
+    [statusMenu addItem:[NSMenuItem separatorItem]];
     [statusMenu addItemWithTitle:@"Quit" action:@selector(terminate:) keyEquivalent:@""];
 
     // Create the status item and set initial text
@@ -228,6 +231,11 @@ static void PowerSourceChanged(void * context)
 {
     NSString *fileName = [NSString stringWithFormat:@"/System/Library/CoreServices/Menu Extras/Battery.menu/Contents/Resources/%@.pdf", iconName];
     return [[NSImage alloc] initWithContentsOfFile:fileName];
+}
+
+- (void)openEnergySaverPreference:(id)sender
+{
+    [[NSWorkspace sharedWorkspace] openFile:@"/System/Library/PreferencePanes/EnergySaver.prefPane"];
 }
 
 #ifndef SANDBOX

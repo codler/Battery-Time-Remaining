@@ -33,3 +33,34 @@ Who did make this app?
 
 * [codler](https://github.com/codler) / Han Lin Yap: created the [first version](https://github.com/codler/Battery-Time-Remaining) of the app
 * [mac-cain13](https://github.com/mac-cain13) / Mathijs Kadijk: made some improvements
+
+Change log
+----------
+
+2012-08-09 - **v1.2.1** *(signed app)* - [diff](https://github.com/codler/Battery-Time-Remaining/compare/v1.2...v1.2.1)
+
+* Added notifications ([codler](https://github.com/codler))
+* Added open energy saver preferences option ([codler](https://github.com/codler))
+
+2012-08-08 - **v1.2** *(signed app)* - [diff](https://github.com/codler/Battery-Time-Remaining/compare/v1.1.1...v1.2)
+
+* From now on the app will always be signed. ([codler](https://github.com/codler) [#3](https://github.com/codler/Battery-Time-Remaining/issues/3))
+* Added higher resolution app icon ([codler](https://github.com/codler))
+
+2012-08-06 - **v1.1.1** *(unsigned app)* - [diff](https://github.com/codler/Battery-Time-Remaining/compare/v1.1...v1.1.1)
+
+* Added app icon ([mac-cain13](https://github.com/mac-cain13) [#2](https://github.com/codler/Battery-Time-Remaining/pull/2))
+* Improved battery icon ([mac-cain13](https://github.com/mac-cain13) [#2](https://github.com/codler/Battery-Time-Remaining/pull/2))
+* Removed MainMenu.xib ([codler](https://github.com/codler))
+
+2012-08-05 - **v1.1** *(unsigned app)* - [diff](https://github.com/codler/Battery-Time-Remaining/compare/v1.0...v1.1)
+
+* Added battery icon ([mac-cain13](https://github.com/mac-cain13) [#1](https://github.com/codler/Battery-Time-Remaining/pull/1))
+* Added start at login option ([mac-cain13](https://github.com/mac-cain13) [#1](https://github.com/codler/Battery-Time-Remaining/pull/1))
+* Added readme ([mac-cain13](https://github.com/mac-cain13) [#1](https://github.com/codler/Battery-Time-Remaining/pull/1))
+* Improved battery icon ([codler](https://github.com/codler))
+* Improved time remaining text ([mac-cain13](https://github.com/mac-cain13) [#1](https://github.com/codler/Battery-Time-Remaining/pull/1))
+
+2012-08-01 - **v1.0** *(unsigned app)*
+
+* First commit. ([codler](https://github.com/codler))

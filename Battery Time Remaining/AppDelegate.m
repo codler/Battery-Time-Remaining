@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "HttpGet.h"
 #import "StartAtLoginHelper.h"
 #import <IOKit/ps/IOPowerSources.h>
 #import <IOKit/ps/IOPSKeys.h>
@@ -61,9 +62,14 @@ static void PowerSourceChanged(void * context)
     
     NSMenuItem *notificationMenu = [[NSMenuItem alloc] initWithTitle:@"Notifications" action:nil keyEquivalent:@""];
     [notificationMenu setSubmenu:notificationSubmenu];
+    
+    // Updater menu
+    self.updaterMenu = [[NSMenuItem alloc] initWithTitle:@"Checking for updates…" action:nil keyEquivalent:@""];
+    [self.updaterMenu setEnabled:NO];
 
     // Build the status menu
     NSMenu *statusMenu = [[NSMenu alloc] initWithTitle:@"Status Menu"];
+    [statusMenu setDelegate:self];
 #ifndef SANDBOX
     [statusMenu addItem:self.startupToggle];
 #endif
@@ -71,6 +77,8 @@ static void PowerSourceChanged(void * context)
     [statusMenu addItem:[NSMenuItem separatorItem]];
 
     [statusMenu addItemWithTitle:@"Energy Saver Preferences…" action:@selector(openEnergySaverPreference:) keyEquivalent:@""];
+    [statusMenu addItem:[NSMenuItem separatorItem]];
+    [statusMenu addItem:self.updaterMenu];
     [statusMenu addItem:[NSMenuItem separatorItem]];
     [statusMenu addItemWithTitle:@"Quit" action:@selector(terminate:) keyEquivalent:@""];
 
@@ -236,6 +244,11 @@ static void PowerSourceChanged(void * context)
     [[NSWorkspace sharedWorkspace] openFile:@"/System/Library/PreferencePanes/EnergySaver.prefPane"];
 }
 
+- (void)openHomeUrl:(id)sender
+{
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/codler/Battery-Time-Remaining/downloads"]];
+}
+
 #ifndef SANDBOX
 - (void)toggleStartAtLogin:(id)sender
 {
@@ -300,6 +313,37 @@ static void PowerSourceChanged(void * context)
 - (BOOL)userNotificationCenter:(NSUserNotificationCenter *)center shouldPresentNotification:(NSUserNotification *)notification
 {
     return YES;
+}
+
+- (void)menuWillOpen:(NSMenu *)menu
+{
+    // Stop checking if newer version is available
+    if ([self.updaterMenu isEnabled]) {
+        return;
+    }
+    
+    // Check for newer version
+    [[HttpGet new] url:@"https://raw.github.com/codler/Battery-Time-Remaining/master/build_version" success:^(NSString *result){
+        NSInteger latestBuildVersion = [result integerValue];
+        NSInteger currentBuildVersion = [[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"] integerValue];
+        
+        if (!latestBuildVersion) {
+            self.updaterMenu.title = @"Could not check for updates";
+            return;
+        }
+        
+        // Newer version available
+        if (latestBuildVersion > currentBuildVersion) {
+            self.updaterMenu.title = @"A newer version is available";
+            [self.updaterMenu setAction:@selector(openHomeUrl:)];
+            [self.updaterMenu setEnabled:YES];
+            [self notify:@"A newer version is available"];
+        } else {
+            self.updaterMenu.title = @"Up to date";
+        }
+    } error:^(NSError *error) {
+        self.updaterMenu.title = @"Could not check for updates";
+    }];
 }
 
 @end

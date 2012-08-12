@@ -13,6 +13,9 @@
 		2841C7F115C91CC100F4F15F /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 2841C7EF15C91CC100F4F15F /* Credits.rtf */; };
 		2841C7F415C91CC100F4F15F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2841C7F315C91CC100F4F15F /* AppDelegate.m */; };
 		2841C7FE15C91CEF00F4F15F /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2841C7FD15C91CEF00F4F15F /* IOKit.framework */; };
+		28833BAE15D7B90B00741727 /* HttpGet.m in Sources */ = {isa = PBXBuildFile; fileRef = 28833BAD15D7B90B00741727 /* HttpGet.m */; };
+		28833BB215D7D4FF00741727 /* Readme.md in Resources */ = {isa = PBXBuildFile; fileRef = 28833BB115D7D4FF00741727 /* Readme.md */; };
+		28833BB415D7D61100741727 /* build_version in Resources */ = {isa = PBXBuildFile; fileRef = 28833BB315D7D61100741727 /* build_version */; };
 		28BA61A815D1B12500EDB674 /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 28BA61A715D1B12500EDB674 /* icon.icns */; };
 		D58C7EF815CD7C6100C07E0C /* StartAtLoginHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D58C7EF715CD7C6100C07E0C /* StartAtLoginHelper.m */; };
 /* End PBXBuildFile section */
@@ -31,6 +34,10 @@
 		2841C7F215C91CC100F4F15F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		2841C7F315C91CC100F4F15F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		2841C7FD15C91CEF00F4F15F /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		28833BAC15D7B90B00741727 /* HttpGet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HttpGet.h; sourceTree = "<group>"; };
+		28833BAD15D7B90B00741727 /* HttpGet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HttpGet.m; sourceTree = "<group>"; };
+		28833BB115D7D4FF00741727 /* Readme.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Readme.md; sourceTree = SOURCE_ROOT; };
+		28833BB315D7D61100741727 /* build_version */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = build_version; sourceTree = SOURCE_ROOT; };
 		28BA61A715D1B12500EDB674 /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = icon.icns; path = ../icon.icns; sourceTree = "<group>"; };
 		28BA61A915D1B63300EDB674 /* Battery Time Remaining.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Battery Time Remaining.entitlements"; sourceTree = "<group>"; };
 		D58C7EF615CD7C6100C07E0C /* StartAtLoginHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StartAtLoginHelper.h; sourceTree = "<group>"; };
@@ -92,6 +99,8 @@
 			children = (
 				2841C7F215C91CC100F4F15F /* AppDelegate.h */,
 				2841C7F315C91CC100F4F15F /* AppDelegate.m */,
+				28833BAC15D7B90B00741727 /* HttpGet.h */,
+				28833BAD15D7B90B00741727 /* HttpGet.m */,
 				D58C7EF615CD7C6100C07E0C /* StartAtLoginHelper.h */,
 				D58C7EF715CD7C6100C07E0C /* StartAtLoginHelper.m */,
 				2841C7E715C91CC100F4F15F /* Supporting Files */,
@@ -102,6 +111,8 @@
 		2841C7E715C91CC100F4F15F /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				28833BB315D7D61100741727 /* build_version */,
+				28833BB115D7D4FF00741727 /* Readme.md */,
 				28BA61A715D1B12500EDB674 /* icon.icns */,
 				28BA61A915D1B63300EDB674 /* Battery Time Remaining.entitlements */,
 				2841C7E815C91CC100F4F15F /* Battery Time Remaining-Info.plist */,
@@ -167,6 +178,8 @@
 				2841C7EB15C91CC100F4F15F /* InfoPlist.strings in Resources */,
 				2841C7F115C91CC100F4F15F /* Credits.rtf in Resources */,
 				28BA61A815D1B12500EDB674 /* icon.icns in Resources */,
+				28833BB215D7D4FF00741727 /* Readme.md in Resources */,
+				28833BB415D7D61100741727 /* build_version in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -180,6 +193,7 @@
 				2841C7ED15C91CC100F4F15F /* main.m in Sources */,
 				2841C7F415C91CC100F4F15F /* AppDelegate.m in Sources */,
 				D58C7EF815CD7C6100C07E0C /* StartAtLoginHelper.m in Sources */,
+				28833BAE15D7B90B00741727 /* HttpGet.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

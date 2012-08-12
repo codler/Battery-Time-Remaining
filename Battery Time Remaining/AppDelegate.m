@@ -42,6 +42,13 @@ static void PowerSourceChanged(void * context)
     
     [self saveNotificationSettings];
     
+    // Power source menu
+    self.psTimeMenu = [[NSMenuItem alloc] initWithTitle:@"Loading…" action:nil keyEquivalent:@""];
+    [self.psTimeMenu setEnabled:NO];
+
+    self.psStateMenu = [[NSMenuItem alloc] initWithTitle:@"Power source: Unknown" action:nil keyEquivalent:@""];
+    [self.psStateMenu setEnabled:NO];
+    
 #ifndef SANDBOX
     // Create the startup at login toggle
     self.startupToggle = [[NSMenuItem alloc] initWithTitle:@"Start at login" action:@selector(toggleStartAtLogin:) keyEquivalent:@""];
@@ -70,6 +77,9 @@ static void PowerSourceChanged(void * context)
     // Build the status menu
     NSMenu *statusMenu = [[NSMenu alloc] initWithTitle:@"Status Menu"];
     [statusMenu setDelegate:self];
+    [statusMenu addItem:self.psTimeMenu];
+    [statusMenu addItem:self.psStateMenu];
+    [statusMenu addItem:[NSMenuItem separatorItem]];
 #ifndef SANDBOX
     [statusMenu addItem:self.startupToggle];
 #endif
@@ -99,26 +109,36 @@ static void PowerSourceChanged(void * context)
     // Get the estimated time remaining
     CFTimeInterval timeRemaining = IOPSGetTimeRemainingEstimate();
     
-    // We're connected to an unlimited power source (AC adapter probably)
-    if (kIOPSTimeRemainingUnlimited == timeRemaining)
+    // Get list of power sources
+    CFTypeRef psBlob = IOPSCopyPowerSourcesInfo();
+    CFArrayRef psList = IOPSCopyPowerSourcesList(psBlob);
+
+    // Loop through the list of power sources
+    CFIndex count = CFArrayGetCount(psList);
+    for (CFIndex i = 0; i < count; i++)
     {
-        // Get list of power sources
-        CFTypeRef psBlob = IOPSCopyPowerSourcesInfo();
-        CFArrayRef psList = IOPSCopyPowerSourcesList(psBlob);
+        CFTypeRef powersource = CFArrayGetValueAtIndex(psList, i);
+        CFDictionaryRef description = IOPSGetPowerSourceDescription(psBlob, powersource);
         
-        // Loop through the list of power sources
-        CFIndex count = CFArrayGetCount(psList);
-        for (CFIndex i = 0; i < count; i++)
+        // Skip if not present
+        if (CFDictionaryGetValue(description, CFSTR(kIOPSIsPresentKey)) == kCFBooleanFalse)
         {
-            CFTypeRef powersource = CFArrayGetValueAtIndex(psList, i);
-            CFDictionaryRef description = IOPSGetPowerSourceDescription(psBlob, powersource);
-            
-            // Skip if not present or not a battery
-            if (CFDictionaryGetValue(description, CFSTR(kIOPSIsPresentKey)) == kCFBooleanFalse || !CFStringCompare(CFDictionaryGetValue(description, CFSTR(kIOPSPowerSourceStateKey)), CFSTR(kIOPSBatteryPowerValue), 0))
-            {
-                continue;
-            }
-                
+            continue;
+        }
+        
+        // Calculate the percent
+        NSNumber *currentBatteryCapacity = CFDictionaryGetValue(description, CFSTR(kIOPSCurrentCapacityKey));
+        NSNumber *maxBatteryCapacity = CFDictionaryGetValue(description, CFSTR(kIOPSMaxCapacityKey));
+        
+        NSInteger percent = (int)[currentBatteryCapacity doubleValue] / [maxBatteryCapacity doubleValue] * 100;
+        
+        // Update menu title
+        self.psTimeMenu.title = [NSString stringWithFormat:@"%ld %% left", percent];
+        self.psStateMenu.title = [NSString stringWithFormat:@"Power source: %@", CFDictionaryGetValue(description, CFSTR(kIOPSPowerSourceStateKey))];
+        
+        // We're connected to an unlimited power source (AC adapter probably)
+        if (kIOPSTimeRemainingUnlimited == timeRemaining)
+        {
             // Check if the battery is charging atm
             if (CFDictionaryGetValue(description, CFSTR(kIOPSIsChargingKey)) == kCFBooleanTrue)
             {
@@ -154,34 +174,17 @@ static void PowerSourceChanged(void * context)
                     [self notify:@"Charged"];
                 }
             }
-        }
-    }
-    // Still calculating the estimated time remaining...
-    else if (kIOPSTimeRemainingUnknown == timeRemaining)
-    {
-        self.statusItem.image = [self getBatteryIconNamed:@"BatteryEmpty"];
-        self.statusItem.title = @" Calculating…";
-    }
-    // Time is known!
-    else
-    {
-        // Get list of power sources
-        CFTypeRef psBlob = IOPSCopyPowerSourcesInfo();
-        CFArrayRef psList = IOPSCopyPowerSourcesList(psBlob);
-        
-        // Loop through the list of power sources
-        CFIndex count = CFArrayGetCount(psList);
-        for (CFIndex i = 0; i < count; i++)
-        {
-            CFTypeRef powersource = CFArrayGetValueAtIndex(psList, i);
-            CFDictionaryRef description = IOPSGetPowerSourceDescription(psBlob, powersource);
-            
-            // Calculate the percent
-            NSNumber *currentBatteryCapacity = CFDictionaryGetValue(description, CFSTR(kIOPSCurrentCapacityKey));
-            NSNumber *maxBatteryCapacity = CFDictionaryGetValue(description, CFSTR(kIOPSMaxCapacityKey));
 
-            NSInteger percent = (int)[currentBatteryCapacity doubleValue] / [maxBatteryCapacity doubleValue] * 100;
-            
+        }
+        // Still calculating the estimated time remaining...
+        else if (kIOPSTimeRemainingUnknown == timeRemaining)
+        {
+            self.statusItem.image = [self getBatteryIconNamed:@"BatteryEmpty"];
+            self.statusItem.title = @" Calculating…";
+        }
+        // Time is known!
+        else
+        {
             // Calculate the hour/minutes
             NSInteger hour = (int)timeRemaining / 3600;
             NSInteger minute = (int)timeRemaining % 3600 / 60;

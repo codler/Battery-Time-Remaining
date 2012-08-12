@@ -16,6 +16,8 @@
 @property (strong) NSStatusItem *statusItem;
 @property (strong) NSMenuItem *startupToggle;
 @property (strong) NSMenuItem *updaterMenu;
+@property (strong) NSMenuItem *psTimeMenu;
+@property (strong) NSMenuItem *psStateMenu;
 @property (nonatomic) NSInteger previousPercent;
 @property (strong) NSMutableDictionary *notifications;
 

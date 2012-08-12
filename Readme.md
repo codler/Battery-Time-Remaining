@@ -37,6 +37,11 @@ Who did make this app?
 Change log
 ----------
 
+2012-08-12 - **v1.3** - [diff](https://github.com/codler/Battery-Time-Remaining/compare/v1.2.1...v1.3)
+
+* Added check for updates ([codler](https://github.com/codler))
+* Display battery percentage left in menu ([codler](https://github.com/codler) [#6](https://github.com/codler/Battery-Time-Remaining/issues/6))
+
 2012-08-09 - **v1.2.1** *(signed app)* - [diff](https://github.com/codler/Battery-Time-Remaining/compare/v1.2...v1.2.1)
 
 * Added notifications ([codler](https://github.com/codler))

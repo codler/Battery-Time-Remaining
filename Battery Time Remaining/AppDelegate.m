@@ -172,8 +172,12 @@ static void PowerSourceChanged(void * context)
                 NSNumber *currentBatteryCapacity = CFDictionaryGetValue(description, CFSTR(kIOPSCurrentCapacityKey));
                 NSNumber *maxBatteryCapacity = CFDictionaryGetValue(description, CFSTR(kIOPSMaxCapacityKey));
                 
-                if ([currentBatteryCapacity intValue] == [maxBatteryCapacity intValue]) {
+                if ([currentBatteryCapacity intValue] == [maxBatteryCapacity intValue] &&
+                    self.previousPercent != percent &&
+                    [[self.notifications valueForKey:@"100"] boolValue]) {
+                    
                     [self notify:@"Charged"];
+                    self.previousPercent = percent;
                 }
             }
 
@@ -181,7 +185,7 @@ static void PowerSourceChanged(void * context)
         // Still calculating the estimated time remaining...
         else if (kIOPSTimeRemainingUnknown == timeRemaining)
         {
-            self.statusItem.image = [self getBatteryIconNamed:@"BatteryEmpty"];
+            self.statusItem.image = [self getBatteryIconPercent:percent];
             self.statusItem.title = @" Calculating…";
         }
         // Time is known!
@@ -191,36 +195,8 @@ static void PowerSourceChanged(void * context)
             NSInteger hour = (int)timeRemaining / 3600;
             NSInteger minute = (int)timeRemaining % 3600 / 60;
             
-            // Make dynamic battery icon
-            NSImage *batteryDynamic = [self getBatteryIconNamed:@"BatteryEmpty"];
-            
-            [batteryDynamic lockFocus];
-              
-            NSRect sourceRect;
-            sourceRect.origin = NSZeroPoint;
-            sourceRect.origin.x += [batteryDynamic size].width / 100 * 15;
-            sourceRect.origin.y += [batteryDynamic size].height / 50 * 15;
-            sourceRect.size = [batteryDynamic size];
-            sourceRect.size.width -= [batteryDynamic size].width / 100 * 43;
-            sourceRect.size.height -= [batteryDynamic size].height / 50 * 30;
-
-            sourceRect.size.width -= [batteryDynamic size].width / 100 * (60.f - (60.f / 100.f * percent));
-            
-            if (percent > 15)
-            {
-                [[NSColor blackColor] set];
-            }
-            else
-            {
-                [[NSColor redColor] set];
-            }
-
-            NSRectFill(sourceRect);
-            
-            [batteryDynamic unlockFocus];
-            
             // Return the time remaining string
-            self.statusItem.image = batteryDynamic;
+            self.statusItem.image = [self getBatteryIconPercent:percent];
             self.statusItem.title = [NSString stringWithFormat:@" %ld:%02ld", hour, minute];
 
             for (NSString *key in self.notifications) {
@@ -236,6 +212,39 @@ static void PowerSourceChanged(void * context)
         }
         
     }
+}
+
+- (NSImage *)getBatteryIconPercent:(NSInteger)percent
+{
+    // Make dynamic battery icon
+    NSImage *batteryDynamic = [self getBatteryIconNamed:@"BatteryEmpty"];
+    
+    [batteryDynamic lockFocus];
+    
+    NSRect sourceRect;
+    sourceRect.origin = NSZeroPoint;
+    sourceRect.origin.x += [batteryDynamic size].width / 100 * 15;
+    sourceRect.origin.y += [batteryDynamic size].height / 50 * 15;
+    sourceRect.size = [batteryDynamic size];
+    sourceRect.size.width -= [batteryDynamic size].width / 100 * 43;
+    sourceRect.size.height -= [batteryDynamic size].height / 50 * 30;
+    
+    sourceRect.size.width -= [batteryDynamic size].width / 100 * (60.f - (60.f / 100.f * percent));
+    
+    if (percent > 15)
+    {
+        [[NSColor blackColor] set];
+    }
+    else
+    {
+        [[NSColor redColor] set];
+    }
+    
+    NSRectFill(sourceRect);
+    
+    [batteryDynamic unlockFocus];
+    
+    return batteryDynamic;
 }
 
 - (NSImage *)getBatteryIconNamed:(NSString *)iconName
@@ -322,11 +331,15 @@ static void PowerSourceChanged(void * context)
     [self saveNotificationSettings];
 }
 
+#pragma mark - NSUserNotificationCenterDelegate methods
+
 // Force show notification
 - (BOOL)userNotificationCenter:(NSUserNotificationCenter *)center shouldPresentNotification:(NSUserNotification *)notification
 {
     return YES;
 }
+
+#pragma mark - NSMenuDelegate methods
 
 - (void)menuWillOpen:(NSMenu *)menu
 {

@@ -339,6 +339,13 @@ static void PowerSourceChanged(void * context)
     return YES;
 }
 
+- (void)userNotificationCenter:(NSUserNotificationCenter *)center didActivateNotification:(NSUserNotification *)notification
+{
+    if ([[notification informativeText] isEqualToString:@"A newer version is available"]) {
+        [self openHomeUrl:nil];
+    }
+}
+
 #pragma mark - NSMenuDelegate methods
 
 - (void)menuWillOpen:(NSMenu *)menu

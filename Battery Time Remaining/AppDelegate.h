@@ -12,6 +12,7 @@
 
 - (void)updateStatusItem;
 - (NSImage *)getBatteryIconNamed:(NSString *)iconName;
+- (NSImage *)getBatteryIconPercent:(NSInteger)percent;
 
 @property (strong) NSStatusItem *statusItem;
 @property (strong) NSMenuItem *startupToggle;

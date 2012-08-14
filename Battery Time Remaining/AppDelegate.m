@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "HttpGet.h"
+#import "LLManager.h"
 #import "StartAtLoginHelper.h"
 #import <IOKit/ps/IOPowerSources.h>
 #import <IOKit/ps/IOPSKeys.h>
@@ -53,7 +54,8 @@ static void PowerSourceChanged(void * context)
     // Create the startup at login toggle
     self.startupToggle = [[NSMenuItem alloc] initWithTitle:@"Start at login" action:@selector(toggleStartAtLogin:) keyEquivalent:@""];
     self.startupToggle.target = self;
-    self.startupToggle.state = ([StartAtLoginHelper isInLoginItems]) ? NSOnState : NSOffState;
+    self.startupToggle.state = ([LLManager launchAtLogin]) ? NSOnState : NSOffState;
+    //self.startupToggle.state = ([StartAtLoginHelper isInLoginItems]) ? NSOnState : NSOffState;
 #endif
     
     // Build the notification submenu
@@ -255,6 +257,14 @@ static void PowerSourceChanged(void * context)
 #ifndef SANDBOX
 - (void)toggleStartAtLogin:(id)sender
 {
+    if ([LLManager launchAtLogin]) {
+        [LLManager setLaunchAtLogin:NO];
+        self.startupToggle.state = NSOffState;
+    } else {
+        [LLManager setLaunchAtLogin:YES];
+        self.startupToggle.state = NSOnState;
+    }
+    /*
     // Check the state of start at login 
     if ([StartAtLoginHelper isInLoginItems])
     {
@@ -265,7 +275,7 @@ static void PowerSourceChanged(void * context)
     {
         [StartAtLoginHelper addToLoginItems];
         self.startupToggle.state = NSOnState;
-    }
+    }*/
 }
 #endif
 

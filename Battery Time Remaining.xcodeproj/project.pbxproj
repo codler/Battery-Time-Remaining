@@ -17,8 +17,41 @@
 		28833BB215D7D4FF00741727 /* Readme.md in Resources */ = {isa = PBXBuildFile; fileRef = 28833BB115D7D4FF00741727 /* Readme.md */; };
 		28833BB415D7D61100741727 /* build_version in Resources */ = {isa = PBXBuildFile; fileRef = 28833BB315D7D61100741727 /* build_version */; };
 		28BA61A815D1B12500EDB674 /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 28BA61A715D1B12500EDB674 /* icon.icns */; };
+		28FEDA5E15DA5C9D00320B72 /* ServiceManagement.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28FEDA5D15DA5C9D00320B72 /* ServiceManagement.framework */; };
+		28FEDA6E15DA5ECA00320B72 /* LaunchAtLoginHelper.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = 28FEDA6B15DA5EB200320B72 /* LaunchAtLoginHelper.app */; };
+		28FEDA6F15DA5F8C00320B72 /* LLManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 28FEDA6315DA5EB200320B72 /* LLManager.m */; };
 		D58C7EF815CD7C6100C07E0C /* StartAtLoginHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D58C7EF715CD7C6100C07E0C /* StartAtLoginHelper.m */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		28FEDA6A15DA5EB200320B72 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 28FEDA5F15DA5EB200320B72 /* LaunchAtLoginHelper.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 734C379415414CE200994189;
+			remoteInfo = LaunchAtLoginHelper;
+		};
+		28FEDA6C15DA5EC200320B72 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 28FEDA5F15DA5EB200320B72 /* LaunchAtLoginHelper.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 734C379315414CE200994189;
+			remoteInfo = LaunchAtLoginHelper;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		28FEDA5B15DA5B5900320B72 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = Contents/Library/LoginItems;
+			dstSubfolderSpec = 1;
+			files = (
+				28FEDA6E15DA5ECA00320B72 /* LaunchAtLoginHelper.app in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		2841C7DC15C91CC100F4F15F /* Battery Time Remaining.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Battery Time Remaining.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -40,6 +73,11 @@
 		28833BB315D7D61100741727 /* build_version */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = build_version; sourceTree = SOURCE_ROOT; };
 		28BA61A715D1B12500EDB674 /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = icon.icns; path = ../icon.icns; sourceTree = "<group>"; };
 		28BA61A915D1B63300EDB674 /* Battery Time Remaining.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Battery Time Remaining.entitlements"; sourceTree = "<group>"; };
+		28FEDA5D15DA5C9D00320B72 /* ServiceManagement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ServiceManagement.framework; path = System/Library/Frameworks/ServiceManagement.framework; sourceTree = SDKROOT; };
+		28FEDA5F15DA5EB200320B72 /* LaunchAtLoginHelper.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = LaunchAtLoginHelper.xcodeproj; path = LaunchAtLoginHelper/LaunchAtLoginHelper.xcodeproj; sourceTree = "<group>"; };
+		28FEDA6215DA5EB200320B72 /* LLManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LLManager.h; path = ../LaunchAtLoginHelper/LLManager.h; sourceTree = "<group>"; };
+		28FEDA6315DA5EB200320B72 /* LLManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = LLManager.m; path = ../LaunchAtLoginHelper/LLManager.m; sourceTree = "<group>"; };
+		28FEDA6415DA5EB200320B72 /* LLStrings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LLStrings.h; path = ../LaunchAtLoginHelper/LLStrings.h; sourceTree = "<group>"; };
 		D58C7EF615CD7C6100C07E0C /* StartAtLoginHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StartAtLoginHelper.h; sourceTree = "<group>"; };
 		D58C7EF715CD7C6100C07E0C /* StartAtLoginHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StartAtLoginHelper.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -49,6 +87,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				28FEDA5E15DA5C9D00320B72 /* ServiceManagement.framework in Frameworks */,
 				2841C7FE15C91CEF00F4F15F /* IOKit.framework in Frameworks */,
 				2841C7E115C91CC100F4F15F /* Cocoa.framework in Frameworks */,
 			);
@@ -60,6 +99,7 @@
 		2841C7D115C91CC100F4F15F = {
 			isa = PBXGroup;
 			children = (
+				28FEDA5F15DA5EB200320B72 /* LaunchAtLoginHelper.xcodeproj */,
 				2841C7E615C91CC100F4F15F /* Battery Time Remaining */,
 				2841C7DF15C91CC100F4F15F /* Frameworks */,
 				2841C7DD15C91CC100F4F15F /* Products */,
@@ -77,6 +117,7 @@
 		2841C7DF15C91CC100F4F15F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				28FEDA5D15DA5C9D00320B72 /* ServiceManagement.framework */,
 				2841C7FD15C91CEF00F4F15F /* IOKit.framework */,
 				2841C7E015C91CC100F4F15F /* Cocoa.framework */,
 				2841C7E215C91CC100F4F15F /* Other Frameworks */,
@@ -97,6 +138,9 @@
 		2841C7E615C91CC100F4F15F /* Battery Time Remaining */ = {
 			isa = PBXGroup;
 			children = (
+				28FEDA6215DA5EB200320B72 /* LLManager.h */,
+				28FEDA6315DA5EB200320B72 /* LLManager.m */,
+				28FEDA6415DA5EB200320B72 /* LLStrings.h */,
 				2841C7F215C91CC100F4F15F /* AppDelegate.h */,
 				2841C7F315C91CC100F4F15F /* AppDelegate.m */,
 				28833BAC15D7B90B00741727 /* HttpGet.h */,
@@ -124,6 +168,14 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		28FEDA6015DA5EB200320B72 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				28FEDA6B15DA5EB200320B72 /* LaunchAtLoginHelper.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -134,10 +186,12 @@
 				2841C7D815C91CC100F4F15F /* Sources */,
 				2841C7D915C91CC100F4F15F /* Frameworks */,
 				2841C7DA15C91CC100F4F15F /* Resources */,
+				28FEDA5B15DA5B5900320B72 /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				28FEDA6D15DA5EC200320B72 /* PBXTargetDependency */,
 			);
 			name = "Battery Time Remaining";
 			productName = "Battery Time Remaining";
@@ -163,12 +217,28 @@
 			mainGroup = 2841C7D115C91CC100F4F15F;
 			productRefGroup = 2841C7DD15C91CC100F4F15F /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 28FEDA6015DA5EB200320B72 /* Products */;
+					ProjectRef = 28FEDA5F15DA5EB200320B72 /* LaunchAtLoginHelper.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				2841C7DB15C91CC100F4F15F /* Battery Time Remaining */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		28FEDA6B15DA5EB200320B72 /* LaunchAtLoginHelper.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = LaunchAtLoginHelper.app;
+			remoteRef = 28FEDA6A15DA5EB200320B72 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		2841C7DA15C91CC100F4F15F /* Resources */ = {
@@ -190,6 +260,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				28FEDA6F15DA5F8C00320B72 /* LLManager.m in Sources */,
 				2841C7ED15C91CC100F4F15F /* main.m in Sources */,
 				2841C7F415C91CC100F4F15F /* AppDelegate.m in Sources */,
 				D58C7EF815CD7C6100C07E0C /* StartAtLoginHelper.m in Sources */,
@@ -198,6 +269,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		28FEDA6D15DA5EC200320B72 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = LaunchAtLoginHelper;
+			targetProxy = 28FEDA6C15DA5EC200320B72 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		2841C7E915C91CC100F4F15F /* InfoPlist.strings */ = {
@@ -271,6 +350,7 @@
 		2841C7FB15C91CC200F4F15F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "Battery Time Remaining/Battery Time Remaining.entitlements";
 				CODE_SIGN_IDENTITY = "Developer ID Application: Han Lin Yap";
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -285,6 +365,7 @@
 		2841C7FC15C91CC200F4F15F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "Battery Time Remaining/Battery Time Remaining.entitlements";
 				CODE_SIGN_IDENTITY = "Developer ID Application: Han Lin Yap";
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;

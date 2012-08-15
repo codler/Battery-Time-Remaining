@@ -37,6 +37,13 @@ Who did make this app?
 Change log
 ----------
 
+2012-08-15 - **v1.4** - [diff](https://github.com/codler/Battery-Time-Remaining/compare/v1.3...v1.4)
+
+* App sandbox ([codler](https://github.com/codler))
+* Rewrote start at login ([codler](https://github.com/codler) [#4](https://github.com/codler/Battery-Time-Remaining/issues/4))
+* Improved battery icon ([codler](https://github.com/codler))
+* Improved notification ([codler](https://github.com/codler))
+
 2012-08-12 - **v1.3** - [diff](https://github.com/codler/Battery-Time-Remaining/compare/v1.2.1...v1.3)
 
 * Added check for updates ([codler](https://github.com/codler))

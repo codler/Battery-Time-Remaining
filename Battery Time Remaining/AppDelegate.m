@@ -43,15 +43,15 @@ static void PowerSourceChanged(void * context)
     [self saveNotificationSettings];
     
     // Power source menu
-    self.psTimeMenu = [[NSMenuItem alloc] initWithTitle:@"Loading…" action:nil keyEquivalent:@""];
+    self.psTimeMenu = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Loading…", @"Remaining menuitem") action:nil keyEquivalent:@""];
     [self.psTimeMenu setEnabled:NO];
 
-    self.psStateMenu = [[NSMenuItem alloc] initWithTitle:@"Power source: Unknown" action:nil keyEquivalent:@""];
+    self.psStateMenu = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Power source: Unknown", @"Powersource menuitem") action:nil keyEquivalent:@""];
     [self.psStateMenu setEnabled:NO];
     
 #ifndef SANDBOX
     // Create the startup at login toggle
-    self.startupToggle = [[NSMenuItem alloc] initWithTitle:@"Start at login" action:@selector(toggleStartAtLogin:) keyEquivalent:@""];
+    self.startupToggle = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Start at login", @"Start at login setting") action:@selector(toggleStartAtLogin:) keyEquivalent:@""];
     self.startupToggle.target = self;
     self.startupToggle.state = ([LLManager launchAtLogin]) ? NSOnState : NSOffState;
 #endif
@@ -67,11 +67,11 @@ static void PowerSourceChanged(void * context)
         [notificationSubmenu addItem:notificationSubmenuItem];
     }
     
-    NSMenuItem *notificationMenu = [[NSMenuItem alloc] initWithTitle:@"Notifications" action:nil keyEquivalent:@""];
+    NSMenuItem *notificationMenu = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Notifications", @"Notification menuitem") action:nil keyEquivalent:@""];
     [notificationMenu setSubmenu:notificationSubmenu];
     
     // Updater menu
-    self.updaterMenu = [[NSMenuItem alloc] initWithTitle:@"Checking for updates…" action:nil keyEquivalent:@""];
+    self.updaterMenu = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Checking for updates…", @"Update menuitem") action:nil keyEquivalent:@""];
     [self.updaterMenu setEnabled:NO];
 
     // Build the status menu
@@ -86,11 +86,11 @@ static void PowerSourceChanged(void * context)
     [statusMenu addItem:notificationMenu];
     [statusMenu addItem:[NSMenuItem separatorItem]];
 
-    [statusMenu addItemWithTitle:@"Energy Saver Preferences…" action:@selector(openEnergySaverPreference:) keyEquivalent:@""];
+    [statusMenu addItemWithTitle:NSLocalizedString(@"Energy Saver Preferences…", @"Open Energy Saver Preferences menuitem") action:@selector(openEnergySaverPreference:) keyEquivalent:@""];
     [statusMenu addItem:[NSMenuItem separatorItem]];
     [statusMenu addItem:self.updaterMenu];
     [statusMenu addItem:[NSMenuItem separatorItem]];
-    [statusMenu addItemWithTitle:@"Quit" action:@selector(terminate:) keyEquivalent:@""];
+    [statusMenu addItemWithTitle:NSLocalizedString(@"Quit", @"Quit menuitem") action:@selector(terminate:) keyEquivalent:@""];
 
     // Create the status item and set initial text
     statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
@@ -133,8 +133,8 @@ static void PowerSourceChanged(void * context)
         NSInteger percent = (int)[currentBatteryCapacity doubleValue] / [maxBatteryCapacity doubleValue] * 100;
         
         // Update menu title
-        self.psTimeMenu.title = [NSString stringWithFormat:@"%ld %% left", percent];
-        self.psStateMenu.title = [NSString stringWithFormat:@"Power source: %@", CFDictionaryGetValue(description, CFSTR(kIOPSPowerSourceStateKey))];
+        self.psTimeMenu.title = [NSString stringWithFormat:NSLocalizedString(@"%ld %% left", @"Percentage left menuitem"), percent];
+        self.psStateMenu.title = [NSString stringWithFormat:NSLocalizedString(@"Power source: %@", @"Powersource menuitem"), CFDictionaryGetValue(description, CFSTR(kIOPSPowerSourceStateKey))];
         
         // We're connected to an unlimited power source (AC adapter probably)
         if (kIOPSTimeRemainingUnlimited == timeRemaining)
@@ -158,7 +158,7 @@ static void PowerSourceChanged(void * context)
                 else
                 {
                     self.statusItem.image = [self getBatteryIconNamed:@"BatteryCharging"];
-                    self.statusItem.title = @" Calculating…";
+                    self.statusItem.title = NSLocalizedString(@" Calculating…", @"Calculating sidetext");
                 }
             }
             else
@@ -184,7 +184,7 @@ static void PowerSourceChanged(void * context)
         else if (kIOPSTimeRemainingUnknown == timeRemaining)
         {
             self.statusItem.image = [self getBatteryIconPercent:percent];
-            self.statusItem.title = @" Calculating…";
+            self.statusItem.title = NSLocalizedString(@" Calculating…", @"Calculating sidetext");
         }
         // Time is known!
         else
@@ -201,7 +201,7 @@ static void PowerSourceChanged(void * context)
                 if ([[self.notifications valueForKey:key] boolValue] && [key intValue] == percent) {
                     // Send notification once
                     if (self.previousPercent != percent) {
-                        [self notify:[NSString stringWithFormat:@"%ld:%02ld left (%ld%%)", hour, minute, percent]];
+                        [self notify:[NSString stringWithFormat:NSLocalizedString(@"%ld:%02ld left (%ld%%)", @"Percentage left menuitem"), hour, minute, percent]];
                     }
                     break;
                 }
@@ -277,7 +277,7 @@ static void PowerSourceChanged(void * context)
 - (void)notify:(NSString *)message
 {
     NSUserNotification *notification = [[NSUserNotification alloc] init];
-    [notification setTitle:@"Battery Time Remaining"];
+    [notification setTitle:NSLocalizedString(@"Battery Time Remaining", @"Notification title")];
     [notification setInformativeText:message];
     [notification setSoundName:NSUserNotificationDefaultSoundName];
     NSUserNotificationCenter *center = [NSUserNotificationCenter defaultUserNotificationCenter];
@@ -327,7 +327,7 @@ static void PowerSourceChanged(void * context)
 
 - (void)userNotificationCenter:(NSUserNotificationCenter *)center didActivateNotification:(NSUserNotification *)notification
 {
-    if ([[notification informativeText] isEqualToString:@"A newer version is available"]) {
+    if ([[notification informativeText] isEqualToString:NSLocalizedString(@"A newer version is available", @"Update menuitem")]) {
         [self openHomeUrl:nil];
     }
 }
@@ -347,21 +347,21 @@ static void PowerSourceChanged(void * context)
         NSInteger currentBuildVersion = [[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"] integerValue];
         
         if (!latestBuildVersion) {
-            self.updaterMenu.title = @"Could not check for updates";
+            self.updaterMenu.title = NSLocalizedString(@"Could not check for updates", @"Update menuitem");
             return;
         }
         
         // Newer version available
         if (latestBuildVersion > currentBuildVersion) {
-            self.updaterMenu.title = @"A newer version is available";
+            self.updaterMenu.title = NSLocalizedString(@"A newer version is available", @"Update menuitem");
             [self.updaterMenu setAction:@selector(openHomeUrl:)];
             [self.updaterMenu setEnabled:YES];
-            [self notify:@"A newer version is available"];
+            [self notify:NSLocalizedString(@"A newer version is available", @"Update notification")];
         } else {
-            self.updaterMenu.title = @"Up to date";
+            self.updaterMenu.title = NSLocalizedString(@"Up to date", @"Update menuitem");
         }
     } error:^(NSError *error) {
-        self.updaterMenu.title = @"Could not check for updates";
+        self.updaterMenu.title = NSLocalizedString(@"Could not check for updates", @"Update menuitem");
     }];
 }
 

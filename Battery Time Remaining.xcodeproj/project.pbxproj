@@ -20,7 +20,6 @@
 		28FEDA5E15DA5C9D00320B72 /* ServiceManagement.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28FEDA5D15DA5C9D00320B72 /* ServiceManagement.framework */; };
 		28FEDA6E15DA5ECA00320B72 /* LaunchAtLoginHelper.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = 28FEDA6B15DA5EB200320B72 /* LaunchAtLoginHelper.app */; };
 		28FEDA6F15DA5F8C00320B72 /* LLManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 28FEDA6315DA5EB200320B72 /* LLManager.m */; };
-		D58C7EF815CD7C6100C07E0C /* StartAtLoginHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D58C7EF715CD7C6100C07E0C /* StartAtLoginHelper.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,8 +77,6 @@
 		28FEDA6215DA5EB200320B72 /* LLManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LLManager.h; path = ../LaunchAtLoginHelper/LLManager.h; sourceTree = "<group>"; };
 		28FEDA6315DA5EB200320B72 /* LLManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = LLManager.m; path = ../LaunchAtLoginHelper/LLManager.m; sourceTree = "<group>"; };
 		28FEDA6415DA5EB200320B72 /* LLStrings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LLStrings.h; path = ../LaunchAtLoginHelper/LLStrings.h; sourceTree = "<group>"; };
-		D58C7EF615CD7C6100C07E0C /* StartAtLoginHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StartAtLoginHelper.h; sourceTree = "<group>"; };
-		D58C7EF715CD7C6100C07E0C /* StartAtLoginHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StartAtLoginHelper.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,8 +142,6 @@
 				2841C7F315C91CC100F4F15F /* AppDelegate.m */,
 				28833BAC15D7B90B00741727 /* HttpGet.h */,
 				28833BAD15D7B90B00741727 /* HttpGet.m */,
-				D58C7EF615CD7C6100C07E0C /* StartAtLoginHelper.h */,
-				D58C7EF715CD7C6100C07E0C /* StartAtLoginHelper.m */,
 				2841C7E715C91CC100F4F15F /* Supporting Files */,
 			);
 			path = "Battery Time Remaining";
@@ -263,7 +258,6 @@
 				28FEDA6F15DA5F8C00320B72 /* LLManager.m in Sources */,
 				2841C7ED15C91CC100F4F15F /* main.m in Sources */,
 				2841C7F415C91CC100F4F15F /* AppDelegate.m in Sources */,
-				D58C7EF815CD7C6100C07E0C /* StartAtLoginHelper.m in Sources */,
 				28833BAE15D7B90B00741727 /* HttpGet.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

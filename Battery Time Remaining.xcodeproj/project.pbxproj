@@ -8,12 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		2841C7E115C91CC100F4F15F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2841C7E015C91CC100F4F15F /* Cocoa.framework */; };
-		2841C7EB15C91CC100F4F15F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2841C7E915C91CC100F4F15F /* InfoPlist.strings */; };
 		2841C7ED15C91CC100F4F15F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2841C7EC15C91CC100F4F15F /* main.m */; };
 		2841C7F115C91CC100F4F15F /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 2841C7EF15C91CC100F4F15F /* Credits.rtf */; };
 		2841C7F415C91CC100F4F15F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2841C7F315C91CC100F4F15F /* AppDelegate.m */; };
 		2841C7FE15C91CEF00F4F15F /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2841C7FD15C91CEF00F4F15F /* IOKit.framework */; };
-		288305E015DD005C0064D457 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D53375E315DC43380077CEF6 /* Localizable.strings */; };
+		288305E515DD04790064D457 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 288305E315DD04790064D457 /* InfoPlist.strings */; };
 		28833BAE15D7B90B00741727 /* HttpGet.m in Sources */ = {isa = PBXBuildFile; fileRef = 28833BAD15D7B90B00741727 /* HttpGet.m */; };
 		28833BB215D7D4FF00741727 /* Readme.md in Resources */ = {isa = PBXBuildFile; fileRef = 28833BB115D7D4FF00741727 /* Readme.md */; };
 		28833BB415D7D61100741727 /* build_version in Resources */ = {isa = PBXBuildFile; fileRef = 28833BB315D7D61100741727 /* build_version */; };
@@ -61,7 +60,6 @@
 		2841C7E415C91CC100F4F15F /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		2841C7E515C91CC100F4F15F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		2841C7E815C91CC100F4F15F /* Battery Time Remaining-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Battery Time Remaining-Info.plist"; sourceTree = "<group>"; };
-		2841C7EA15C91CC100F4F15F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		2841C7EC15C91CC100F4F15F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		2841C7EE15C91CC100F4F15F /* Battery Time Remaining-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Battery Time Remaining-Prefix.pch"; sourceTree = "<group>"; };
 		2841C7F015C91CC100F4F15F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
@@ -69,6 +67,7 @@
 		2841C7F315C91CC100F4F15F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		2841C7FD15C91CEF00F4F15F /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		288305DF15DD005C0064D457 /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/Localizable.strings; sourceTree = "<group>"; };
+		288305E415DD04790064D457 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		28833BAC15D7B90B00741727 /* HttpGet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HttpGet.h; sourceTree = "<group>"; };
 		28833BAD15D7B90B00741727 /* HttpGet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HttpGet.m; sourceTree = "<group>"; };
 		28833BB115D7D4FF00741727 /* Readme.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Readme.md; sourceTree = SOURCE_ROOT; };
@@ -82,7 +81,6 @@
 		28FEDA6415DA5EB200320B72 /* LLStrings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LLStrings.h; path = ../LaunchAtLoginHelper/LLStrings.h; sourceTree = "<group>"; };
 		D53375E415DC43380077CEF6 /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D53375FC15DC44620077CEF6 /* nl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Localizable.strings; sourceTree = "<group>"; };
-		D53375FD15DC47700077CEF6 /* nl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -156,13 +154,13 @@
 		2841C7E715C91CC100F4F15F /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				288305E315DD04790064D457 /* InfoPlist.strings */,
 				D53375E315DC43380077CEF6 /* Localizable.strings */,
 				28833BB315D7D61100741727 /* build_version */,
 				28833BB115D7D4FF00741727 /* Readme.md */,
 				28BA61A715D1B12500EDB674 /* icon.icns */,
 				28BA61A915D1B63300EDB674 /* Battery Time Remaining.entitlements */,
 				2841C7E815C91CC100F4F15F /* Battery Time Remaining-Info.plist */,
-				2841C7E915C91CC100F4F15F /* InfoPlist.strings */,
 				2841C7EC15C91CC100F4F15F /* main.m */,
 				2841C7EE15C91CC100F4F15F /* Battery Time Remaining-Prefix.pch */,
 				2841C7EF15C91CC100F4F15F /* Credits.rtf */,
@@ -249,13 +247,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2841C7EB15C91CC100F4F15F /* InfoPlist.strings in Resources */,
 				2841C7F115C91CC100F4F15F /* Credits.rtf in Resources */,
 				28BA61A815D1B12500EDB674 /* icon.icns in Resources */,
 				28833BB215D7D4FF00741727 /* Readme.md in Resources */,
 				28833BB415D7D61100741727 /* build_version in Resources */,
 				D53375E515DC43380077CEF6 /* Localizable.strings in Resources */,
-				288305E015DD005C0064D457 /* Localizable.strings in Resources */,
+				288305E515DD04790064D457 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -284,21 +281,20 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		2841C7E915C91CC100F4F15F /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				2841C7EA15C91CC100F4F15F /* en */,
-				D53375FD15DC47700077CEF6 /* nl */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
 		2841C7EF15C91CC100F4F15F /* Credits.rtf */ = {
 			isa = PBXVariantGroup;
 			children = (
 				2841C7F015C91CC100F4F15F /* en */,
 			);
 			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		288305E315DD04790064D457 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				288305E415DD04790064D457 /* en */,
+			);
+			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 		D53375E315DC43380077CEF6 /* Localizable.strings */ = {

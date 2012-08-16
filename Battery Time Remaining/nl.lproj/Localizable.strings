@@ -1,18 +1,18 @@
-﻿/* Calculating sidetext */
-" Calculating…" = " Berekenen…";
-
-/* Percentage left menuitem */
+﻿/* Percentage left menuitem */
 "%ld %% left" = "%ld %% resterend";
 
-/* Percentage left menuitem */
+/* Time remaining left menuitem */
 "%ld:%02ld left (%ld%%)" = "%1$ld:%2$ld resterend (%3$ld%%)";
 
 /* Update menuitem
    Update notification */
 "A newer version is available" = "Een nieuwere versie is beschikbaar";
 
-/* Notification title */
-"Battery Time Remaining" = "Resterende Batterij Tijd";
+/* Calculating sidetext */
+"Calculating…" = "Berekenen…";
+
+/* Charged notification */
+"Charged" = "Charged";
 
 /* Update menuitem */
 "Checking for updates…" = "Controleren op updates…";

@@ -152,7 +152,7 @@ static void PowerSourceChanged(void * context)
                 else
                 {
                     self.statusItem.image = [self getBatteryIconNamed:@"BatteryCharging"];
-                    self.statusItem.title = NSLocalizedString(@" Calculating…", @"Calculating sidetext");
+                    self.statusItem.title = [NSString stringWithFormat:@" %@", NSLocalizedString(@"Calculating…", @"Calculating sidetext")];
                 }
             }
             else
@@ -168,7 +168,7 @@ static void PowerSourceChanged(void * context)
                     self.previousPercent != percent &&
                     [[self.notifications valueForKey:@"100"] boolValue]) {
                     
-                    [self notify:@"Charged"];
+                    [self notify:NSLocalizedString(@"Charged", @"Charged notification")];
                     self.previousPercent = percent;
                 }
             }
@@ -178,7 +178,7 @@ static void PowerSourceChanged(void * context)
         else if (kIOPSTimeRemainingUnknown == timeRemaining)
         {
             self.statusItem.image = [self getBatteryIconPercent:percent];
-            self.statusItem.title = NSLocalizedString(@" Calculating…", @"Calculating sidetext");
+            self.statusItem.title = [NSString stringWithFormat:@" %@", NSLocalizedString(@"Calculating…", @"Calculating sidetext")];
         }
         // Time is known!
         else
@@ -195,7 +195,7 @@ static void PowerSourceChanged(void * context)
                 if ([[self.notifications valueForKey:key] boolValue] && [key intValue] == percent) {
                     // Send notification once
                     if (self.previousPercent != percent) {
-                        [self notify:[NSString stringWithFormat:NSLocalizedString(@"%ld:%02ld left (%ld%%)", @"Percentage left menuitem"), hour, minute, percent]];
+                        [self notify:[NSString stringWithFormat:NSLocalizedString(@"%ld:%02ld left (%ld%%)", @"Time remaining left notification"), hour, minute, percent]];
                     }
                     break;
                 }
@@ -269,7 +269,7 @@ static void PowerSourceChanged(void * context)
 - (void)notify:(NSString *)message
 {
     NSUserNotification *notification = [[NSUserNotification alloc] init];
-    [notification setTitle:NSLocalizedString(@"Battery Time Remaining", @"Notification title")];
+    [notification setTitle:@"Battery Time Remaining"];
     [notification setInformativeText:message];
     [notification setSoundName:NSUserNotificationDefaultSoundName];
     NSUserNotificationCenter *center = [NSUserNotificationCenter defaultUserNotificationCenter];

@@ -12,8 +12,6 @@
 #import <IOKit/ps/IOPowerSources.h>
 #import <IOKit/ps/IOPSKeys.h>
 
-//#define SANDBOX
-
 // IOPS notification callback on power source change
 static void PowerSourceChanged(void * context)
 {
@@ -49,12 +47,10 @@ static void PowerSourceChanged(void * context)
     self.psStateMenu = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Power source: Unknown", @"Powersource menuitem") action:nil keyEquivalent:@""];
     [self.psStateMenu setEnabled:NO];
     
-#ifndef SANDBOX
     // Create the startup at login toggle
     self.startupToggle = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Start at login", @"Start at login setting") action:@selector(toggleStartAtLogin:) keyEquivalent:@""];
     self.startupToggle.target = self;
     self.startupToggle.state = ([LLManager launchAtLogin]) ? NSOnState : NSOffState;
-#endif
     
     // Build the notification submenu
     NSMenu *notificationSubmenu = [[NSMenu alloc] initWithTitle:@"Notification Menu"];
@@ -80,9 +76,7 @@ static void PowerSourceChanged(void * context)
     [statusMenu addItem:self.psTimeMenu];
     [statusMenu addItem:self.psStateMenu];
     [statusMenu addItem:[NSMenuItem separatorItem]];
-#ifndef SANDBOX
     [statusMenu addItem:self.startupToggle];
-#endif
     [statusMenu addItem:notificationMenu];
     [statusMenu addItem:[NSMenuItem separatorItem]];
 
@@ -261,7 +255,6 @@ static void PowerSourceChanged(void * context)
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/codler/Battery-Time-Remaining/downloads"]];
 }
 
-#ifndef SANDBOX
 - (void)toggleStartAtLogin:(id)sender
 {
     if ([LLManager launchAtLogin]) {
@@ -272,7 +265,6 @@ static void PowerSourceChanged(void * context)
         self.startupToggle.state = NSOnState;
     }
 }
-#endif
 
 - (void)notify:(NSString *)message
 {

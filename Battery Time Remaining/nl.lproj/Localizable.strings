@@ -1,0 +1,46 @@
+﻿/* Calculating sidetext */
+" Calculating…" = " Berekenen…";
+
+/* Percentage left menuitem */
+"%ld %% left" = "%ld %% resterend";
+
+/* Percentage left menuitem */
+"%ld:%02ld left (%ld%%)" = "%1$ld:%2$ld resterend (%3$ld%%)";
+
+/* Update menuitem
+   Update notification */
+"A newer version is available" = "Een nieuwere versie is beschikbaar";
+
+/* Notification title */
+"Battery Time Remaining" = "Resterende Batterij Tijd";
+
+/* Update menuitem */
+"Checking for updates…" = "Controleren op updates…";
+
+/* Update menuitem */
+"Could not check for updates" = "Kon niet controleren op updates";
+
+/* Open Energy Saver Preferences menuitem */
+"Energy Saver Preferences…" = "Open 'Energiestand'…";
+
+/* Remaining menuitem */
+"Loading…" = "Laden…";
+
+/* Notification menuitem */
+"Notifications" = "Notificatie bij";
+
+/* Powersource menuitem */
+"Power source: %@" = "Stroombron: %@";
+
+/* Powersource menuitem */
+"Power source: Unknown" = "Stroombron: Onbekend";
+
+/* Quit menuitem */
+"Quit" = "Stop";
+
+/* Start at login setting */
+"Start at login" = "Start bij inloggen";
+
+/* Update menuitem */
+"Up to date" = "Up to date";
+

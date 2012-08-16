@@ -1,0 +1,45 @@
+﻿/* Calculating sidetext */
+" Calculating…" = " Calculating…";
+
+/* Percentage left menuitem */
+"%ld %% left" = "%ld %% left";
+
+/* Percentage left menuitem */
+"%ld:%02ld left (%ld%%)" = "%1$ld:%2$ld left (%3$ld%%)";
+
+/* Update menuitem
+   Update notification */
+"A newer version is available" = "A newer version is available";
+
+/* Notification title */
+"Battery Time Remaining" = "Battery Time Remaining";
+
+/* Update menuitem */
+"Checking for updates…" = "Checking for updates…";
+
+/* Update menuitem */
+"Could not check for updates" = "Could not check for updates";
+
+/* Open Energy Saver Preferences menuitem */
+"Energy Saver Preferences…" = "Energy Saver Preferences…";
+
+/* Remaining menuitem */
+"Loading…" = "Loading…";
+
+/* Notification menuitem */
+"Notifications" = "Notifications";
+
+/* Powersource menuitem */
+"Power source: %@" = "Power source: %@";
+
+/* Powersource menuitem */
+"Power source: Unknown" = "Power source: Unknown";
+
+/* Quit menuitem */
+"Quit" = "Quit";
+
+/* Start at login setting */
+"Start at login" = "Start at login";
+
+/* Update menuitem */
+"Up to date" = "Up to date";

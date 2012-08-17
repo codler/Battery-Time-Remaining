@@ -82,6 +82,7 @@ static void PowerSourceChanged(void * context)
     NSMenuItem *notificationMenu = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Notifications", @"Notification menuitem") action:nil keyEquivalent:@""];
     [notificationMenu setTag:kBTRMenuNotification];
     [notificationMenu setSubmenu:notificationSubmenu];
+    [notificationMenu setHidden:![[NSUserDefaults standardUserDefaults] boolForKey:@"advanced"]];
     
     // Advanced mode menu item
     NSMenuItem *advancedMenu = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Advanced mode", @"Advanced mode setting") action:@selector(toggleAdvanced:) keyEquivalent:@""];
@@ -325,12 +326,14 @@ static void PowerSourceChanged(void * context)
     {
         [self.statusItem.menu itemWithTag:kBTRMenuAdvanced].state = NSOffState;
         [[self.statusItem.menu itemWithTag:kBTRMenuPowerSourceAdvanced] setHidden:YES];
+        [[self.statusItem.menu itemWithTag:kBTRMenuNotification] setHidden:YES];
         [defaults setBool:NO forKey:@"advanced"];
     }
     else
     {
         [self.statusItem.menu itemWithTag:kBTRMenuAdvanced].state = NSOnState;
         [[self.statusItem.menu itemWithTag:kBTRMenuPowerSourceAdvanced] setHidden:NO];
+        [[self.statusItem.menu itemWithTag:kBTRMenuNotification] setHidden:NO];
         [defaults setBool:YES forKey:@"advanced"];
     }
     [defaults synchronize];

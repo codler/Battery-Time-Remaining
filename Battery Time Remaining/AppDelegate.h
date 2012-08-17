@@ -13,12 +13,13 @@
 
 #define kBTRMenuPowerSourcePercent  1
 #define kBTRMenuPowerSourceState    2
-#define kBTRMenuStartAtLogin        3
-#define kBTRMenuNotification        4
-#define kBTRMenuAdvancedMode        5
-#define kBTRMenuEnergySaverSetting  6
-#define kBTRMenuUpdater             7
-#define kBTRMenuQuitKey             8
+#define kBTRMenuPowerSourceAdvanced 3
+#define kBTRMenuStartAtLogin        4
+#define kBTRMenuNotification        5
+#define kBTRMenuAdvanced            6
+#define kBTRMenuEnergySaverSetting  7
+#define kBTRMenuUpdater             8
+#define kBTRMenuQuitKey             9
 
 #endif
 
@@ -30,6 +31,8 @@
 
 @property (strong) NSStatusItem *statusItem;
 @property (nonatomic) NSInteger previousPercent;
+@property (nonatomic) NSInteger currentPercent;
 @property (strong) NSMutableDictionary *notifications;
+@property (nonatomic) bool advancedSupported;
 
 @end

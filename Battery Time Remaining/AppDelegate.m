@@ -11,6 +11,8 @@
 #import "LLManager.h"
 #import <IOKit/ps/IOPowerSources.h>
 #import <IOKit/ps/IOPSKeys.h>
+#import <IOKit/pwr_mgt/IOPM.h>
+#import <IOKit/pwr_mgt/IOPMLib.h>
 
 // IOPS notification callback on power source change
 static void PowerSourceChanged(void * context)
@@ -26,6 +28,8 @@ static void PowerSourceChanged(void * context)
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
+    self.advancedSupported = ([self getAdvancedBatteryInfo] != nil);
+    
     // Init notification
     [[NSUserNotificationCenter defaultUserNotificationCenter] setDelegate:self];
     [self loadNotificationSetting];
@@ -51,6 +55,11 @@ static void PowerSourceChanged(void * context)
     [psStateMenu setTag:kBTRMenuPowerSourceState];
     [psStateMenu setEnabled:NO];
     
+    NSMenuItem *psAdvancedMenu = [[NSMenuItem alloc] initWithTitle:@"" action:nil keyEquivalent:@""];
+    [psAdvancedMenu setTag:kBTRMenuPowerSourceAdvanced];
+    [psAdvancedMenu setEnabled:NO];
+    [psAdvancedMenu setHidden:![[NSUserDefaults standardUserDefaults] boolForKey:@"advanced"]];
+    
     // Start at login menu item
     NSMenuItem *startAtLoginMenu = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Start at login", @"Start at login setting") action:@selector(toggleStartAtLogin:) keyEquivalent:@""];
     [startAtLoginMenu setTag:kBTRMenuStartAtLogin];
@@ -74,6 +83,13 @@ static void PowerSourceChanged(void * context)
     [notificationMenu setTag:kBTRMenuNotification];
     [notificationMenu setSubmenu:notificationSubmenu];
     
+    // Advanced mode menu item
+    NSMenuItem *advancedMenu = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Advanced mode", @"Advanced mode setting") action:@selector(toggleAdvanced:) keyEquivalent:@""];
+    [advancedMenu setTag:kBTRMenuAdvanced];
+    advancedMenu.target = self;
+    advancedMenu.state = ([[NSUserDefaults standardUserDefaults] boolForKey:@"advanced"]) ? NSOnState : NSOffState;
+    [advancedMenu setHidden:!self.advancedSupported];
+    
     // Updater menu
     NSMenuItem *updaterMenu = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Checking for updates…", @"Update menuitem") action:nil keyEquivalent:@""];
     [updaterMenu setTag:kBTRMenuUpdater];
@@ -85,10 +101,12 @@ static void PowerSourceChanged(void * context)
     
     [statusBarMenu addItem:psPercentMenu];
     [statusBarMenu addItem:psStateMenu];
+    [statusBarMenu addItem:psAdvancedMenu];
     [statusBarMenu addItem:[NSMenuItem separatorItem]]; // Separator
     
     [statusBarMenu addItem:startAtLoginMenu];
     [statusBarMenu addItem:notificationMenu];
+    [statusBarMenu addItem:advancedMenu];
     [statusBarMenu addItem:[NSMenuItem separatorItem]]; // Separator
     
     [statusBarMenu addItemWithTitle:NSLocalizedString(@"Energy Saver Preferences…", @"Open Energy Saver Preferences menuitem") action:@selector(openEnergySaverPreference:) keyEquivalent:@""];
@@ -137,10 +155,8 @@ static void PowerSourceChanged(void * context)
         NSNumber *currentBatteryCapacity = CFDictionaryGetValue(description, CFSTR(kIOPSCurrentCapacityKey));
         NSNumber *maxBatteryCapacity = CFDictionaryGetValue(description, CFSTR(kIOPSMaxCapacityKey));
         
-        NSInteger percent = (int)[currentBatteryCapacity doubleValue] / [maxBatteryCapacity doubleValue] * 100;
+        self.currentPercent = (int)[currentBatteryCapacity doubleValue] / [maxBatteryCapacity doubleValue] * 100;
         
-        // Set power source data in menu
-        [self.statusItem.menu itemWithTag:kBTRMenuPowerSourcePercent].title = [NSString stringWithFormat:NSLocalizedString(@"%ld %% left", @"Percentage left menuitem"), percent];
         [self.statusItem.menu itemWithTag:kBTRMenuPowerSourceState].title = [NSString stringWithFormat:NSLocalizedString(@"Power source: %@", @"Powersource menuitem"), CFDictionaryGetValue(description, CFSTR(kIOPSPowerSourceStateKey))];
         
         // We're connected to an unlimited power source (AC adapter probably)
@@ -179,12 +195,12 @@ static void PowerSourceChanged(void * context)
                 
                 // Notify user when battery is charged
                 if ([currentBatteryCapacity intValue] == [maxBatteryCapacity intValue] &&
-                    self.previousPercent != percent &&
+                    self.previousPercent != self.currentPercent &&
                     [[self.notifications valueForKey:@"100"] boolValue])
                 {
                     
                     [self notify:NSLocalizedString(@"Charged", @"Charged notification")];
-                    self.previousPercent = percent;
+                    self.previousPercent = self.currentPercent;
                 }
             }
             
@@ -192,7 +208,7 @@ static void PowerSourceChanged(void * context)
         // Still calculating the estimated time remaining...
         else if (kIOPSTimeRemainingUnknown == timeRemaining)
         {
-            self.statusItem.image = [self getBatteryIconPercent:percent];
+            self.statusItem.image = [self getBatteryIconPercent:self.currentPercent];
             self.statusItem.title = [NSString stringWithFormat:@" %@", NSLocalizedString(@"Calculating…", @"Calculating sidetext")];
         }
         // Time is known!
@@ -203,25 +219,38 @@ static void PowerSourceChanged(void * context)
             NSInteger minute = (int)timeRemaining % 3600 / 60;
             
             // Return the time remaining string
-            self.statusItem.image = [self getBatteryIconPercent:percent];
+            self.statusItem.image = [self getBatteryIconPercent:self.currentPercent];
             self.statusItem.title = [NSString stringWithFormat:@" %ld:%02ld", hour, minute];
             
             for (NSString *key in self.notifications)
             {
-                if ([[self.notifications valueForKey:key] boolValue] && [key intValue] == percent)
+                if ([[self.notifications valueForKey:key] boolValue] && [key intValue] == self.currentPercent)
                 {
                     // Send notification once
-                    if (self.previousPercent != percent)
+                    if (self.previousPercent != self.currentPercent)
                     {
-                        [self notify:[NSString stringWithFormat:NSLocalizedString(@"%ld:%02ld left (%ld%%)", @"Time remaining left notification"), hour, minute, percent]];
+                        [self notify:[NSString stringWithFormat:NSLocalizedString(@"%ld:%02ld left (%ld%%)", @"Time remaining left notification"), hour, minute, self.currentPercent]];
                     }
                     break;
                 }
             }
-            self.previousPercent = percent;
+            self.previousPercent = self.currentPercent;
         }
         
     }
+}
+
+- (NSDictionary *)getAdvancedBatteryInfo
+{
+    mach_port_t masterPort;
+    CFArrayRef batteryInfo;
+    
+    if (kIOReturnSuccess == IOMasterPort(MACH_PORT_NULL, &masterPort) &&
+        kIOReturnSuccess == IOPMCopyBatteryInfo(masterPort, &batteryInfo))
+    {
+        return [(__bridge NSArray*)batteryInfo objectAtIndex:0];
+    }
+    return nil;
 }
 
 - (NSImage *)getBatteryIconPercent:(NSInteger)percent
@@ -286,6 +315,27 @@ static void PowerSourceChanged(void * context)
         [LLManager setLaunchAtLogin:YES];
         [self.statusItem.menu itemWithTag:kBTRMenuStartAtLogin].state = NSOnState;
     }
+}
+
+- (void)toggleAdvanced:(id)sender
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+
+    if ([defaults boolForKey:@"advanced"])
+    {
+        [self.statusItem.menu itemWithTag:kBTRMenuAdvanced].state = NSOffState;
+        [[self.statusItem.menu itemWithTag:kBTRMenuPowerSourceAdvanced] setHidden:YES];
+        [defaults setBool:NO forKey:@"advanced"];
+    }
+    else
+    {
+        [self.statusItem.menu itemWithTag:kBTRMenuAdvanced].state = NSOnState;
+        [[self.statusItem.menu itemWithTag:kBTRMenuPowerSourceAdvanced] setHidden:NO];
+        [defaults setBool:YES forKey:@"advanced"];
+    }
+    [defaults synchronize];
+    
+    [self updateStatusItem];
 }
 
 - (void)notify:(NSString *)message
@@ -355,6 +405,29 @@ static void PowerSourceChanged(void * context)
 
 - (void)menuWillOpen:(NSMenu *)menu
 {
+    // Show power source data in menu
+    if (self.advancedSupported && [self.statusItem.menu itemWithTag:kBTRMenuAdvanced].state == NSOnState)
+    {
+        NSDictionary *advancedBatteryInfo = [self getAdvancedBatteryInfo];
+        
+        // Unit mAh
+        NSNumber *currentBatteryPower = [advancedBatteryInfo objectForKey:@"Current"];
+        NSNumber *maxBatteryPower = [advancedBatteryInfo objectForKey:@"Capacity"];
+        NSNumber *Amperage = [advancedBatteryInfo objectForKey:@"Amperage"];
+        NSNumber *Voltage = [advancedBatteryInfo objectForKey:@"Voltage"];
+        NSNumber *cycleCount = [advancedBatteryInfo objectForKey:@"Cycle Count"];
+        NSNumber *watt =  [NSNumber numberWithDouble:[Amperage doubleValue] / 1000 * [Voltage doubleValue] / 1000];
+        
+        [self.statusItem.menu itemWithTag:kBTRMenuPowerSourcePercent].title = [NSString stringWithFormat: NSLocalizedString(@"%ld %% left ( %ld/%ld mAh )", @"Advanced percentage left menuitem"), self.currentPercent, [currentBatteryPower integerValue], [maxBatteryPower integerValue]];
+        
+        [self.statusItem.menu itemWithTag:kBTRMenuPowerSourceAdvanced].title = [NSString stringWithFormat: NSLocalizedString(@"Cycle count: %ld | Power Usage: %.2f Watt", @"Advanced battery info menuitem"), [cycleCount integerValue], [watt doubleValue]];
+    }
+    else
+    {
+        [self.statusItem.menu itemWithTag:kBTRMenuPowerSourcePercent].title = [NSString stringWithFormat: NSLocalizedString(@"%ld %% left", @"Percentage left menuitem"), self.currentPercent];
+    }
+    
+    // Update menu
     NSMenuItem *updaterMenu = [self.statusItem.menu itemWithTag:kBTRMenuUpdater];
     
     // Stop checking if newer version is available

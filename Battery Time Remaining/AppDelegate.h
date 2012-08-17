@@ -8,6 +8,20 @@
 
 #import <Cocoa/Cocoa.h>
 
+#ifndef _BTR_MENU
+#define _BTR_MENU
+
+#define kBTRMenuPowerSourcePercent  1
+#define kBTRMenuPowerSourceState    2
+#define kBTRMenuStartAtLogin        3
+#define kBTRMenuNotification        4
+#define kBTRMenuAdvancedMode        5
+#define kBTRMenuEnergySaverSetting  6
+#define kBTRMenuUpdater             7
+#define kBTRMenuQuitKey             8
+
+#endif
+
 @interface AppDelegate : NSObject <NSApplicationDelegate, NSUserNotificationCenterDelegate, NSMenuDelegate>
 
 - (void)updateStatusItem;
@@ -15,10 +29,6 @@
 - (NSImage *)getBatteryIconPercent:(NSInteger)percent;
 
 @property (strong) NSStatusItem *statusItem;
-@property (strong) NSMenuItem *startupToggle;
-@property (strong) NSMenuItem *updaterMenu;
-@property (strong) NSMenuItem *psTimeMenu;
-@property (strong) NSMenuItem *psStateMenu;
 @property (nonatomic) NSInteger previousPercent;
 @property (strong) NSMutableDictionary *notifications;
 

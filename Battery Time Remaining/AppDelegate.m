@@ -254,6 +254,18 @@ static void PowerSourceChanged(void * context)
     return nil;
 }
 
+- (NSDictionary *)getMoreAdvancedBatteryInfo
+{
+    CFMutableDictionaryRef matching, properties = NULL;
+    io_registry_entry_t entry = 0;
+    // same as matching = IOServiceMatching("IOPMPowerSource");
+    matching = IOServiceNameMatching("AppleSmartBattery");
+    entry = IOServiceGetMatchingService(kIOMasterPortDefault, matching);
+    IORegistryEntryCreateCFProperties(entry, &properties, NULL, 0);
+    return (__bridge NSDictionary *)properties;
+    //IOObjectRelease(entry);
+}
+
 - (NSImage *)getBatteryIconPercent:(NSInteger)percent
 {
     // Make dynamic battery icon
@@ -412,18 +424,43 @@ static void PowerSourceChanged(void * context)
     if (self.advancedSupported && [self.statusItem.menu itemWithTag:kBTRMenuAdvanced].state == NSOnState)
     {
         NSDictionary *advancedBatteryInfo = [self getAdvancedBatteryInfo];
+        NSDictionary *moreAdvancedBatteryInfo = [self getMoreAdvancedBatteryInfo];
         
         // Unit mAh
         NSNumber *currentBatteryPower = [advancedBatteryInfo objectForKey:@"Current"];
+        // Unit mAh
         NSNumber *maxBatteryPower = [advancedBatteryInfo objectForKey:@"Capacity"];
+        // Unit mAh
         NSNumber *Amperage = [advancedBatteryInfo objectForKey:@"Amperage"];
+        // Unit mV
         NSNumber *Voltage = [advancedBatteryInfo objectForKey:@"Voltage"];
         NSNumber *cycleCount = [advancedBatteryInfo objectForKey:@"Cycle Count"];
+        // Unit Wh
         NSNumber *watt =  [NSNumber numberWithDouble:[Amperage doubleValue] / 1000 * [Voltage doubleValue] / 1000];
+        // Unit Celsius
+        NSNumber *temperature = [NSNumber numberWithDouble:[[moreAdvancedBatteryInfo objectForKey:@"Temperature"] doubleValue] / 100];
         
         [self.statusItem.menu itemWithTag:kBTRMenuPowerSourcePercent].title = [NSString stringWithFormat: NSLocalizedString(@"%ld %% left ( %ld/%ld mAh )", @"Advanced percentage left menuitem"), self.currentPercent, [currentBatteryPower integerValue], [maxBatteryPower integerValue]];
         
-        [self.statusItem.menu itemWithTag:kBTRMenuPowerSourceAdvanced].title = [NSString stringWithFormat: NSLocalizedString(@"Cycle count: %ld | Power Usage: %.2f Watt", @"Advanced battery info menuitem"), [cycleCount integerValue], [watt doubleValue]];
+        // Each item in array will be a row in menu
+        NSArray *advancedBatteryInfoTexts = [NSArray arrayWithObjects:
+                                             [NSString stringWithFormat:NSLocalizedString(@"Cycle count: %ld", @"Advanced battery info menuitem"), [cycleCount integerValue]],
+                                             [NSString stringWithFormat:NSLocalizedString(@"Power usage: %.2f Watt", @"Advanced battery info menuitem"), [watt doubleValue]],
+                                             [NSString stringWithFormat:NSLocalizedString(@"Temperature: %.1f°C", @"Advanced battery info menuitem"), [temperature doubleValue]],
+                                              nil];
+        
+        NSDictionary *advancedAttributedStyle = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                 // Font
+                                                 [NSFont fontWithName:@"Lucida Grande" size:[NSFont systemFontSize]+1.f],
+                                                 NSFontAttributeName,
+                                                 // Text color
+                                                 [NSColor disabledControlTextColor],
+                                                 NSForegroundColorAttributeName,
+                                                 nil];
+        
+        NSAttributedString *advancedAttributedTitle = [[NSAttributedString alloc] initWithString:[advancedBatteryInfoTexts componentsJoinedByString:@"\n"] attributes:advancedAttributedStyle];
+        
+        [self.statusItem.menu itemWithTag:kBTRMenuPowerSourceAdvanced].attributedTitle = advancedAttributedTitle;
     }
     else
     {

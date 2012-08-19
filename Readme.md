@@ -3,6 +3,9 @@ Battery Time Remaining
 
 Show the estimated battery time remaining on top of your screen in Mac OS X 10.8 Mountain Lion.
 
+![Normal mode](https://raw.github.com/codler/Battery-Time-Remaining/master/preview.png)
+![Advanced mode](https://raw.github.com/codler/Battery-Time-Remaining/master/preview_advanced.png)
+
 Why does this project exists?
 -----------------------------
 
@@ -36,6 +39,21 @@ Who did make this app?
 
 Change log
 ----------
+
+2012-08-19 - **v1.5** - [diff](https://github.com/codler/Battery-Time-Remaining/compare/v1.4...v1.5)
+
+* Added language support ([mac-cain13](https://github.com/mac-cain13) [#9](https://github.com/codler/Battery-Time-Remaining/pull/9))
+* Added Dutch language ([mac-cain13](https://github.com/mac-cain13) [#9](https://github.com/codler/Battery-Time-Remaining/pull/9) [#10](https://github.com/codler/Battery-Time-Remaining/pull/10))
+* Added Swedish language ([codler](https://github.com/codler))
+* Added advanced mode section ([codler](https://github.com/codler))
+* Show battery temperature (advanced mode) ([codler](https://github.com/codler))
+* Show power usage (advanced mode) ([codler](https://github.com/codler))
+* Show battery cycle count (advanced mode) ([codler](https://github.com/codler))
+* Show battery in mAh (advanced mode) ([codler](https://github.com/codler))
+* Improved battery icon ([codler](https://github.com/codler) [#8](https://github.com/codler/Battery-Time-Remaining/issues/8))
+* Improved app icon ([codler](https://github.com/codler) [#11](https://github.com/codler/Battery-Time-Remaining/issues/11))
+* Code improvements ([codler](https://github.com/codler))
+* Smaller text in menubar ([codler](https://github.com/codler) [#12](https://github.com/codler/Battery-Time-Remaining/issues/12))
 
 2012-08-15 - **v1.4** - [diff](https://github.com/codler/Battery-Time-Remaining/compare/v1.3...v1.4)
 

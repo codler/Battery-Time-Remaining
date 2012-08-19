@@ -239,9 +239,19 @@ static void PowerSourceChanged(void * context)
 
 - (void)setStatusBarImage:(NSImage *)image title:(NSString *)title
 {
+    // Image
     [self.statusItem setImage:image];
     [self.statusItem setAlternateImage:[self imageInvertColor:image]];
-    self.statusItem.title = title;
+    
+    // Title
+    NSDictionary *attributedStyle = [NSDictionary dictionaryWithObjectsAndKeys:
+                                             // Font
+                                             [NSFont menuFontOfSize:12.5f],
+                                             NSFontAttributeName,
+                                             nil];
+    
+    NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:title attributes:attributedStyle];
+    self.statusItem.attributedTitle = attributedTitle;
 }
 
 - (NSDictionary *)getAdvancedBatteryInfo
@@ -471,7 +481,7 @@ static void PowerSourceChanged(void * context)
         
         NSDictionary *advancedAttributedStyle = [NSDictionary dictionaryWithObjectsAndKeys:
                                                  // Font
-                                                 [NSFont fontWithName:@"Lucida Grande" size:[NSFont systemFontSize]+1.f],
+                                                 [NSFont systemFontOfSize:[NSFont systemFontSize]+1.f],
                                                  NSFontAttributeName,
                                                  // Text color
                                                  [NSColor disabledControlTextColor],

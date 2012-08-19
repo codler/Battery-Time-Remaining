@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		280E9EBD15E0D18C00530934 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 280E9EBC15E0D18C00530934 /* QuartzCore.framework */; };
 		2841C7E115C91CC100F4F15F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2841C7E015C91CC100F4F15F /* Cocoa.framework */; };
 		2841C7ED15C91CC100F4F15F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2841C7EC15C91CC100F4F15F /* main.m */; };
 		2841C7F115C91CC100F4F15F /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 2841C7EF15C91CC100F4F15F /* Credits.rtf */; };
@@ -54,6 +55,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		280E9EBC15E0D18C00530934 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		2841C7DC15C91CC100F4F15F /* Battery Time Remaining.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Battery Time Remaining.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2841C7E015C91CC100F4F15F /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		2841C7E315C91CC100F4F15F /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -88,6 +90,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				280E9EBD15E0D18C00530934 /* QuartzCore.framework in Frameworks */,
 				28FEDA5E15DA5C9D00320B72 /* ServiceManagement.framework in Frameworks */,
 				2841C7FE15C91CEF00F4F15F /* IOKit.framework in Frameworks */,
 				2841C7E115C91CC100F4F15F /* Cocoa.framework in Frameworks */,
@@ -118,6 +121,7 @@
 		2841C7DF15C91CC100F4F15F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				280E9EBC15E0D18C00530934 /* QuartzCore.framework */,
 				28FEDA5D15DA5C9D00320B72 /* ServiceManagement.framework */,
 				2841C7FD15C91CEF00F4F15F /* IOKit.framework */,
 				2841C7E015C91CC100F4F15F /* Cocoa.framework */,

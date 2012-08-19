@@ -13,6 +13,7 @@
 #import <IOKit/ps/IOPSKeys.h>
 #import <IOKit/pwr_mgt/IOPM.h>
 #import <IOKit/pwr_mgt/IOPMLib.h>
+#import <QuartzCore/QuartzCore.h>
 
 // IOPS notification callback on power source change
 static void PowerSourceChanged(void * context)
@@ -176,20 +177,17 @@ static void PowerSourceChanged(void * context)
                     NSInteger minute = timeTilCharged % 60;
                     
                     // Return the time remaining string
-                    self.statusItem.image = [self getBatteryIconNamed:@"BatteryCharging"];
-                    self.statusItem.title = [NSString stringWithFormat:@" %ld:%02ld", hour, minute];
+                    [self setStatusBarImage:[self getBatteryIconNamed:@"BatteryCharging"] title:[NSString stringWithFormat:@" %ld:%02ld", hour, minute]];
                 }
                 else
                 {
-                    self.statusItem.image = [self getBatteryIconNamed:@"BatteryCharging"];
-                    self.statusItem.title = [NSString stringWithFormat:@" %@", NSLocalizedString(@"Calculating…", @"Calculating sidetext")];
+                    [self setStatusBarImage:[self getBatteryIconNamed:@"BatteryCharging"] title:[NSString stringWithFormat:@" %@", NSLocalizedString(@"Calculating…", @"Calculating sidetext")]];
                 }
             }
             else
             {
                 // Not charging and on a endless powersource
-                self.statusItem.image = [self getBatteryIconNamed:@"BatteryCharged"];
-                self.statusItem.title = @"";
+                [self setStatusBarImage:[self getBatteryIconNamed:@"BatteryCharging"] title:@""];
                 
                 NSNumber *currentBatteryCapacity = CFDictionaryGetValue(description, CFSTR(kIOPSCurrentCapacityKey));
                 NSNumber *maxBatteryCapacity = CFDictionaryGetValue(description, CFSTR(kIOPSMaxCapacityKey));
@@ -209,8 +207,7 @@ static void PowerSourceChanged(void * context)
         // Still calculating the estimated time remaining...
         else if (kIOPSTimeRemainingUnknown == timeRemaining)
         {
-            self.statusItem.image = [self getBatteryIconPercent:self.currentPercent];
-            self.statusItem.title = [NSString stringWithFormat:@" %@", NSLocalizedString(@"Calculating…", @"Calculating sidetext")];
+            [self setStatusBarImage:[self getBatteryIconPercent:self.currentPercent] title:[NSString stringWithFormat:@" %@", NSLocalizedString(@"Calculating…", @"Calculating sidetext")]];
         }
         // Time is known!
         else
@@ -220,8 +217,7 @@ static void PowerSourceChanged(void * context)
             NSInteger minute = (int)timeRemaining % 3600 / 60;
             
             // Return the time remaining string
-            self.statusItem.image = [self getBatteryIconPercent:self.currentPercent];
-            self.statusItem.title = [NSString stringWithFormat:@" %ld:%02ld", hour, minute];
+            [self setStatusBarImage:[self getBatteryIconPercent:self.currentPercent] title:[NSString stringWithFormat:@" %ld:%02ld", hour, minute]];
             
             for (NSString *key in self.notifications)
             {
@@ -239,6 +235,13 @@ static void PowerSourceChanged(void * context)
         }
         
     }
+}
+
+- (void)setStatusBarImage:(NSImage *)image title:(NSString *)title
+{
+    [self.statusItem setImage:image];
+    [self.statusItem setAlternateImage:[self imageInvertColor:image]];
+    self.statusItem.title = title;
 }
 
 - (NSDictionary *)getAdvancedBatteryInfo
@@ -304,6 +307,23 @@ static void PowerSourceChanged(void * context)
 {
     NSString *fileName = [NSString stringWithFormat:@"/System/Library/CoreServices/Menu Extras/Battery.menu/Contents/Resources/%@.pdf", iconName];
     return [[NSImage alloc] initWithContentsOfFile:fileName];
+}
+
+- (NSImage *)imageInvertColor:(NSImage *)_image
+{
+    NSImage *image = [_image copy];
+    [image lockFocus];
+    
+    CIImage *ciImage = [[CIImage alloc] initWithData:[image TIFFRepresentation]];
+    CIFilter *filter = [CIFilter filterWithName:@"CIColorInvert"];
+    [filter setDefaults];
+    [filter setValue:ciImage forKey:@"inputImage"];
+    CIImage *output = [filter valueForKey:@"outputImage"];
+    [output drawAtPoint:NSZeroPoint fromRect:NSRectFromCGRect([output extent]) operation:NSCompositeSourceOver fraction:1.0];
+    
+    [image unlockFocus];
+    
+    return image;
 }
 
 - (void)openEnergySaverPreference:(id)sender

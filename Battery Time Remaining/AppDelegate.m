@@ -329,7 +329,7 @@ static void PowerSourceChanged(void * context)
     [filter setDefaults];
     [filter setValue:ciImage forKey:@"inputImage"];
     CIImage *output = [filter valueForKey:@"outputImage"];
-    [output drawAtPoint:NSZeroPoint fromRect:NSRectFromCGRect([output extent]) operation:NSCompositeSourceOver fraction:1.0];
+    [output drawInRect:NSMakeRect(0, 0, [_image size].width, [_image size].height) fromRect:NSRectFromCGRect([output extent]) operation:NSCompositeSourceOver fraction:1.0];
     
     [image unlockFocus];
     

@@ -240,6 +240,7 @@ static void PowerSourceChanged(void * context)
 - (void)setStatusBarImage:(NSImage *)image title:(NSString *)title
 {
     // Image
+    [image setTemplate:YES];
     [self.statusItem setImage:image];
     [self.statusItem setAlternateImage:[self imageInvertColor:image]];
     

@@ -1,0 +1,61 @@
+/* Percentage left menuitem */
+"%ld %% left" = "%ld %% verbleibend";
+
+/* Advanced percentage left menuitem */
+"%ld %% left ( %ld/%ld mAh )" = "%1$ld %% verbleibend (%2$ld/%3$ld mAh)";
+
+/* Time remaining left notification */
+"%ld:%02ld left (%ld%%)" = "%1$ld:%2$ld verbleibend (%3$ld%%)";
+
+/* Update menuitem
+ Update notification */
+"A newer version is available" = "Eine neuere Version ist verfügbar";
+
+/* Advanced mode setting */
+"Advanced mode" = "Erweiterter Modus";
+
+/* Calculating sidetext */
+"Calculating…" = "Berechne…";
+
+/* Charged notification */
+"Charged" = "Geladen";
+
+/* Update menuitem */
+"Checking for updates…" = "Prüfe auf Aktualisierungen…";
+
+/* Update menuitem */
+"Could not check for updates" = "Konnte nicht auf Aktualisierungen prüfen";
+
+/* Advanced battery info menuitem */
+"Cycle count: %ld" = "Ladezyklen: %ld";
+
+/* Open Energy Saver Preferences menuitem */
+"Energy Saver Preferences…" = "Systemeinstellung „Energie sparen“ öffnen …";
+
+/* Remaining menuitem */
+"Loading…" = "Wird geladen…";
+
+/* Notification menuitem */
+"Notifications" = "Benachrichtigungen";
+
+/* Powersource menuitem */
+"Power source: %@" = "Stromversorgung: %@";
+
+/* Powersource menuitem */
+"Power source: Unknown" = "Stromversorgung: Unbekannt";
+
+/* Advanced battery info menuitem */
+"Power usage: %.2f Watt" = "Stromverbrauch: %.2f Watt";
+
+/* Quit menuitem */
+"Quit" = "Beenden";
+
+/* Start at login setting */
+"Start at login" = "Bei der Anmeldung starten";
+
+/* Advanced battery info menuitem */
+"Temperature: %.1f°C" = "Temperatur: %.1f°C";
+
+/* Update menuitem */
+"Up to date" = "Aktuell";
+

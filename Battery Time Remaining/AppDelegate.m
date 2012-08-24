@@ -302,7 +302,7 @@ static void PowerSourceChanged(void * context)
    NSImage  *batteryLevelMiddle = nil;
    NSImage  *batteryLevelRight  = nil;
 
-   if (percent >= 15) {
+   if (percent > 15) {
       // draw black capacity bar
       batteryLevelLeft   = [self getBatteryIconNamed:@"BatteryLevelCapB-L"];
       batteryLevelMiddle = [self getBatteryIconNamed:@"BatteryLevelCapB-M"];

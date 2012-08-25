@@ -30,6 +30,7 @@ static void PowerSourceChanged(void * context)
 
 @interface AppDelegate () {
    NSDictionary      *m_images;
+   BOOL              m_showParens;
 }
 - (void)cacheNamedImages;
 - (NSImage *)loadBatteryIconNamed:(NSString *)iconName;
@@ -42,7 +43,7 @@ static void PowerSourceChanged(void * context)
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     self.advancedSupported = ([self getAdvancedBatteryInfo] != nil);
-   [self cacheNamedImages];
+    [self cacheNamedImages];
 
     // Init notification
     [[NSUserNotificationCenter defaultUserNotificationCenter] setDelegate:self];
@@ -97,14 +98,29 @@ static void PowerSourceChanged(void * context)
     [notificationMenu setTag:kBTRMenuNotification];
     [notificationMenu setSubmenu:notificationSubmenu];
     [notificationMenu setHidden:self.advancedSupported && ![[NSUserDefaults standardUserDefaults] boolForKey:@"advanced"]];
-    
+
+    // Build the settings submenu
+    NSMenu *settingsSubmenu = [[NSMenu alloc] initWithTitle:@"Settings Menu"];
     // Advanced mode menu item
-    NSMenuItem *advancedMenu = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Advanced mode", @"Advanced mode setting") action:@selector(toggleAdvanced:) keyEquivalent:@""];
-    [advancedMenu setTag:kBTRMenuAdvanced];
-    advancedMenu.target = self;
-    advancedMenu.state = ([[NSUserDefaults standardUserDefaults] boolForKey:@"advanced"]) ? NSOnState : NSOffState;
-    [advancedMenu setHidden:!self.advancedSupported];
-    
+    NSMenuItem *advancedSubmenuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Advanced mode", @"Advanced mode setting") action:@selector(toggleAdvanced:) keyEquivalent:@""];
+    [advancedSubmenuItem setTag:kBTRMenuAdvanced];
+    advancedSubmenuItem.target = self;
+    advancedSubmenuItem.state = ([[NSUserDefaults standardUserDefaults] boolForKey:@"advanced"]) ? NSOnState : NSOffState;
+    [advancedSubmenuItem setHidden:!self.advancedSupported];
+    [settingsSubmenu addItem:advancedSubmenuItem];
+    // time display control menu item
+    NSMenuItem *timeFormatSubmenuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Time display with braces", @"Time display with braces setting") action:@selector(toggleParentheses:) keyEquivalent:@""];
+    [timeFormatSubmenuItem setTag:kBTRMenuParentheses];
+    timeFormatSubmenuItem.target = self;
+    m_showParens = [[NSUserDefaults standardUserDefaults] boolForKey:@"parentheses"];
+    timeFormatSubmenuItem.state = (m_showParens) ? NSOnState : NSOffState;
+    [settingsSubmenu addItem:timeFormatSubmenuItem];
+
+   // Settings menu item
+   NSMenuItem *settingsMenu = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Settings", @"Settings menuitem") action:nil keyEquivalent:@""];
+   [settingsMenu setTag:kBTRMenuSettings];
+   [settingsMenu setSubmenu:settingsSubmenu];
+
     // Updater menu
     NSMenuItem *updaterMenu = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Checking for updates…", @"Update menuitem") action:nil keyEquivalent:@""];
     [updaterMenu setTag:kBTRMenuUpdater];
@@ -121,7 +137,7 @@ static void PowerSourceChanged(void * context)
     
     [statusBarMenu addItem:startAtLoginMenu];
     [statusBarMenu addItem:notificationMenu];
-    [statusBarMenu addItem:advancedMenu];
+    [statusBarMenu addItem:settingsMenu];
     [statusBarMenu addItem:[NSMenuItem separatorItem]]; // Separator
     
     [statusBarMenu addItemWithTitle:NSLocalizedString(@"Energy Saver Preferences…", @"Open Energy Saver Preferences menuitem") action:@selector(openEnergySaverPreference:) keyEquivalent:@""];
@@ -190,7 +206,10 @@ static void PowerSourceChanged(void * context)
                     NSInteger minute = timeTilCharged % 60;
                     
                     // Return the time remaining string
-                    [self setStatusBarImage:[self getBatteryIconNamed:@"BatteryCharging"] title:[NSString stringWithFormat:@" (%ld:%02ld)", hour, minute]];
+                    [self setStatusBarImage:[self getBatteryIconNamed:@"BatteryCharging"] title:[NSString stringWithFormat:@" %@%ld:%02ld%@",
+                                                                                                 (m_showParens)?@"(":@"",
+                                                                                                 hour, minute,
+                                                                                                 (m_showParens)?@")":@""]];
                 }
                 else
                 {
@@ -200,7 +219,7 @@ static void PowerSourceChanged(void * context)
             else
             {
                 // Not charging and on a endless powersource
-                [self setStatusBarImage:[self getBatteryIconNamed:@"BatteryCharged"] title:@"Not Charging"];
+                [self setStatusBarImage:[self getBatteryIconNamed:@"BatteryCharged"] title:@""];
                 
                 NSNumber *currentBatteryCapacity = CFDictionaryGetValue(description, CFSTR(kIOPSCurrentCapacityKey));
                 NSNumber *maxBatteryCapacity = CFDictionaryGetValue(description, CFSTR(kIOPSMaxCapacityKey));
@@ -230,8 +249,11 @@ static void PowerSourceChanged(void * context)
             NSInteger minute = (int)timeRemaining % 3600 / 60;
             
             // Return the time remaining string
-            [self setStatusBarImage:[self getBatteryIconPercent:self.currentPercent] title:[NSString stringWithFormat:@" (%ld:%02ld)", hour, minute]];
-            
+           [self setStatusBarImage:[self getBatteryIconPercent:self.currentPercent] title:[NSString stringWithFormat:@" %@%ld:%02ld%@",
+                                                                                           (m_showParens)?@"(":@"",
+                                                                                           hour, minute,
+                                                                                           (m_showParens)?@")":@""]];
+
             for (NSString *key in self.notifications)
             {
                 if ([[self.notifications valueForKey:key] boolValue] && [key intValue] == self.currentPercent)
@@ -315,18 +337,19 @@ static void PowerSourceChanged(void * context)
       batteryLevelRight    = [self getBatteryIconNamed:@"BatteryLevelCapR-R"];
    }
 
-   const CGFloat  capBarLeftOffset   = 3.0f * [batteryLevelLeft size].width;
+   const CGFloat  drawingUnit        = [batteryLevelLeft size].width;
+   const CGFloat  capBarLeftOffset   = 3.0f * drawingUnit;
    CGFloat        capBarHeight       = [batteryLevelLeft size].height;
-   CGFloat        capBarTopOffset    = (([batteryOutline size].height - EXTRA_TOP_OFFSET) - capBarHeight) / 2.0;
-   CGFloat        capBarLength       = floor(percent / 7.6f);    // max width is 13px
-   capBarLength =  (capBarLength < (2 * [batteryLevelLeft size].width)) ? (2 * [batteryLevelLeft size].width) : capBarLength;
+   CGFloat        capBarTopOffset    = (([batteryOutline size].height - (EXTRA_TOP_OFFSET * drawingUnit)) - capBarHeight) / 2.0;
+   CGFloat        capBarLength       = floor(percent / 7.6f) * drawingUnit;    // max width is 13 units
+   if (capBarLength < (2 * drawingUnit)) { capBarLength = 2 * drawingUnit; }
 
    [batteryOutline lockFocus];
    [[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationHigh];
    NSDrawThreePartImage(NSMakeRect(capBarLeftOffset, capBarTopOffset, capBarLength, capBarHeight),
                         batteryLevelLeft, batteryLevelMiddle, batteryLevelRight,
                         NO,
-                        NSCompositeDestinationOver, //NSCompositeSourceOver,
+                        NSCompositeCopy,
                         0.94f,
                         NO);
    [batteryOutline unlockFocus];
@@ -443,18 +466,19 @@ static void PowerSourceChanged(void * context)
 
 - (void)toggleAdvanced:(id)sender
 {
+    NSMenuItem     *item = sender;
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 
     if ([defaults boolForKey:@"advanced"])
     {
-        [self.statusItem.menu itemWithTag:kBTRMenuAdvanced].state = NSOffState;
+        item.state = NSOffState;
         [[self.statusItem.menu itemWithTag:kBTRMenuPowerSourceAdvanced] setHidden:YES];
         [[self.statusItem.menu itemWithTag:kBTRMenuNotification] setHidden:YES];
         [defaults setBool:NO forKey:@"advanced"];
     }
     else
     {
-        [self.statusItem.menu itemWithTag:kBTRMenuAdvanced].state = NSOnState;
+        item.state = NSOnState;
         [[self.statusItem.menu itemWithTag:kBTRMenuPowerSourceAdvanced] setHidden:NO];
         [[self.statusItem.menu itemWithTag:kBTRMenuNotification] setHidden:NO];
         [defaults setBool:YES forKey:@"advanced"];
@@ -462,6 +486,28 @@ static void PowerSourceChanged(void * context)
     [defaults synchronize];
     
     [self updateStatusItem];
+}
+
+- (void)toggleParentheses:(id)sender
+{
+   NSMenuItem     *item = sender;
+   NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+
+   if ([defaults boolForKey:@"parentheses"])
+   {
+      item.state = NSOffState;
+      m_showParens = NO;
+      [defaults setBool:NO forKey:@"parentheses"];
+   }
+   else
+   {
+      item.state = NSOnState;
+      m_showParens = YES;
+      [defaults setBool:YES forKey:@"parentheses"];
+   }
+   [defaults synchronize];
+
+   [self updateStatusItem];
 }
 
 - (void)notify:(NSString *)message
@@ -532,7 +578,7 @@ static void PowerSourceChanged(void * context)
 - (void)menuWillOpen:(NSMenu *)menu
 {
     // Show power source data in menu
-    if (self.advancedSupported && [self.statusItem.menu itemWithTag:kBTRMenuAdvanced].state == NSOnState)
+    if (self.advancedSupported && [[self.statusItem.menu itemWithTag:kBTRMenuSettings].submenu itemWithTag:kBTRMenuAdvanced].state == NSOnState)
     {
         NSDictionary *advancedBatteryInfo = [self getAdvancedBatteryInfo];
         NSDictionary *moreAdvancedBatteryInfo = [self getMoreAdvancedBatteryInfo];

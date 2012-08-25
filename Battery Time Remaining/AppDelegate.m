@@ -277,13 +277,13 @@ static void PowerSourceChanged(void * context)
     // Image
     [self.statusItem setImage:image];
     [self.statusItem setAlternateImage:[self imageInvertColor:image]];
-    
+
     // Title
-   NSDictionary *attributedStyle = [NSDictionary dictionaryWithObjectsAndKeys:
-                                    // Font
-                                    [NSFont menuFontOfSize:12.0f],
-                                    NSFontAttributeName,
-                                    nil];
+    NSDictionary *attributedStyle = [NSDictionary dictionaryWithObjectsAndKeys:
+                                     // Font
+                                     [NSFont menuFontOfSize:12.0f],
+                                     NSFontAttributeName,
+                                     nil];
 
     NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:title attributes:attributedStyle];
     self.statusItem.attributedTitle = attributedTitle;
@@ -341,7 +341,7 @@ static void PowerSourceChanged(void * context)
    const CGFloat  capBarLeftOffset   = 3.0f * drawingUnit;
    CGFloat        capBarHeight       = [batteryLevelLeft size].height;
    CGFloat        capBarTopOffset    = (([batteryOutline size].height - (EXTRA_TOP_OFFSET * drawingUnit)) - capBarHeight) / 2.0;
-   CGFloat        capBarLength       = floor(percent / 7.6f) * drawingUnit;    // max width is 13 units
+   CGFloat        capBarLength       = ceil(percent / 8.0f) * drawingUnit;    // max width is 13 units
    if (capBarLength < (2 * drawingUnit)) { capBarLength = 2 * drawingUnit; }
 
    [batteryOutline lockFocus];

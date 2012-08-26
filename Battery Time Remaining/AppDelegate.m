@@ -345,7 +345,7 @@ static void PowerSourceChanged(void * context)
     CGFloat         capBarHeight        = [batteryLevelLeft size].height;
     CGFloat         capBarTopOffset     = (([batteryOutline size].height - (EXTRA_TOP_OFFSET * drawingUnit)) - capBarHeight) / 2.0;
     CGFloat         capBarLength        = ceil(percent / 8.0f) * drawingUnit; // max width is 13 units
-    if (capBarLength < (2 * drawingUnit)) { capBarLength = 2 * drawingUnit; }
+    if (capBarLength < (2 * drawingUnit + 0.1f)) { capBarLength = 2 * drawingUnit + 0.1f; }
     
     [batteryOutline lockFocus];
     [[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationHigh];

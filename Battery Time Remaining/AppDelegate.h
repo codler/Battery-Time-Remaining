@@ -16,12 +16,12 @@
 #define kBTRMenuPowerSourceAdvanced 3
 #define kBTRMenuStartAtLogin        4
 #define kBTRMenuNotification        5
-#define kBTRMenuAdvanced            6
-#define kBTRMenuEnergySaverSetting  7
-#define kBTRMenuUpdater             8
-#define kBTRMenuQuitKey             9
-#define kBTRMenuSettings            10
-#define kBTRMenuParentheses         11
+#define kBTRMenuSetting             6
+#define kBTRMenuAdvanced            7
+#define kBTRMenuParenthesis         8
+#define kBTRMenuEnergySaverSetting  9
+#define kBTRMenuUpdater             10
+#define kBTRMenuQuitKey             11
 
 #endif
 

@@ -18,7 +18,7 @@
 // In Apple's battery gauge, the battery icon is rendered further down from the
 // top than NSStatusItem does it. Hence we add an extra top offset to get the
 // exact same look.
-#define EXTRA_TOP_OFFSET   2.0f
+#define EXTRA_TOP_OFFSET    2.0f
 
 // IOPS notification callback on power source change
 static void PowerSourceChanged(void * context)
@@ -28,12 +28,15 @@ static void PowerSourceChanged(void * context)
     [self updateStatusItem];
 }
 
-@interface AppDelegate () {
-   NSDictionary      *m_images;
-   BOOL              m_showParens;
+@interface AppDelegate ()
+{
+    NSDictionary *batteryIcons;
+    BOOL showParenthesis;
 }
-- (void)cacheNamedImages;
+
+- (void)cacheBatteryIcon;
 - (NSImage *)loadBatteryIconNamed:(NSString *)iconName;
+
 @end
 
 @implementation AppDelegate
@@ -43,7 +46,7 @@ static void PowerSourceChanged(void * context)
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     self.advancedSupported = ([self getAdvancedBatteryInfo] != nil);
-    [self cacheNamedImages];
+    [self cacheBatteryIcon];
 
     // Init notification
     [[NSUserNotificationCenter defaultUserNotificationCenter] setDelegate:self];
@@ -99,27 +102,29 @@ static void PowerSourceChanged(void * context)
     [notificationMenu setSubmenu:notificationSubmenu];
     [notificationMenu setHidden:self.advancedSupported && ![[NSUserDefaults standardUserDefaults] boolForKey:@"advanced"]];
 
-    // Build the settings submenu
-    NSMenu *settingsSubmenu = [[NSMenu alloc] initWithTitle:@"Settings Menu"];
     // Advanced mode menu item
     NSMenuItem *advancedSubmenuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Advanced mode", @"Advanced mode setting") action:@selector(toggleAdvanced:) keyEquivalent:@""];
     [advancedSubmenuItem setTag:kBTRMenuAdvanced];
     advancedSubmenuItem.target = self;
     advancedSubmenuItem.state = ([[NSUserDefaults standardUserDefaults] boolForKey:@"advanced"]) ? NSOnState : NSOffState;
     [advancedSubmenuItem setHidden:!self.advancedSupported];
-    [settingsSubmenu addItem:advancedSubmenuItem];
-    // time display control menu item
-    NSMenuItem *timeFormatSubmenuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Time display with braces", @"Time display with braces setting") action:@selector(toggleParentheses:) keyEquivalent:@""];
-    [timeFormatSubmenuItem setTag:kBTRMenuParentheses];
-    timeFormatSubmenuItem.target = self;
-    m_showParens = [[NSUserDefaults standardUserDefaults] boolForKey:@"parentheses"];
-    timeFormatSubmenuItem.state = (m_showParens) ? NSOnState : NSOffState;
-    [settingsSubmenu addItem:timeFormatSubmenuItem];
 
-   // Settings menu item
-   NSMenuItem *settingsMenu = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Settings", @"Settings menuitem") action:nil keyEquivalent:@""];
-   [settingsMenu setTag:kBTRMenuSettings];
-   [settingsMenu setSubmenu:settingsSubmenu];
+    // Time display control menu item
+    NSMenuItem *timeFormatSubmenuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Time display with brackets", @"Time display with brackets setting") action:@selector(toggleParenthesis:) keyEquivalent:@""];
+    [timeFormatSubmenuItem setTag:kBTRMenuParenthesis];
+    timeFormatSubmenuItem.target = self;
+    showParenthesis = [[NSUserDefaults standardUserDefaults] boolForKey:@"parentheses"];
+    timeFormatSubmenuItem.state = (showParenthesis) ? NSOnState : NSOffState;
+
+    // Build the setting submenu
+    NSMenu *settingSubmenu = [[NSMenu alloc] initWithTitle:@"Setting Menu"];
+    [settingSubmenu addItem:advancedSubmenuItem];
+    [settingSubmenu addItem:timeFormatSubmenuItem];
+
+    // Settings menu item
+    NSMenuItem *settingMenu = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Settings", @"Settings menuitem") action:nil keyEquivalent:@""];
+    [settingMenu setTag:kBTRMenuSetting];
+    [settingMenu setSubmenu:settingSubmenu];
 
     // Updater menu
     NSMenuItem *updaterMenu = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Checking for updates…", @"Update menuitem") action:nil keyEquivalent:@""];
@@ -137,7 +142,7 @@ static void PowerSourceChanged(void * context)
     
     [statusBarMenu addItem:startAtLoginMenu];
     [statusBarMenu addItem:notificationMenu];
-    [statusBarMenu addItem:settingsMenu];
+    [statusBarMenu addItem:settingMenu];
     [statusBarMenu addItem:[NSMenuItem separatorItem]]; // Separator
     
     [statusBarMenu addItemWithTitle:NSLocalizedString(@"Energy Saver Preferences…", @"Open Energy Saver Preferences menuitem") action:@selector(openEnergySaverPreference:) keyEquivalent:@""];
@@ -205,11 +210,10 @@ static void PowerSourceChanged(void * context)
                     NSInteger hour = timeTilCharged / 60;
                     NSInteger minute = timeTilCharged % 60;
                     
+                    NSString *title = (showParenthesis) ? @" (%ld:%02ld)" : @" %ld:%02ld";
+                    
                     // Return the time remaining string
-                    [self setStatusBarImage:[self getBatteryIconNamed:@"BatteryCharging"] title:[NSString stringWithFormat:@" %@%ld:%02ld%@",
-                                                                                                 (m_showParens)?@"(":@"",
-                                                                                                 hour, minute,
-                                                                                                 (m_showParens)?@")":@""]];
+                    [self setStatusBarImage:[self getBatteryIconNamed:@"BatteryCharging"] title:[NSString stringWithFormat:title, hour, minute]];
                 }
                 else
                 {
@@ -248,11 +252,10 @@ static void PowerSourceChanged(void * context)
             NSInteger hour = (int)timeRemaining / 3600;
             NSInteger minute = (int)timeRemaining % 3600 / 60;
             
+            NSString *title = (showParenthesis) ? @" (%ld:%02ld)" : @" %ld:%02ld";
+            
             // Return the time remaining string
-           [self setStatusBarImage:[self getBatteryIconPercent:self.currentPercent] title:[NSString stringWithFormat:@" %@%ld:%02ld%@",
-                                                                                           (m_showParens)?@"(":@"",
-                                                                                           hour, minute,
-                                                                                           (m_showParens)?@")":@""]];
+           [self setStatusBarImage:[self getBatteryIconPercent:self.currentPercent] title:[NSString stringWithFormat:title, hour, minute]];
 
             for (NSString *key in self.notifications)
             {
@@ -316,49 +319,49 @@ static void PowerSourceChanged(void * context)
 
 - (NSImage *)getBatteryIconPercent:(NSInteger)percent
 {
-   //
-   // Mimic Apple's original battery icon using hires artwork
-   //
-   NSImage  *batteryOutline     = [self getBatteryIconNamed:@"BatteryEmpty"];
-   NSImage  *batteryLevelLeft   = nil;
-   NSImage  *batteryLevelMiddle = nil;
-   NSImage  *batteryLevelRight  = nil;
-
-   if (percent > 15) {
-      // draw black capacity bar
-      batteryLevelLeft   = [self getBatteryIconNamed:@"BatteryLevelCapB-L"];
-      batteryLevelMiddle = [self getBatteryIconNamed:@"BatteryLevelCapB-M"];
-      batteryLevelRight  = [self getBatteryIconNamed:@"BatteryLevelCapB-R"];
-   }
-   else {
-      // draw red capacity bar
-      batteryLevelLeft     = [self getBatteryIconNamed:@"BatteryLevelCapR-L"];
-      batteryLevelMiddle   = [self getBatteryIconNamed:@"BatteryLevelCapR-M"];
-      batteryLevelRight    = [self getBatteryIconNamed:@"BatteryLevelCapR-R"];
-   }
-
-   const CGFloat  drawingUnit        = [batteryLevelLeft size].width;
-   const CGFloat  capBarLeftOffset   = 3.0f * drawingUnit;
-   CGFloat        capBarHeight       = [batteryLevelLeft size].height;
-   CGFloat        capBarTopOffset    = (([batteryOutline size].height - (EXTRA_TOP_OFFSET * drawingUnit)) - capBarHeight) / 2.0;
-   CGFloat        capBarLength       = ceil(percent / 8.0f) * drawingUnit;    // max width is 13 units
-   if (capBarLength < (2 * drawingUnit)) { capBarLength = 2 * drawingUnit; }
-
-   [batteryOutline lockFocus];
-   [[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationHigh];
-   NSDrawThreePartImage(NSMakeRect(capBarLeftOffset, capBarTopOffset, capBarLength, capBarHeight),
-                        batteryLevelLeft, batteryLevelMiddle, batteryLevelRight,
-                        NO,
-                        NSCompositeCopy,
-                        0.94f,
-                        NO);
-   [batteryOutline unlockFocus];
-
-   return batteryOutline;
+    // Mimic Apple's original battery icon using high resolution artwork
+    NSImage *batteryOutline     = [self getBatteryIconNamed:@"BatteryEmpty"];
+    NSImage *batteryLevelLeft   = nil;
+    NSImage *batteryLevelMiddle = nil;
+    NSImage *batteryLevelRight  = nil;
+    
+    if (percent > 15)
+    {
+        // draw black capacity bar
+        batteryLevelLeft    = [self getBatteryIconNamed:@"BatteryLevelCapB-L"];
+        batteryLevelMiddle  = [self getBatteryIconNamed:@"BatteryLevelCapB-M"];
+        batteryLevelRight   = [self getBatteryIconNamed:@"BatteryLevelCapB-R"];
+    }
+    else
+    {
+        // draw red capacity bar
+        batteryLevelLeft    = [self getBatteryIconNamed:@"BatteryLevelCapR-L"];
+        batteryLevelMiddle  = [self getBatteryIconNamed:@"BatteryLevelCapR-M"];
+        batteryLevelRight   = [self getBatteryIconNamed:@"BatteryLevelCapR-R"];
+    }
+    
+    const CGFloat   drawingUnit         = [batteryLevelLeft size].width;
+    const CGFloat   capBarLeftOffset    = 3.0f * drawingUnit;
+    CGFloat         capBarHeight        = [batteryLevelLeft size].height;
+    CGFloat         capBarTopOffset     = (([batteryOutline size].height - (EXTRA_TOP_OFFSET * drawingUnit)) - capBarHeight) / 2.0;
+    CGFloat         capBarLength        = ceil(percent / 8.0f) * drawingUnit; // max width is 13 units
+    if (capBarLength < (2 * drawingUnit)) { capBarLength = 2 * drawingUnit; }
+    
+    [batteryOutline lockFocus];
+    [[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationHigh];
+    NSDrawThreePartImage(NSMakeRect(capBarLeftOffset, capBarTopOffset, capBarLength, capBarHeight),
+                         batteryLevelLeft, batteryLevelMiddle, batteryLevelRight,
+                         NO,
+                         NSCompositeCopy,
+                         0.94f,
+                         NO);
+    [batteryOutline unlockFocus];
+    
+    return batteryOutline;
 }
 
 - (NSImage *)getBatteryIconNamed:(NSString *)iconName {
-   return [m_images objectForKey:iconName];
+   return [batteryIcons objectForKey:iconName];
 }
 
 - (NSImage *)loadBatteryIconNamed:(NSString *)iconName
@@ -367,60 +370,60 @@ static void PowerSourceChanged(void * context)
     return [[NSImage alloc] initWithContentsOfFile:fileName];
 }
 
-- (void)cacheNamedImages {
-   // special treatment for the BatteryCharging, BatteryCharged, and BatteryEmpty images
-   // they need to be shifted down by 1px to be in the same position as Apple's
-   NSSize   newSize;
-   NSImage  *origImg = nil;
-
-   origImg = [self loadBatteryIconNamed:@"BatteryCharging"];
-   newSize.width  = origImg.size.width;
-   newSize.height = origImg.size.height + EXTRA_TOP_OFFSET;
-   NSImage  *imgCharging = [[NSImage alloc] initWithSize:newSize];
-   [imgCharging lockFocus];
-   [[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationHigh];
-   [origImg drawInRect:NSMakeRect(0, 0, origImg.size.width, origImg.size.height)
-              fromRect:NSMakeRect(0, 0, origImg.size.width, origImg.size.height)
-             operation:NSCompositeSourceOver
-              fraction:1.0];
-   [imgCharging unlockFocus];
-
-   origImg = [self loadBatteryIconNamed:@"BatteryCharged"];
-   newSize.width  = origImg.size.width;
-   newSize.height = origImg.size.height + EXTRA_TOP_OFFSET;
-   NSImage  *imgCharged = [[NSImage alloc] initWithSize:newSize];
-   [imgCharged lockFocus];
-   [[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationHigh];
-   [origImg drawInRect:NSMakeRect(0, 0, origImg.size.width, origImg.size.height)
-              fromRect:NSMakeRect(0, 0, origImg.size.width, origImg.size.height)
-             operation:NSCompositeSourceOver
-              fraction:1.0];
-   [imgCharged unlockFocus];
-
-   origImg = [self loadBatteryIconNamed:@"BatteryEmpty"];
-   newSize.width  = origImg.size.width;
-   newSize.height = origImg.size.height + EXTRA_TOP_OFFSET;
-   NSImage  *imgEmpty = [[NSImage alloc] initWithSize:newSize];
-   [imgEmpty lockFocus];
-   [[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationHigh];
-   [origImg drawInRect:NSMakeRect(0, 0, origImg.size.width, origImg.size.height)
-              fromRect:NSMakeRect(0, 0, origImg.size.width, origImg.size.height)
-             operation:NSCompositeSourceOver
-              fraction:1.0];
-   [imgEmpty unlockFocus];
-
-   // finally construct the dictionary from which we will retrieve the images at runtime
-   m_images = [NSDictionary dictionaryWithObjectsAndKeys:
-               imgCharging,                                       @"BatteryCharging",
-               imgCharged,                                        @"BatteryCharged",
-               imgEmpty,                                          @"BatteryEmpty",
-               [self loadBatteryIconNamed:@"BatteryLevelCapB-L"], @"BatteryLevelCapB-L",
-               [self loadBatteryIconNamed:@"BatteryLevelCapB-M"], @"BatteryLevelCapB-M",
-               [self loadBatteryIconNamed:@"BatteryLevelCapB-R"], @"BatteryLevelCapB-R",
-               [self loadBatteryIconNamed:@"BatteryLevelCapR-L"], @"BatteryLevelCapR-L",
-               [self loadBatteryIconNamed:@"BatteryLevelCapR-M"], @"BatteryLevelCapR-M",
-               [self loadBatteryIconNamed:@"BatteryLevelCapR-R"], @"BatteryLevelCapR-R",
-               nil];
+- (void)cacheBatteryIcon {
+    // special treatment for the BatteryCharging, BatteryCharged, and BatteryEmpty images
+    // they need to be shifted down by 1px to be in the same position as Apple's
+    NSSize newSize;
+    NSImage *origImg = nil;
+    
+    origImg = [self loadBatteryIconNamed:@"BatteryCharging"];
+    newSize.width  = origImg.size.width;
+    newSize.height = origImg.size.height + EXTRA_TOP_OFFSET;
+    NSImage  *imgCharging = [[NSImage alloc] initWithSize:newSize];
+    [imgCharging lockFocus];
+    [[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationHigh];
+    [origImg drawInRect:NSMakeRect(0, 0, origImg.size.width, origImg.size.height)
+               fromRect:NSMakeRect(0, 0, origImg.size.width, origImg.size.height)
+              operation:NSCompositeSourceOver
+               fraction:1.0];
+    [imgCharging unlockFocus];
+    
+    origImg = [self loadBatteryIconNamed:@"BatteryCharged"];
+    newSize.width  = origImg.size.width;
+    newSize.height = origImg.size.height + EXTRA_TOP_OFFSET;
+    NSImage  *imgCharged = [[NSImage alloc] initWithSize:newSize];
+    [imgCharged lockFocus];
+    [[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationHigh];
+    [origImg drawInRect:NSMakeRect(0, 0, origImg.size.width, origImg.size.height)
+               fromRect:NSMakeRect(0, 0, origImg.size.width, origImg.size.height)
+              operation:NSCompositeSourceOver
+               fraction:1.0];
+    [imgCharged unlockFocus];
+    
+    origImg = [self loadBatteryIconNamed:@"BatteryEmpty"];
+    newSize.width  = origImg.size.width;
+    newSize.height = origImg.size.height + EXTRA_TOP_OFFSET;
+    NSImage  *imgEmpty = [[NSImage alloc] initWithSize:newSize];
+    [imgEmpty lockFocus];
+    [[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationHigh];
+    [origImg drawInRect:NSMakeRect(0, 0, origImg.size.width, origImg.size.height)
+               fromRect:NSMakeRect(0, 0, origImg.size.width, origImg.size.height)
+              operation:NSCompositeSourceOver
+               fraction:1.0];
+    [imgEmpty unlockFocus];
+    
+    // finally construct the dictionary from which we will retrieve the images at runtime
+    batteryIcons = [NSDictionary dictionaryWithObjectsAndKeys:
+                    imgCharging,                                       @"BatteryCharging",
+                    imgCharged,                                        @"BatteryCharged",
+                    imgEmpty,                                          @"BatteryEmpty",
+                    [self loadBatteryIconNamed:@"BatteryLevelCapB-L"], @"BatteryLevelCapB-L",
+                    [self loadBatteryIconNamed:@"BatteryLevelCapB-M"], @"BatteryLevelCapB-M",
+                    [self loadBatteryIconNamed:@"BatteryLevelCapB-R"], @"BatteryLevelCapB-R",
+                    [self loadBatteryIconNamed:@"BatteryLevelCapR-L"], @"BatteryLevelCapR-L",
+                    [self loadBatteryIconNamed:@"BatteryLevelCapR-M"], @"BatteryLevelCapR-M",
+                    [self loadBatteryIconNamed:@"BatteryLevelCapR-R"], @"BatteryLevelCapR-R",
+                    nil];
 }
 
 - (NSImage *)imageInvertColor:(NSImage *)_image
@@ -488,7 +491,7 @@ static void PowerSourceChanged(void * context)
     [self updateStatusItem];
 }
 
-- (void)toggleParentheses:(id)sender
+- (void)toggleParenthesis:(id)sender
 {
    NSMenuItem     *item = sender;
    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -496,13 +499,13 @@ static void PowerSourceChanged(void * context)
    if ([defaults boolForKey:@"parentheses"])
    {
       item.state = NSOffState;
-      m_showParens = NO;
+      showParenthesis = NO;
       [defaults setBool:NO forKey:@"parentheses"];
    }
    else
    {
       item.state = NSOnState;
-      m_showParens = YES;
+      showParenthesis = YES;
       [defaults setBool:YES forKey:@"parentheses"];
    }
    [defaults synchronize];
@@ -578,7 +581,7 @@ static void PowerSourceChanged(void * context)
 - (void)menuWillOpen:(NSMenu *)menu
 {
     // Show power source data in menu
-    if (self.advancedSupported && [[self.statusItem.menu itemWithTag:kBTRMenuSettings].submenu itemWithTag:kBTRMenuAdvanced].state == NSOnState)
+    if (self.advancedSupported && [[self.statusItem.menu itemWithTag:kBTRMenuSetting].submenu itemWithTag:kBTRMenuAdvanced].state == NSOnState)
     {
         NSDictionary *advancedBatteryInfo = [self getAdvancedBatteryInfo];
         NSDictionary *moreAdvancedBatteryInfo = [self getMoreAdvancedBatteryInfo];

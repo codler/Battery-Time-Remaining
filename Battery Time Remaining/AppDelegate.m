@@ -372,45 +372,10 @@ static void PowerSourceChanged(void * context)
 
 - (void)cacheBatteryIcon {
     // special treatment for the BatteryCharging, BatteryCharged, and BatteryEmpty images
-    // they need to be shifted down by 1px to be in the same position as Apple's
-    NSSize newSize;
-    NSImage *origImg = nil;
-    
-    origImg = [self loadBatteryIconNamed:@"BatteryCharging"];
-    newSize.width  = origImg.size.width;
-    newSize.height = origImg.size.height + EXTRA_TOP_OFFSET;
-    NSImage  *imgCharging = [[NSImage alloc] initWithSize:newSize];
-    [imgCharging lockFocus];
-    [[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationHigh];
-    [origImg drawInRect:NSMakeRect(0, 0, origImg.size.width, origImg.size.height)
-               fromRect:NSMakeRect(0, 0, origImg.size.width, origImg.size.height)
-              operation:NSCompositeSourceOver
-               fraction:1.0];
-    [imgCharging unlockFocus];
-    
-    origImg = [self loadBatteryIconNamed:@"BatteryCharged"];
-    newSize.width  = origImg.size.width;
-    newSize.height = origImg.size.height + EXTRA_TOP_OFFSET;
-    NSImage  *imgCharged = [[NSImage alloc] initWithSize:newSize];
-    [imgCharged lockFocus];
-    [[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationHigh];
-    [origImg drawInRect:NSMakeRect(0, 0, origImg.size.width, origImg.size.height)
-               fromRect:NSMakeRect(0, 0, origImg.size.width, origImg.size.height)
-              operation:NSCompositeSourceOver
-               fraction:1.0];
-    [imgCharged unlockFocus];
-    
-    origImg = [self loadBatteryIconNamed:@"BatteryEmpty"];
-    newSize.width  = origImg.size.width;
-    newSize.height = origImg.size.height + EXTRA_TOP_OFFSET;
-    NSImage  *imgEmpty = [[NSImage alloc] initWithSize:newSize];
-    [imgEmpty lockFocus];
-    [[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationHigh];
-    [origImg drawInRect:NSMakeRect(0, 0, origImg.size.width, origImg.size.height)
-               fromRect:NSMakeRect(0, 0, origImg.size.width, origImg.size.height)
-              operation:NSCompositeSourceOver
-               fraction:1.0];
-    [imgEmpty unlockFocus];
+    // they need to be shifted down by 2points to be in the same position as Apple's
+    NSImage *imgCharging = [self imageOffset:[self loadBatteryIconNamed:@"BatteryCharging"] top:EXTRA_TOP_OFFSET];
+    NSImage *imgCharged = [self imageOffset:[self loadBatteryIconNamed:@"BatteryCharged"] top:EXTRA_TOP_OFFSET];
+    NSImage *imgEmpty = [self imageOffset:[self loadBatteryIconNamed:@"BatteryEmpty"] top:EXTRA_TOP_OFFSET];
     
     // finally construct the dictionary from which we will retrieve the images at runtime
     batteryIcons = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -424,6 +389,22 @@ static void PowerSourceChanged(void * context)
                     [self loadBatteryIconNamed:@"BatteryLevelCapR-M"], @"BatteryLevelCapR-M",
                     [self loadBatteryIconNamed:@"BatteryLevelCapR-R"], @"BatteryLevelCapR-R",
                     nil];
+}
+
+- (NSImage *)imageOffset:(NSImage *)_image top:(CGFloat)top
+{
+    NSImage *newImage = [[NSImage alloc] initWithSize:NSMakeSize(_image.size.width, _image.size.height + top)];
+    [newImage lockFocus];
+    
+    [[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationHigh];
+    [_image drawInRect:NSMakeRect(0, 0, _image.size.width, _image.size.height)
+               fromRect:NSMakeRect(0, 0, _image.size.width, _image.size.height)
+              operation:NSCompositeSourceOver
+               fraction:1.0];
+    
+    [newImage unlockFocus];
+    
+    return newImage;
 }
 
 - (NSImage *)imageInvertColor:(NSImage *)_image

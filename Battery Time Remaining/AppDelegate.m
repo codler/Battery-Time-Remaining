@@ -15,6 +15,8 @@
 #import <IOKit/pwr_mgt/IOPMLib.h>
 #import <QuartzCore/QuartzCore.h>
 
+//#define DEBUG_BATTERY_PERCENT
+
 // In Apple's battery gauge, the battery icon is rendered further down from the
 // top than NSStatusItem does it. Hence we add an extra top offset to get the
 // exact same look.
@@ -172,7 +174,7 @@ static void PowerSourceChanged(void * context)
     // reset warning state; new state will be calculated here anyway
     isCapacityWarning = NO;
 
-   // Get the estimated time remaining
+    // Get the estimated time remaining
     CFTimeInterval timeRemaining = IOPSGetTimeRemainingEstimate();
     
     // Get list of power sources
@@ -325,8 +327,12 @@ static void PowerSourceChanged(void * context)
 
 - (NSImage *)getBatteryIconPercent:(NSInteger)percent
 {
+#ifdef DEBUG_BATTERY_PERCENT
+    percent = arc4random() % 101;
+#endif
+    
     // Mimic Apple's original battery icon using high resolution artwork
-    NSImage *batteryOutline     = [self getBatteryIconNamed:@"BatteryEmpty"];
+    NSImage *batteryOutline     = [[self getBatteryIconNamed:@"BatteryEmpty"] copy];
     NSImage *batteryLevelLeft   = nil;
     NSImage *batteryLevelMiddle = nil;
     NSImage *batteryLevelRight  = nil;
@@ -569,6 +575,10 @@ static void PowerSourceChanged(void * context)
 
 - (void)menuWillOpen:(NSMenu *)menu
 {
+#ifdef DEBUG_BATTERY_PERCENT
+    [self updateStatusItem];
+#endif
+    
     // Show power source data in menu
     if (self.advancedSupported && [[self.statusItem.menu itemWithTag:kBTRMenuSetting].submenu itemWithTag:kBTRMenuAdvanced].state == NSOnState)
     {

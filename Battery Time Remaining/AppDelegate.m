@@ -114,16 +114,16 @@ static void PowerSourceChanged(void * context)
     [advancedSubmenuItem setHidden:!self.advancedSupported];
 
     // Time display control menu item
-    NSMenuItem *timeFormatSubmenuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Display time with parentheses", @"Display time with parentheses setting") action:@selector(toggleParenthesis:) keyEquivalent:@""];
-    [timeFormatSubmenuItem setTag:kBTRMenuParenthesis];
-    timeFormatSubmenuItem.target = self;
+    NSMenuItem *parenthesisSubmenuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Display time with parentheses", @"Display time with parentheses setting") action:@selector(toggleParenthesis:) keyEquivalent:@""];
+    [parenthesisSubmenuItem setTag:kBTRMenuParenthesis];
+    parenthesisSubmenuItem.target = self;
     showParenthesis = [[NSUserDefaults standardUserDefaults] boolForKey:@"parentheses"];
-    timeFormatSubmenuItem.state = (showParenthesis) ? NSOnState : NSOffState;
+    parenthesisSubmenuItem.state = (showParenthesis) ? NSOnState : NSOffState;
 
     // Build the setting submenu
     NSMenu *settingSubmenu = [[NSMenu alloc] initWithTitle:@"Setting Menu"];
     [settingSubmenu addItem:advancedSubmenuItem];
-    [settingSubmenu addItem:timeFormatSubmenuItem];
+    [settingSubmenu addItem:parenthesisSubmenuItem];
 
     // Settings menu item
     NSMenuItem *settingMenu = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Settings", @"Settings menuitem") action:nil keyEquivalent:@""];

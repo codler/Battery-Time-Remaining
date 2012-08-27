@@ -40,6 +40,14 @@ Who did make this app?
 Change log
 ----------
 
+2012-08-25 - **v1.5.1** - [diff](https://github.com/codler/Battery-Time-Remaining/compare/v1.5...v1.5.1)
+
+* Added French language ([guillaume-algis](https://github.com/guillaume-algis) [#16](https://github.com/codler/Battery-Time-Remaining/pull/16))
+* Added German language ([Velines](https://github.com/Velines) [#18](https://github.com/codler/Battery-Time-Remaining/pull/18))
+* Improved battery icon by adding white drop shadow ([guillaume-algis](https://github.com/guillaume-algis) [#16](https://github.com/codler/Battery-Time-Remaining/pull/16) [#5](https://github.com/codler/Battery-Time-Remaining/issues/5))
+* Fix a bug on battery icon in retina display ([codler](https://github.com/codler) [#13](https://github.com/codler/Battery-Time-Remaining/issues/13))
+* Fix a bug not showing batteryCharged icon  ([codler](https://github.com/codler))
+
 2012-08-19 - **v1.5** - [diff](https://github.com/codler/Battery-Time-Remaining/compare/v1.4...v1.5)
 
 * Added language support ([mac-cain13](https://github.com/mac-cain13) [#9](https://github.com/codler/Battery-Time-Remaining/pull/9))

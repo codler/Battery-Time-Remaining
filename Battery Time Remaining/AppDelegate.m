@@ -110,7 +110,7 @@ static void PowerSourceChanged(void * context)
     [advancedSubmenuItem setHidden:!self.advancedSupported];
 
     // Time display control menu item
-    NSMenuItem *timeFormatSubmenuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Time display with brackets", @"Time display with brackets setting") action:@selector(toggleParenthesis:) keyEquivalent:@""];
+    NSMenuItem *timeFormatSubmenuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Display time with parentheses", @"Display time with parentheses setting") action:@selector(toggleParenthesis:) keyEquivalent:@""];
     [timeFormatSubmenuItem setTag:kBTRMenuParenthesis];
     timeFormatSubmenuItem.target = self;
     showParenthesis = [[NSUserDefaults standardUserDefaults] boolForKey:@"parentheses"];

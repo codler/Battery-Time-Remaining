@@ -32,6 +32,7 @@ static void PowerSourceChanged(void * context)
 {
     NSDictionary *batteryIcons;
     BOOL showParenthesis;
+    BOOL isCapacityWarning;
 }
 
 - (void)cacheBatteryIcon;
@@ -47,6 +48,7 @@ static void PowerSourceChanged(void * context)
 {
     self.advancedSupported = ([self getAdvancedBatteryInfo] != nil);
     [self cacheBatteryIcon];
+    isCapacityWarning = NO;
 
     // Init notification
     [[NSUserNotificationCenter defaultUserNotificationCenter] setDelegate:self];
@@ -167,7 +169,10 @@ static void PowerSourceChanged(void * context)
 
 - (void)updateStatusItem
 {
-    // Get the estimated time remaining
+    // reset warning state; new state will be calculated here anyway
+    isCapacityWarning = NO;
+
+   // Get the estimated time remaining
     CFTimeInterval timeRemaining = IOPSGetTimeRemainingEstimate();
     
     // Get list of power sources
@@ -278,6 +283,7 @@ static void PowerSourceChanged(void * context)
 - (void)setStatusBarImage:(NSImage *)image title:(NSString *)title
 {
     // Image
+    [image setTemplate:( ! isCapacityWarning)];
     [self.statusItem setImage:image];
     [self.statusItem setAlternateImage:[self imageInvertColor:image]];
 
@@ -327,6 +333,7 @@ static void PowerSourceChanged(void * context)
     
     if (percent > 15)
     {
+        isCapacityWarning = NO;
         // draw black capacity bar
         batteryLevelLeft    = [self getBatteryIconNamed:@"BatteryLevelCapB-L"];
         batteryLevelMiddle  = [self getBatteryIconNamed:@"BatteryLevelCapB-M"];
@@ -334,6 +341,7 @@ static void PowerSourceChanged(void * context)
     }
     else
     {
+        isCapacityWarning = YES;
         // draw red capacity bar
         batteryLevelLeft    = [self getBatteryIconNamed:@"BatteryLevelCapR-L"];
         batteryLevelMiddle  = [self getBatteryIconNamed:@"BatteryLevelCapR-M"];
@@ -345,7 +353,7 @@ static void PowerSourceChanged(void * context)
     CGFloat         capBarHeight        = [batteryLevelLeft size].height;
     CGFloat         capBarTopOffset     = (([batteryOutline size].height - (EXTRA_TOP_OFFSET * drawingUnit)) - capBarHeight) / 2.0;
     CGFloat         capBarLength        = ceil(percent / 8.0f) * drawingUnit; // max width is 13 units
-    if (capBarLength < (2 * drawingUnit + 0.1f)) { capBarLength = 2 * drawingUnit + 0.1f; }
+    if (capBarLength <= (2 * drawingUnit)) { capBarLength = (2 * drawingUnit) + 0.1f; }   // must be _greater_than_ the end segments
     
     [batteryOutline lockFocus];
     [[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationHigh];

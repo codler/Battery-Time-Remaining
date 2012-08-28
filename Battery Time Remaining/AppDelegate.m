@@ -645,6 +645,7 @@ static void PowerSourceChanged(void * context)
     [[HttpGet new] url:@"https://raw.github.com/codler/Battery-Time-Remaining/master/build_version" success:^(NSString *result) {
         NSInteger latestBuildVersion = [result integerValue];
         NSInteger currentBuildVersion = [[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"] integerValue];
+        NSString *currentBuildVersionText = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
         
         // Wrong format build version
         if (!latestBuildVersion)
@@ -663,7 +664,7 @@ static void PowerSourceChanged(void * context)
         }
         else
         {
-            updaterMenu.title = NSLocalizedString(@"Up to date", @"Update menuitem");
+            updaterMenu.title = [NSString stringWithFormat:@"%@ - v%@", NSLocalizedString(@"Up to date", @"Update menuitem"), currentBuildVersionText];
         }
     } error:^(NSError *error) {
         updaterMenu.title = NSLocalizedString(@"Could not check for updates", @"Update menuitem");

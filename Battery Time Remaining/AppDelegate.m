@@ -16,6 +16,7 @@
 #import <QuartzCore/QuartzCore.h>
 
 //#define DEBUG_BATTERY_PERCENT
+#define CHECK_FOR_UPDATE
 
 // In Apple's battery gauge, the battery icon is rendered further down from the
 // top than NSStatusItem does it. Hence we add an extra top offset to get the
@@ -129,11 +130,13 @@ static void PowerSourceChanged(void * context)
     NSMenuItem *settingMenu = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Settings", @"Settings menuitem") action:nil keyEquivalent:@""];
     [settingMenu setTag:kBTRMenuSetting];
     [settingMenu setSubmenu:settingSubmenu];
-
+    
+#ifdef CHECK_FOR_UPDATE
     // Updater menu
     NSMenuItem *updaterMenu = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Checking for updates…", @"Update menuitem") action:nil keyEquivalent:@""];
     [updaterMenu setTag:kBTRMenuUpdater];
     [updaterMenu setEnabled:NO];
+#endif
     
     // Build the statusbar menu
     NSMenu *statusBarMenu = [[NSMenu alloc] initWithTitle:@"Status Menu"];
@@ -152,8 +155,10 @@ static void PowerSourceChanged(void * context)
     [statusBarMenu addItemWithTitle:NSLocalizedString(@"Energy Saver Preferences…", @"Open Energy Saver Preferences menuitem") action:@selector(openEnergySaverPreference:) keyEquivalent:@""];
     [statusBarMenu addItem:[NSMenuItem separatorItem]]; // Separator
     
+#ifdef CHECK_FOR_UPDATE
     [statusBarMenu addItem:updaterMenu];
     [statusBarMenu addItem:[NSMenuItem separatorItem]]; // Separator
+#endif
     
     [statusBarMenu addItemWithTitle:NSLocalizedString(@"Quit", @"Quit menuitem") action:@selector(terminate:) keyEquivalent:@""];
     
@@ -626,6 +631,7 @@ static void PowerSourceChanged(void * context)
         [self.statusItem.menu itemWithTag:kBTRMenuPowerSourcePercent].title = [NSString stringWithFormat: NSLocalizedString(@"%ld %% left", @"Percentage left menuitem"), self.currentPercent];
     }
     
+#ifdef CHECK_FOR_UPDATE
     // Update menu
     NSMenuItem *updaterMenu = [self.statusItem.menu itemWithTag:kBTRMenuUpdater];
     
@@ -662,6 +668,8 @@ static void PowerSourceChanged(void * context)
     } error:^(NSError *error) {
         updaterMenu.title = NSLocalizedString(@"Could not check for updates", @"Update menuitem");
     }];
+#endif
+    
 }
 
 @end

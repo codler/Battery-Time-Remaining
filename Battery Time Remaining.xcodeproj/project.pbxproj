@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		280E9EBD15E0D18C00530934 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 280E9EBC15E0D18C00530934 /* QuartzCore.framework */; };
+		28369FFB15EE902E005957A0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 288305E315DD04790064D457 /* InfoPlist.strings */; };
 		2841C7E115C91CC100F4F15F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2841C7E015C91CC100F4F15F /* Cocoa.framework */; };
 		2841C7ED15C91CC100F4F15F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2841C7EC15C91CC100F4F15F /* main.m */; };
 		2841C7F115C91CC100F4F15F /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 2841C7EF15C91CC100F4F15F /* Credits.rtf */; };
@@ -56,6 +57,7 @@
 
 /* Begin PBXFileReference section */
 		280E9EBC15E0D18C00530934 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		28369FFA15EE902E005957A0 /* sk */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = sk; path = sk.lproj/Localizable.strings; sourceTree = "<group>"; };
 		2841C7DC15C91CC100F4F15F /* Battery Time Remaining.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Battery Time Remaining.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2841C7E015C91CC100F4F15F /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		2841C7E315C91CC100F4F15F /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -222,6 +224,7 @@
 				nl,
 				sv,
 				fr,
+				sk,
 			);
 			mainGroup = 2841C7D115C91CC100F4F15F;
 			productRefGroup = 2841C7DD15C91CC100F4F15F /* Products */;
@@ -260,6 +263,7 @@
 				28833BB415D7D61100741727 /* build_version in Resources */,
 				D53375E515DC43380077CEF6 /* Localizable.strings in Resources */,
 				288305E515DD04790064D457 /* InfoPlist.strings in Resources */,
+				28369FFB15EE902E005957A0 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -312,6 +316,7 @@
 				288305DF15DD005C0064D457 /* sv */,
 				F018553D15E460A500AC6173 /* fr */,
 				C24C463B15E7DC8A00DC943D /* de */,
+				28369FFA15EE902E005957A0 /* sk */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";

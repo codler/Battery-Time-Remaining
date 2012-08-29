@@ -31,6 +31,10 @@ Fork this project, make some changes and submit a pull request. Check the issues
 
 If you find any issues or have a feature request please contribute by submitting an issue here on Github!
 
+If you would like to donate
+
+[![Paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=CSPZ2AF2ZX72Q&lc=SE&item_name=Battery%20Time%20Remaining&item_number=Battery%20Time%20Remaining&currency_code=SEK&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHosted)
+
 Who did make this app?
 ----------------------
 
@@ -39,6 +43,14 @@ Who did make this app?
 
 Change log
 ----------
+
+2012-08-29 - **v1.5.2** - [diff](https://github.com/codler/Battery-Time-Remaining/compare/v1.5.1...v1.5.2)
+
+* Added Display time with parantheses setting ([c-alpha](https://github.com/c-alpha) [#19](https://github.com/codler/Battery-Time-Remaining/pull/19))
+* Added Slovak language ([miroslavchutnak](https://github.com/miroslavchutnak) [#34](https://github.com/codler/Battery-Time-Remaining/issues/34))
+* Updated existing languages ([codler](https://github.com/codler) [c-alpha](https://github.com/c-alpha) [guillaume-algis](https://github.com/guillaume-algis) [mac-cain13](https://github.com/mac-cain13) [Velines](https://github.com/Velines) [Vinky41](https://github.com/Vinky41) [#21](https://github.com/codler/Battery-Time-Remaining/pull/21) [#25](https://github.com/codler/Battery-Time-Remaining/pull/25) [#27](https://github.com/codler/Battery-Time-Remaining/pull/27))
+* Improved battery icon ([codler](https://github.com/codler) [c-alpha](https://github.com/c-alpha) [#19](https://github.com/codler/Battery-Time-Remaining/pull/19))
+* Fix bug not showing red color in battery icon in v1.5.1
 
 2012-08-25 - **v1.5.1** - [diff](https://github.com/codler/Battery-Time-Remaining/compare/v1.5...v1.5.1)
 

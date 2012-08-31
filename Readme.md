@@ -6,7 +6,7 @@ Show the estimated battery time remaining on top of your screen in Mac OS X 10.8
 ![Normal mode](https://raw.github.com/codler/Battery-Time-Remaining/master/preview.png)
 ![Advanced mode](https://raw.github.com/codler/Battery-Time-Remaining/master/preview_advanced.png)
 
-Why does this project exists?
+Why does this project exist?
 -----------------------------
 
 Apple removed the option to show the battery time remaining in the statusbar since the Mountain Lion release. This App will do exactly that, show the battery time remaining on top of your screen.
@@ -27,7 +27,7 @@ The App shows the exact same time as you will see when you click the battery ico
 How do I contribute?
 --------------------
 
-Fork this project, make some changes and submit a pull request. Check the issues tab for inspiration on what to fix. Please make sure you're fork is the latest development version!
+Fork this project, make some changes and submit a pull request. Check the issues tab for inspiration on what to fix. Please make sure your fork is the latest development version!
 
 If you find any issues or have a feature request please contribute by submitting an issue here on Github!
 

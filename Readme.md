@@ -31,7 +31,7 @@ Fork this project, make some changes and submit a pull request. Check the issues
 
 If you find any issues or have a feature request please contribute by submitting an issue here on Github!
 
-If you would like to donate
+If you would like to donate:
 
 [![Paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=CSPZ2AF2ZX72Q&lc=SE&item_name=Battery%20Time%20Remaining&item_number=Battery%20Time%20Remaining&currency_code=SEK&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHosted)
 

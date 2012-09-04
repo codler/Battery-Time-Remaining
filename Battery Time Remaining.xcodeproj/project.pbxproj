@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		280E9EBD15E0D18C00530934 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 280E9EBC15E0D18C00530934 /* QuartzCore.framework */; };
-		28369FFB15EE902E005957A0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 288305E315DD04790064D457 /* InfoPlist.strings */; };
 		2841C7E115C91CC100F4F15F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2841C7E015C91CC100F4F15F /* Cocoa.framework */; };
 		2841C7ED15C91CC100F4F15F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2841C7EC15C91CC100F4F15F /* main.m */; };
 		2841C7F115C91CC100F4F15F /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 2841C7EF15C91CC100F4F15F /* Credits.rtf */; };
@@ -78,6 +77,7 @@
 		28833BB315D7D61100741727 /* build_version */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = build_version; sourceTree = SOURCE_ROOT; };
 		28BA61A715D1B12500EDB674 /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = icon.icns; path = ../icon.icns; sourceTree = "<group>"; };
 		28BA61A915D1B63300EDB674 /* Battery Time Remaining.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Battery Time Remaining.entitlements"; sourceTree = "<group>"; };
+		28C8E25415F684CD009AA6DB /* pt */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/Localizable.strings; sourceTree = "<group>"; };
 		28FEDA5D15DA5C9D00320B72 /* ServiceManagement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ServiceManagement.framework; path = System/Library/Frameworks/ServiceManagement.framework; sourceTree = SDKROOT; };
 		28FEDA5F15DA5EB200320B72 /* LaunchAtLoginHelper.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = LaunchAtLoginHelper.xcodeproj; path = LaunchAtLoginHelper/LaunchAtLoginHelper.xcodeproj; sourceTree = "<group>"; };
 		28FEDA6215DA5EB200320B72 /* LLManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LLManager.h; path = ../LaunchAtLoginHelper/LLManager.h; sourceTree = "<group>"; };
@@ -226,6 +226,7 @@
 				sv,
 				fr,
 				sk,
+				pt,
 			);
 			mainGroup = 2841C7D115C91CC100F4F15F;
 			productRefGroup = 2841C7DD15C91CC100F4F15F /* Products */;
@@ -264,7 +265,6 @@
 				28833BB415D7D61100741727 /* build_version in Resources */,
 				D53375E515DC43380077CEF6 /* Localizable.strings in Resources */,
 				288305E515DD04790064D457 /* InfoPlist.strings in Resources */,
-				28369FFB15EE902E005957A0 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -319,6 +319,7 @@
 				C24C463B15E7DC8A00DC943D /* de */,
 				28369FFA15EE902E005957A0 /* sk */,
 				E5F79AEE15F1002500F23122 /* pl */,
+				28C8E25415F684CD009AA6DB /* pt */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";

@@ -276,7 +276,7 @@ static void PowerSourceChanged(void * context)
                     // Send notification once
                     if (self.previousPercent != self.currentPercent)
                     {
-                        [self notify:[NSString stringWithFormat:NSLocalizedString(@"%ld:%02ld left (%ld%%)", @"Time remaining left notification"), hour, minute, self.currentPercent]];
+                        [self notify:NSLocalizedString(@"Battery Time Remaining", "Battery Time Remaining notification") message:[NSString stringWithFormat:NSLocalizedString(@"%ld:%02ld left (%ld%%)", @"Time remaining left notification"), hour, minute, self.currentPercent]];
                     }
                     break;
                 }
@@ -518,8 +518,13 @@ static void PowerSourceChanged(void * context)
 
 - (void)notify:(NSString *)message
 {
+    [self notify:@"Battery Time Remaining" message:message];
+}
+
+- (void)notify:(NSString *)title message:(NSString *)message
+{
     NSUserNotification *notification = [[NSUserNotification alloc] init];
-    [notification setTitle:@"Battery Time Remaining"];
+    [notification setTitle:title];
     [notification setInformativeText:message];
     [notification setSoundName:NSUserNotificationDefaultSoundName];
     NSUserNotificationCenter *center = [NSUserNotificationCenter defaultUserNotificationCenter];

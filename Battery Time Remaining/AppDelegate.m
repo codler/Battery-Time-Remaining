@@ -74,7 +74,7 @@ static void PowerSourceChanged(void * context)
     [psPercentMenu setTag:kBTRMenuPowerSourcePercent];
     [psPercentMenu setEnabled:NO];
     
-    NSMenuItem *psStateMenu = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Power source: Unknown", @"Powersource menuitem") action:nil keyEquivalent:@""];
+    NSMenuItem *psStateMenu = [[NSMenuItem alloc] initWithTitle:[NSString stringWithFormat:NSLocalizedString(@"Power source: %@", @"Powersource menuitem"), NSLocalizedString(@"Unknown", @"Powersource state")] action:nil keyEquivalent:@""];
     [psStateMenu setTag:kBTRMenuPowerSourceState];
     [psStateMenu setEnabled:NO];
     
@@ -205,7 +205,15 @@ static void PowerSourceChanged(void * context)
         
         self.currentPercent = (int)[currentBatteryCapacity doubleValue] / [maxBatteryCapacity doubleValue] * 100;
         
-        [self.statusItem.menu itemWithTag:kBTRMenuPowerSourceState].title = [NSString stringWithFormat:NSLocalizedString(@"Power source: %@", @"Powersource menuitem"), CFDictionaryGetValue(description, CFSTR(kIOPSPowerSourceStateKey))];
+        NSString *psState = CFDictionaryGetValue(description, CFSTR(kIOPSPowerSourceStateKey));
+        
+        psState =   ([psState isEqualToString:(NSString *)CFSTR(kIOPSBatteryPowerValue)]) ?
+                        NSLocalizedString(@"Battery Power", @"Powersource state") :
+                    ([psState isEqualToString:(NSString *)CFSTR(kIOPSACPowerValue)]) ?
+                        NSLocalizedString(@"AC Power", @"Powersource state") :
+                        NSLocalizedString(@"Off Line", @"Powersource state");
+        
+        [self.statusItem.menu itemWithTag:kBTRMenuPowerSourceState].title = [NSString stringWithFormat:NSLocalizedString(@"Power source: %@", @"Powersource menuitem"), psState];
         
         // We're connected to an unlimited power source (AC adapter probably)
         if (kIOPSTimeRemainingUnlimited == timeRemaining)

@@ -285,6 +285,9 @@ static void PowerSourceChanged(void * context)
         }
         
     }
+    
+    CFRelease(psList);
+    CFRelease(psBlob);
 }
 
 - (void)setStatusBarImage:(NSImage *)image title:(NSString *)title

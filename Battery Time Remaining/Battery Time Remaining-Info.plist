@@ -46,7 +46,7 @@
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2012 Han Lin Yap and Wrep. All rights reserved.</string>
 	<key>NSMainNibFile</key>
-	<string>MainMenu</string>
+	<string>MainMenuViewController</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 </dict>

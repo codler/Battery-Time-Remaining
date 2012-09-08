@@ -25,13 +25,12 @@
 
 #endif
 
-@interface AppDelegate : NSObject <NSApplicationDelegate, NSUserNotificationCenterDelegate, NSMenuDelegate>
+@interface AppDelegate : NSObject <NSApplicationDelegate>
 
-- (void)updateStatusItem;
-- (NSImage *)getBatteryIconNamed:(NSString *)iconName;
-- (NSImage *)getBatteryIconPercent:(NSInteger)percent;
+//- (void)updateStatusItem;
+//- (NSImage *)getBatteryIconNamed:(NSString *)iconName;
+//- (NSImage *)getBatteryIconPercent:(NSInteger)percent;
 
-@property (strong) NSStatusItem *statusItem;
 @property (nonatomic) NSInteger previousPercent;
 @property (nonatomic) NSInteger currentPercent;
 @property (strong) NSMutableDictionary *notifications;

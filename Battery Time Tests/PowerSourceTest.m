@@ -7,12 +7,14 @@
 //
 
 #import "PowerSourceTest.h"
-#import "PowerSourceMock.h"
+#import "ChargingPowerSourceMock.h"
+#import "ChargedPowerSourceMock.h"
+#import "BatteryPowerSourceMock.h"
 
 @implementation PowerSourceTest
 
 - (void)testHumanReadableTimeRemaining{
-    PowerSource *powerSource = [[PowerSourceMock alloc] init];
+    PowerSource *powerSource = [[ChargingPowerSourceMock alloc] init];
     NSString *humanReadableTimeRemaining = [powerSource stringWithHumanReadableTimeRemaining];
     STAssertNotNil([powerSource stringWithHumanReadableTimeRemaining], @"human reeadable time remaining should not be null");
     STAssertTrue([humanReadableTimeRemaining rangeOfString:@":"].location != NSNotFound, @"human readable time should provide a colon");
@@ -20,10 +22,9 @@
 }
 
 - (void)testAttributeValueForKey{
-    PowerSource *powerSource = [[PowerSourceMock alloc] init];
+    PowerSource *powerSource = [[BatteryPowerSourceMock alloc] init];
     NSString *batteryPowerValue = [powerSource attributeValueForKey:kIOPSBatteryPowerValue];
     STAssertEquals(batteryPowerValue, @"Battery Power", @"battery power value should have correct value");
 }
-
 
 @end

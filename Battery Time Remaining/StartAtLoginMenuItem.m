@@ -7,23 +7,24 @@
 //
 
 #import "StartAtLoginMenuItem.h"
-#import "LLManager.h"
+#import "Settings.h"
 
 @implementation StartAtLoginMenuItem
 
 - (id)init{
     self = [super init];
     if (self) {
-        self.enabled = YES;
-        self.state = ([LLManager launchAtLogin]) ? NSOnState : NSOffState;
+        self.state = self.settings.startAtLogin ? NSOnState : NSOffState;
+        self.title = NSLocalizedString(@"Start at login", @"Start at login setting");
     }
     return self;
 }
 
 - (void)action:(id)sender{
-    BOOL launchAtLogin = [LLManager launchAtLogin];
-    [LLManager setLaunchAtLogin:!launchAtLogin];
-    self.state = !launchAtLogin ? NSOnState : NSOffState;
+    NSMenuItem *startLoginMenuItem = (NSMenuItem*)sender;
+    BOOL startAtLogin = startLoginMenuItem.state == NSOnState ? NSOffState : NSOnState;
+    self.settings.startAtLogin = startAtLogin;
+    self.state = startAtLogin ? NSOnState : NSOffState;
 }
 
 @end

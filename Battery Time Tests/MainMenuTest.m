@@ -10,7 +10,7 @@
 #import "MainMenu.h"
 #import "PercentageMenuItem.h"
 #import "BTRConstants.h"
-#import "PowerSourceMock.h"
+#import "ChargingPowerSourceMock.h"
 #import "PowerSource.h"
 
 @interface MainMenuTest (){
@@ -31,7 +31,7 @@
 }
 
 - (void)testNotificationSent{
-    PowerSource *powerSource = [[PowerSourceMock alloc] init];
+    PowerSource *powerSource = [[ChargingPowerSourceMock alloc] init];
     NSNotification *notification = [NSNotification notificationWithName:PowerStateChangedNotification object:powerSource];
     NSMenuItem *menuItem = [mainMenu menuItemWithClassName:@"PowerSourceMenuItem"];
     menuItem.title = @"test";

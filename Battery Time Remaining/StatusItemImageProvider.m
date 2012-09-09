@@ -18,6 +18,10 @@
 
 @implementation StatusItemImageProvider
 
+- (id)init{
+    @throw @"Use designated initializer with valid PowerSource to generate an image";
+}
+
 - (id)initWithPowerSource:(PowerSource*)aPowerSource{
     self = [super init];
     if (self) {
@@ -32,7 +36,7 @@
     }else if([self.powerSource isCharging]){
         return [self batteryIconWithType:@"Charging"];
     }else{
-        NSString *redOrBlackStatus = [self.powerSource lowBattery] ? @"R" : @"B";
+        NSString *redOrBlackStatus = [self.powerSource lowBatteryWarning] ? @"R" : @"B";
         NSImage *batteryOutline     = [self batteryIconWithType:@"Empty"];
         NSImage *batteryLevelLeft   = [self batteryIconWithType:[NSString stringWithFormat:@"LevelCap%@-L", redOrBlackStatus]];
         NSImage *batteryLevelMiddle = [self batteryIconWithType:[NSString stringWithFormat:@"LevelCap%@-M", redOrBlackStatus]];
@@ -42,7 +46,7 @@
         const CGFloat   capBarLeftOffset    = 3.0f * drawingUnit;
         CGFloat         capBarHeight        = [batteryLevelLeft size].height + 0.0;
         CGFloat         capBarTopOffset     = 3.0f;
-        CGFloat         capBarLength        = ceil([[self.powerSource chargeInPercent] integerValue] / 8.0f) * drawingUnit;
+        CGFloat         capBarLength        = ceil([self.powerSource.remainingChargeInPercent integerValue] / 8.0f) * drawingUnit;
         if (capBarLength <= (2 * drawingUnit)) {
             capBarLength = (2 * drawingUnit) + 0.1f;
         }

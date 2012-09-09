@@ -9,4 +9,6 @@
 #import <Foundation/Foundation.h>
 
 FOUNDATION_EXPORT NSString *const PowerStateChangedNotification;
+FOUNDATION_EXPORT NSString *const AdvancedModeChangedNotification;
+
 FOUNDATION_EXPORT NSInteger const LowBatteryWarningThreshold;

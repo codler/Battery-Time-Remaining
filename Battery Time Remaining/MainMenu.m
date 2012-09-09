@@ -7,6 +7,7 @@
 //
 
 #import "MainMenu.h"
+#import "BTRConstants.h"
 
 @interface MainMenu ()
 
@@ -29,13 +30,16 @@
         [self addItem:[self menuItemWithClassName:@"PowerUsageMenuItem"]];
         [self addItem:[self menuItemWithClassName:@"TemperatureMenuItem"]];
         [self addItem:[NSMenuItem separatorItem]];
+        
         [self addItem:[self menuItemWithClassName:@"StartAtLoginMenuItem"]];
-
         NSMenuItem *notificationsMenuItem = [self menuItemWithClassName:@"NotificationsMenuItem"];
         [self addItem:notificationsMenuItem];
-        NSMenu *notificationMenu = [[NSMenu alloc] initWithTitle:@"NotificationMenu"];
-        [self setSubmenu:notificationMenu forItem:notificationsMenuItem];
-
+        [self addItem:[NSMenuItem separatorItem]];
+        
+        [self addItem:[self menuItemWithClassName:@"OpenEnergySaverPreferencesMenuItem"]];
+        [self addItem:[NSMenuItem separatorItem]];
+        
+        [self addItem:[self menuItemWithClassName:@"QuitMenuItem"]];
     }
     return self;
 }
@@ -46,7 +50,6 @@
     
     Class menuItemClass = NSClassFromString(className);
     menuItem = [[menuItemClass alloc] init];
-    menuItem.title = NSLocalizedString(className, className);
     if([menuItem respondsToSelector:@selector(action:)]){
         menuItem.target = menuItem;
         menuItem.action = @selector(action:);
@@ -54,7 +57,5 @@
     [self.menuItems setValue:menuItem forKey:className];
     return menuItem;
 }
-
-
 
 @end

@@ -8,6 +8,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface QuitMenuItems : NSMenuItem
+@interface QuitMenuItem : NSMenuItem
 
 @end

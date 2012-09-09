@@ -8,6 +8,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface OpenEnergySaverPreferences : NSMenuItem
+@interface OpenEnergySaverPreferencesMenuItem : NSMenuItem
 
 @end

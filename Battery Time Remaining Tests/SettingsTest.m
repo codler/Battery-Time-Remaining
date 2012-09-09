@@ -9,17 +9,35 @@
 #import "SettingsTest.h"
 #import "Settings.h"
 
-@implementation SettingsTest
-
-- (void)setUp{
+@interface SettingsTest (){
+    
+    Settings *settings;
     
 }
 
-- (void)testAdvancedMode{
-    Settings *settings = [[Settings alloc] init];
-    settings.advancedMode = NSOnState;
-    Settings *newSettings = [[Settings alloc] init];
-    STAssertTrue(newSettings.advancedMode == NSOnState, @"Advanced mode should be set");
+@end
+
+@implementation SettingsTest
+
+- (void)setUp{
+    settings = [Settings sharedSettings];
 }
 
+- (void)testAdvancedMode{
+    settings.advancedMode = YES;
+    Settings *newSettings = [Settings sharedSettings];
+    STAssertTrue(newSettings.advancedMode == YES, @"Advanced mode should be set");
+}
+
+- (void)testAddNotificationValue{
+    [settings addNotificationValueInPercent:[NSNumber numberWithInteger:5]];
+    STAssertTrue([settings notificationsContainValue:[NSNumber numberWithInteger:5]], @"notifications should contain nsnumber with value 5");
+}
+
+
+- (void)testRemoveNotificationValue{
+    [settings addNotificationValueInPercent:[NSNumber numberWithInteger:5]];
+    [settings removeNotificationValueInPercent:[NSNumber numberWithInteger:5]];
+    STAssertFalse([settings notificationsContainValue:[NSNumber numberWithInteger:5]], @"notifications should not contain nsnumber with value 5");
+}
 @end

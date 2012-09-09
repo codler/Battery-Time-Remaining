@@ -9,4 +9,6 @@
 #import "BTRConstants.h"
 
 NSString *const PowerStateChangedNotification = @"BTRPowerStateChangedNotification";
+NSString *const AdvancedModeChangedNotification = @"BTRAdvancedModeChangedNotification";
+
 NSInteger const LowBatteryWarningThreshold = 10;

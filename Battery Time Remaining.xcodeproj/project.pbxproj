@@ -26,7 +26,7 @@
 		B5BA41F315FB8DB6005082D7 /* PowerSourceTest.m in Sources */ = {isa = PBXBuildFile; fileRef = B5BA41F215FB8DB6005082D7 /* PowerSourceTest.m */; };
 		B5BA41F415FB9234005082D7 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2841C7FD15C91CEF00F4F15F /* IOKit.framework */; };
 		B5BA41F515FB9239005082D7 /* ServiceManagement.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28FEDA5D15DA5C9D00320B72 /* ServiceManagement.framework */; };
-		B5BA41FA15FB930C005082D7 /* PowerSourceMock.m in Sources */ = {isa = PBXBuildFile; fileRef = B5BA41F915FB930C005082D7 /* PowerSourceMock.m */; };
+		B5BA41FA15FB930C005082D7 /* ChargingPowerSourceMock.m in Sources */ = {isa = PBXBuildFile; fileRef = B5BA41F915FB930C005082D7 /* ChargingPowerSourceMock.m */; };
 		B5BA421015FB94BB005082D7 /* PercentageMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = B5C45BC815FAB17100EEAD4D /* PercentageMenuItem.m */; };
 		B5BA421115FB94E0005082D7 /* MainMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = B5C45BC315FAA89C00EEAD4D /* MainMenu.m */; };
 		B5BA421215FB94FB005082D7 /* PowerSourceMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = B5C45BCF15FAB92C00EEAD4D /* PowerSourceMenuItem.m */; };
@@ -43,6 +43,16 @@
 		B5BA423915FBC139005082D7 /* BTRConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = B5BA423815FBC139005082D7 /* BTRConstants.m */; };
 		B5BA423A15FBC139005082D7 /* BTRConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = B5BA423815FBC139005082D7 /* BTRConstants.m */; };
 		B5BA423D15FC039F005082D7 /* StatusItemImageProviderTest.m in Sources */ = {isa = PBXBuildFile; fileRef = B5BA423C15FC039F005082D7 /* StatusItemImageProviderTest.m */; };
+		B5BA424115FC7E22005082D7 /* AdvancedModeMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = B5BA423F15FC7E21005082D7 /* AdvancedModeMenuItem.m */; };
+		B5BA424415FD16CD005082D7 /* QuitMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = B5BA424315FD16CC005082D7 /* QuitMenuItem.m */; };
+		B5BA424515FD16CD005082D7 /* QuitMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = B5BA424315FD16CC005082D7 /* QuitMenuItem.m */; };
+		B5BA424815FD1B17005082D7 /* ChargedPowerSourceMock.m in Sources */ = {isa = PBXBuildFile; fileRef = B5BA424715FD1B17005082D7 /* ChargedPowerSourceMock.m */; };
+		B5BA424C15FD1B44005082D7 /* BatteryPowerSourceMock.m in Sources */ = {isa = PBXBuildFile; fileRef = B5BA424B15FD1B44005082D7 /* BatteryPowerSourceMock.m */; };
+		B5BA424F15FD1E33005082D7 /* LowBatteryPowerSourceMock.m in Sources */ = {isa = PBXBuildFile; fileRef = B5BA424E15FD1E33005082D7 /* LowBatteryPowerSourceMock.m */; };
+		B5BA425715FD2E1F005082D7 /* OpenEnergySaverPreferencesMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = B5BA425615FD2E1D005082D7 /* OpenEnergySaverPreferencesMenuItem.m */; };
+		B5BA425815FD2E1F005082D7 /* OpenEnergySaverPreferencesMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = B5BA425615FD2E1D005082D7 /* OpenEnergySaverPreferencesMenuItem.m */; };
+		B5BA425C15FD3D4B005082D7 /* BTRStatusNotificator.m in Sources */ = {isa = PBXBuildFile; fileRef = B5BA425B15FD3D4A005082D7 /* BTRStatusNotificator.m */; };
+		B5BA425D15FD3D4B005082D7 /* BTRStatusNotificator.m in Sources */ = {isa = PBXBuildFile; fileRef = B5BA425B15FD3D4A005082D7 /* BTRStatusNotificator.m */; };
 		B5C45B9315F94BDA00EEAD4D /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5C45B9215F94BDA00EEAD4D /* SenTestingKit.framework */; };
 		B5C45B9415F94BDA00EEAD4D /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2841C7E015C91CC100F4F15F /* Cocoa.framework */; };
 		B5C45B9A15F94BDA00EEAD4D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B5C45B9815F94BDA00EEAD4D /* InfoPlist.strings */; };
@@ -143,8 +153,8 @@
 		B5BA41EE15FB8A50005082D7 /* PowerSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PowerSource.m; sourceTree = "<group>"; };
 		B5BA41F115FB8DB6005082D7 /* PowerSourceTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PowerSourceTest.h; sourceTree = "<group>"; };
 		B5BA41F215FB8DB6005082D7 /* PowerSourceTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PowerSourceTest.m; sourceTree = "<group>"; };
-		B5BA41F815FB930C005082D7 /* PowerSourceMock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PowerSourceMock.h; sourceTree = "<group>"; };
-		B5BA41F915FB930C005082D7 /* PowerSourceMock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PowerSourceMock.m; sourceTree = "<group>"; };
+		B5BA41F815FB930C005082D7 /* ChargingPowerSourceMock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChargingPowerSourceMock.h; sourceTree = "<group>"; };
+		B5BA41F915FB930C005082D7 /* ChargingPowerSourceMock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChargingPowerSourceMock.m; sourceTree = "<group>"; };
 		B5BA422C15FBA719005082D7 /* StatusItemImageProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusItemImageProvider.h; sourceTree = "<group>"; };
 		B5BA422D15FBA719005082D7 /* StatusItemImageProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusItemImageProvider.m; sourceTree = "<group>"; };
 		B5BA423015FBBDA9005082D7 /* MainMenuItems.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMenuItems.h; sourceTree = "<group>"; };
@@ -153,6 +163,20 @@
 		B5BA423815FBC139005082D7 /* BTRConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTRConstants.m; sourceTree = "<group>"; };
 		B5BA423B15FC039F005082D7 /* StatusItemImageProviderTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusItemImageProviderTest.h; sourceTree = "<group>"; };
 		B5BA423C15FC039F005082D7 /* StatusItemImageProviderTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusItemImageProviderTest.m; sourceTree = "<group>"; };
+		B5BA423E15FC7E21005082D7 /* AdvancedModeMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdvancedModeMenuItem.h; sourceTree = "<group>"; };
+		B5BA423F15FC7E21005082D7 /* AdvancedModeMenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdvancedModeMenuItem.m; sourceTree = "<group>"; };
+		B5BA424215FD16CB005082D7 /* QuitMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuitMenuItem.h; sourceTree = "<group>"; };
+		B5BA424315FD16CC005082D7 /* QuitMenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuitMenuItem.m; sourceTree = "<group>"; };
+		B5BA424615FD1B16005082D7 /* ChargedPowerSourceMock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChargedPowerSourceMock.h; sourceTree = "<group>"; };
+		B5BA424715FD1B17005082D7 /* ChargedPowerSourceMock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChargedPowerSourceMock.m; sourceTree = "<group>"; };
+		B5BA424A15FD1B44005082D7 /* BatteryPowerSourceMock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BatteryPowerSourceMock.h; sourceTree = "<group>"; };
+		B5BA424B15FD1B44005082D7 /* BatteryPowerSourceMock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BatteryPowerSourceMock.m; sourceTree = "<group>"; };
+		B5BA424D15FD1E33005082D7 /* LowBatteryPowerSourceMock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LowBatteryPowerSourceMock.h; sourceTree = "<group>"; };
+		B5BA424E15FD1E33005082D7 /* LowBatteryPowerSourceMock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LowBatteryPowerSourceMock.m; sourceTree = "<group>"; };
+		B5BA425515FD2E1C005082D7 /* OpenEnergySaverPreferencesMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenEnergySaverPreferencesMenuItem.h; sourceTree = "<group>"; };
+		B5BA425615FD2E1D005082D7 /* OpenEnergySaverPreferencesMenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenEnergySaverPreferencesMenuItem.m; sourceTree = "<group>"; };
+		B5BA425A15FD3D4A005082D7 /* BTRStatusNotificator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTRStatusNotificator.h; sourceTree = "<group>"; };
+		B5BA425B15FD3D4A005082D7 /* BTRStatusNotificator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTRStatusNotificator.m; sourceTree = "<group>"; };
 		B5C45B9115F94BD900EEAD4D /* Battery Time Tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = "Battery Time Tests.octest"; path = "Battery Time Remaining Tests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5C45B9215F94BDA00EEAD4D /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		B5C45B9715F94BDA00EEAD4D /* Battery Time Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Battery Time Tests-Info.plist"; sourceTree = "<group>"; };
@@ -262,6 +286,7 @@
 		2841C7E615C91CC100F4F15F /* Battery Time Remaining */ = {
 			isa = PBXGroup;
 			children = (
+				B5BA425915FD3D23005082D7 /* Helper */,
 				B5C45BC115FAA87E00EEAD4D /* View */,
 				B5C45BAC15F9598E00EEAD4D /* Controller */,
 				B5C45BA515F94DCF00EEAD4D /* Model */,
@@ -311,20 +336,43 @@
 			name = "Libraries and Helpers";
 			sourceTree = "<group>";
 		};
+		B5BA424915FD1B1D005082D7 /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				B5BA424615FD1B16005082D7 /* ChargedPowerSourceMock.h */,
+				B5BA424715FD1B17005082D7 /* ChargedPowerSourceMock.m */,
+				B5BA41F815FB930C005082D7 /* ChargingPowerSourceMock.h */,
+				B5BA41F915FB930C005082D7 /* ChargingPowerSourceMock.m */,
+				B5BA424A15FD1B44005082D7 /* BatteryPowerSourceMock.h */,
+				B5BA424B15FD1B44005082D7 /* BatteryPowerSourceMock.m */,
+				B5BA424D15FD1E33005082D7 /* LowBatteryPowerSourceMock.h */,
+				B5BA424E15FD1E33005082D7 /* LowBatteryPowerSourceMock.m */,
+			);
+			name = Mocks;
+			sourceTree = "<group>";
+		};
+		B5BA425915FD3D23005082D7 /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				B5BA425A15FD3D4A005082D7 /* BTRStatusNotificator.h */,
+				B5BA425B15FD3D4A005082D7 /* BTRStatusNotificator.m */,
+			);
+			name = Helper;
+			sourceTree = "<group>";
+		};
 		B5C45B9515F94BDA00EEAD4D /* Battery Time Remaining Tests */ = {
 			isa = PBXGroup;
 			children = (
+				B5C45B9615F94BDA00EEAD4D /* Supporting Files */,
+				B5BA424915FD1B1D005082D7 /* Mocks */,
 				B5C45BA215F94C1A00EEAD4D /* SettingsTest.h */,
 				B5C45BA315F94C1A00EEAD4D /* SettingsTest.m */,
 				B5C45BCB15FAB1D800EEAD4D /* MainMenuTest.h */,
 				B5C45BCC15FAB1D800EEAD4D /* MainMenuTest.m */,
 				B5BA41EA15FB87F0005082D7 /* MainMenuViewControllerTest.h */,
 				B5BA41EB15FB87F0005082D7 /* MainMenuViewControllerTest.m */,
-				B5C45B9615F94BDA00EEAD4D /* Supporting Files */,
 				B5BA41F115FB8DB6005082D7 /* PowerSourceTest.h */,
 				B5BA41F215FB8DB6005082D7 /* PowerSourceTest.m */,
-				B5BA41F815FB930C005082D7 /* PowerSourceMock.h */,
-				B5BA41F915FB930C005082D7 /* PowerSourceMock.m */,
 				B5BA423B15FC039F005082D7 /* StatusItemImageProviderTest.h */,
 				B5BA423C15FC039F005082D7 /* StatusItemImageProviderTest.m */,
 			);
@@ -392,8 +440,14 @@
 				B5C45BDB15FAB97F00EEAD4D /* TemperatureMenuItem.m */,
 				B5C45BE215FABD0600EEAD4D /* StartAtLoginMenuItem.h */,
 				B5C45BE315FABD0600EEAD4D /* StartAtLoginMenuItem.m */,
+				B5BA423E15FC7E21005082D7 /* AdvancedModeMenuItem.h */,
+				B5BA423F15FC7E21005082D7 /* AdvancedModeMenuItem.m */,
 				B5C45BDE15FABCE300EEAD4D /* NotificationsMenuItem.h */,
 				B5C45BDF15FABCE300EEAD4D /* NotificationsMenuItem.m */,
+				B5BA425515FD2E1C005082D7 /* OpenEnergySaverPreferencesMenuItem.h */,
+				B5BA425615FD2E1D005082D7 /* OpenEnergySaverPreferencesMenuItem.m */,
+				B5BA424215FD16CB005082D7 /* QuitMenuItem.h */,
+				B5BA424315FD16CC005082D7 /* QuitMenuItem.m */,
 			);
 			name = MenuItems;
 			sourceTree = "<group>";
@@ -553,6 +607,9 @@
 				B5BA422E15FBA719005082D7 /* StatusItemImageProvider.m in Sources */,
 				B5BA423215FBBDA9005082D7 /* MainMenuItems.m in Sources */,
 				B5BA423915FBC139005082D7 /* BTRConstants.m in Sources */,
+				B5BA424415FD16CD005082D7 /* QuitMenuItem.m in Sources */,
+				B5BA425715FD2E1F005082D7 /* OpenEnergySaverPreferencesMenuItem.m in Sources */,
+				B5BA425C15FD3D4B005082D7 /* BTRStatusNotificator.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -576,11 +633,18 @@
 				B5BA41EC15FB87F0005082D7 /* MainMenuViewControllerTest.m in Sources */,
 				B5BA41F015FB8A50005082D7 /* PowerSource.m in Sources */,
 				B5BA41F315FB8DB6005082D7 /* PowerSourceTest.m in Sources */,
-				B5BA41FA15FB930C005082D7 /* PowerSourceMock.m in Sources */,
+				B5BA41FA15FB930C005082D7 /* ChargingPowerSourceMock.m in Sources */,
 				B5BA422F15FBA719005082D7 /* StatusItemImageProvider.m in Sources */,
 				B5BA423315FBBDA9005082D7 /* MainMenuItems.m in Sources */,
 				B5BA423A15FBC139005082D7 /* BTRConstants.m in Sources */,
 				B5BA423D15FC039F005082D7 /* StatusItemImageProviderTest.m in Sources */,
+				B5BA424115FC7E22005082D7 /* AdvancedModeMenuItem.m in Sources */,
+				B5BA424515FD16CD005082D7 /* QuitMenuItem.m in Sources */,
+				B5BA424815FD1B17005082D7 /* ChargedPowerSourceMock.m in Sources */,
+				B5BA424C15FD1B44005082D7 /* BatteryPowerSourceMock.m in Sources */,
+				B5BA424F15FD1E33005082D7 /* LowBatteryPowerSourceMock.m in Sources */,
+				B5BA425815FD2E1F005082D7 /* OpenEnergySaverPreferencesMenuItem.m in Sources */,
+				B5BA425D15FD3D4B005082D7 /* BTRStatusNotificator.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

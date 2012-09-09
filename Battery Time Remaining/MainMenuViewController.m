@@ -15,12 +15,19 @@
 #import <IOKit/pwr_mgt/IOPMLib.h>
 #import "BTRConstants.h"
 #import "StatusItemImageProvider.h"
+#import "Settings.h"
+#import "BTRStatusNotificator.h"
 
 @interface MainMenuViewController ()
 
-@property(nonatomic, strong) NSMenu *mainMenu;
+@property(nonatomic, strong) MainMenu *mainMenu;
 @property(nonatomic, strong) NSStatusItem *statusItem;
 @property(nonatomic, strong) PowerSource *powerSource;
+
+@property(nonatomic, strong) NSTimer *menuUpdateTimer;
+@property(nonatomic, strong) Settings *settings;
+
+@property(nonatomic, strong) NSNumber *lastNotifiedPercentage;
 
 @end
 
@@ -29,6 +36,8 @@
 @synthesize mainMenu;
 @synthesize statusItem;
 @synthesize powerSource;
+@synthesize menuUpdateTimer;
+@synthesize lastNotifiedPercentage;
 
 static void PowerSourceChanged(void * context){
     MainMenuViewController *object = (__bridge MainMenuViewController *)context;
@@ -38,8 +47,13 @@ static void PowerSourceChanged(void * context){
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+        self.lastNotifiedPercentage = [NSNumber numberWithInt:-1];
+        self.settings = [Settings sharedSettings];
         self.statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
         self.mainMenu = [[MainMenu alloc] init];
+        
+        self.mainMenu.delegate = self;
+        
         self.statusItem.menu = self.mainMenu;
         self.statusItem.highlightMode = YES;
     }
@@ -47,6 +61,8 @@ static void PowerSourceChanged(void * context){
     CFRunLoopSourceRef loop = IOPSNotificationCreateRunLoopSource(PowerSourceChanged, (__bridge void *)self);
     CFRunLoopAddSource(CFRunLoopGetCurrent(), loop, kCFRunLoopDefaultMode);
     CFRelease(loop);
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(advancedModeHasChanged:) name:AdvancedModeChangedNotification object:nil];
     
     [self updateStatusItem];
     return self;
@@ -59,136 +75,16 @@ static void PowerSourceChanged(void * context){
     
     [self notifyMenuItemsOfPowerStateChange];
     
+    [self notifyNotificationCenterWithPowerSource:self.powerSource];
+    
     StatusItemImageProvider *statusItemImage = [[StatusItemImageProvider alloc] initWithPowerSource:self.powerSource];
     self.statusItem.image = [statusItemImage image];
-
-    // Get the estimated time remaining
-//    CFTimeInterval timeRemaining = IOPSGetTimeRemainingEstimate();
-//
-//    // Get list of power sources
-//    CFTypeRef psBlob = IOPSCopyPowerSourcesInfo();
-//    NSArray *powerSourcesList = (__bridge NSArray*)IOPSCopyPowerSourcesList(psBlob);
-//
-//    for (id powerSource in powerSourcesList) {
-//        NSDictionary *powerSourceDescription = (__bridge NSDictionary*)IOPSGetPowerSourceDescription(psBlob, (__bridge CFTypeRef)(powerSource));
-//        if (![powerSourceDescription valueForKey:[NSString stringWithUTF8String:kIOPSIsPresentKey]]){
-//            continue;
-//        }
-//        
-//        
-//    }
-    
-//    for (CFIndex i = 0; i < count; i++)    {
-//        CFTypeRef powersource = CFArrayGetValueAtIndex(psList, i);
-//        CFDictionaryRef description = IOPSGetPowerSourceDescription(psBlob, powersource);
-//
-//        // Skip if not present
-//        if (CFDictionaryGetValue(description, CFSTR(kIOPSIsPresentKey)) == kCFBooleanFalse)
-//        {
-//            continue;
-//        }
-//
-//        // Calculate the percent
-//        NSNumber *currentBatteryCapacity = CFDictionaryGetValue(description, CFSTR(kIOPSCurrentCapacityKey));
-//        NSNumber *maxBatteryCapacity = CFDictionaryGetValue(description, CFSTR(kIOPSMaxCapacityKey));
-//
-//        self.currentPercent = (int)[currentBatteryCapacity doubleValue] / [maxBatteryCapacity doubleValue] * 100;
-//
-//        NSString *psState = CFDictionaryGetValue(description, CFSTR(kIOPSPowerSourceStateKey));
-//
-//        psState =   ([psState isEqualToString:(NSString *)CFSTR(kIOPSBatteryPowerValue)]) ?
-//                        NSLocalizedString(@"Battery Power", @"Powersource state") :
-//                    ([psState isEqualToString:(NSString *)CFSTR(kIOPSACPowerValue)]) ?
-//                        NSLocalizedString(@"AC Power", @"Powersource state") :
-//                        NSLocalizedString(@"Off Line", @"Powersource state");
-//
-////        [self.statusItem.menu itemWithTag:kBTRMenuPowerSourceState].title = [NSString stringWithFormat:NSLocalizedString(@"Power source: %@", @"Powersource menuitem"), psState];
-//
-//        // We're connected to an unlimited power source (AC adapter probably)
-//        if (kIOPSTimeRemainingUnlimited == timeRemaining)
-//        {
-//            // Check if the battery is charging atm
-//            if (CFDictionaryGetValue(description, CFSTR(kIOPSIsChargingKey)) == kCFBooleanTrue)
-//            {
-//                CFNumberRef timeToChargeNum = CFDictionaryGetValue(description, CFSTR(kIOPSTimeToFullChargeKey));
-//                int timeTilCharged = [(__bridge NSNumber *)timeToChargeNum intValue];
-//
-//                if (timeTilCharged > 0)
-//                {
-//                    // Calculate the hour/minutes
-//                    NSInteger hour = timeTilCharged / 60;
-//                    NSInteger minute = timeTilCharged % 60;
-//
-//                    NSString *title = (showParenthesis) ? @" (%ld:%02ld)" : @" %ld:%02ld";
-//
-//                    // Return the time remaining string
-//                    [self setStatusBarImage:[self getBatteryIconNamed:@"BatteryCharging"] title:[NSString stringWithFormat:title, hour, minute]];
-//                }
-//                else
-//                {
-//                    [self setStatusBarImage:[self getBatteryIconNamed:@"BatteryCharging"] title:[NSString stringWithFormat:@" %@", NSLocalizedString(@"Calculating…", @"Calculating sidetext")]];
-//                }
-//            }
-//            else
-//            {
-//                // Not charging and on a endless powersource
-//                [self setStatusBarImage:[self getBatteryIconNamed:@"BatteryCharged"] title:@""];
-//
-//                NSNumber *currentBatteryCapacity = CFDictionaryGetValue(description, CFSTR(kIOPSCurrentCapacityKey));
-//                NSNumber *maxBatteryCapacity = CFDictionaryGetValue(description, CFSTR(kIOPSMaxCapacityKey));
-//
-//                // Notify user when battery is charged
-//                if ([currentBatteryCapacity intValue] == [maxBatteryCapacity intValue] &&
-//                    self.previousPercent != self.currentPercent &&
-//                    [[self.notifications valueForKey:@"100"] boolValue])
-//                {
-//
-//                    [self notify:NSLocalizedString(@"Charged", @"Charged notification")];
-//                    self.previousPercent = self.currentPercent;
-//                }
-//            }
-//
-//        }
-//        // Still calculating the estimated time remaining...
-//        else if (kIOPSTimeRemainingUnknown == timeRemaining)
-//        {
-//            [self setStatusBarImage:[self getBatteryIconPercent:self.currentPercent] title:[NSString stringWithFormat:@" %@", NSLocalizedString(@"Calculating…", @"Calculating sidetext")]];
-//        }
-//        // Time is known!
-//        else
-//        {
-//            // Calculate the hour/minutes
-//            NSInteger hour = (int)timeRemaining / 3600;
-//            NSInteger minute = (int)timeRemaining % 3600 / 60;
-//
-//            NSString *title = (showParenthesis) ? @" (%ld:%02ld)" : @" %ld:%02ld";
-//
-//            // Return the time remaining string
-//           [self setStatusBarImage:[self getBatteryIconPercent:self.currentPercent] title:[NSString stringWithFormat:title, hour, minute]];
-//
-//            for (NSString *key in self.notifications)
-//            {
-//                if ([[self.notifications valueForKey:key] boolValue] && [key intValue] == self.currentPercent)
-//                {
-//                    // Send notification once
-//                    if (self.previousPercent != self.currentPercent)
-//                    {
-//                        [self notify:NSLocalizedString(@"Battery Time Remaining", "Battery Time Remaining notification") message:[NSString stringWithFormat:NSLocalizedString(@"%1$ld:%2$02ld left (%3$ld%%)", @"Time remaining left notification"), hour, minute, self.currentPercent]];
-//                    }
-//                    break;
-//                }
-//            }
-//            self.previousPercent = self.currentPercent;
-//        }
-//
-//    }
-//
-//    CFRelease(psList);
-//    CFRelease(psBlob);
 }
 
 - (void)setStatusItemTitle:(NSString*)title{
-    NSDictionary *statusItemTextStyle = [NSDictionary dictionaryWithObject:[NSFont menuFontOfSize:12.0f] forKey:NSFontAttributeName];
+    NSDictionary *statusItemTextStyle = [NSDictionary dictionaryWithObjectsAndKeys:
+                                         [NSFont menuFontOfSize:12.0f], NSFontAttributeName,
+                                         nil];
     NSAttributedString *titleForStatusItem = [[NSAttributedString alloc] initWithString:title
                                                                              attributes:statusItemTextStyle];
     self.statusItem.attributedTitle = titleForStatusItem;
@@ -197,6 +93,47 @@ static void PowerSourceChanged(void * context){
 - (void)notifyMenuItemsOfPowerStateChange{
     NSNotification *notification = [NSNotification notificationWithName:PowerStateChangedNotification object:self.powerSource];
     [[NSNotificationCenter defaultCenter] postNotification:notification];
+}
+
+- (void)notifyNotificationCenterWithPowerSource:(PowerSource*)aPowerSource{
+    BTRStatusNotificator *notificator = [BTRStatusNotificator sharedNotificator];
+    if([self.settings notificationsContainValue:[self.powerSource remainingChargeInPercent]] && [self.powerSource isOnBatteryPower] && [self.lastNotifiedPercentage integerValue] != [self.powerSource.remainingChargeInPercent integerValue]){
+        self.lastNotifiedPercentage = self.powerSource.remainingChargeInPercent;
+        [notificator notifyWithMessage:[NSString stringWithFormat:NSLocalizedString(@"%1$ld:%2$02ld left (%3$ld%%)", @"Time remaining left notification"), [self.powerSource.remainingHours integerValue], [self.powerSource.remainingMinutes integerValue], [self.powerSource.remainingChargeInPercent integerValue]]];
+    }
+    if([self.powerSource isCharged]){
+        [notificator notifyWithMessage:NSLocalizedString(@"Charged", @"Charged notification")];
+    }
+}
+
+- (void)advancedModeHasChanged:(NSNotification*)notification{
+    [self updateStatusItem];
+}
+
+- (void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:AdvancedModeChangedNotification object:nil];
+}
+
+#pragma mark - Menu delegates
+
+- (void)menuWillOpen:(NSMenu *)menu{
+    if([[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask) self.settings.advancedMode = YES;
+    [self updateStatusItem];
+    
+    self.menuUpdateTimer = [NSTimer timerWithTimeInterval:0.5
+                                                   target:self
+                                                 selector:@selector(updateStatusItem)
+                                                 userInfo:nil
+                                                  repeats:YES];
+    [[NSRunLoop currentRunLoop] addTimer:self.menuUpdateTimer forMode:NSRunLoopCommonModes];
+}
+
+- (void)menuDidClose:(NSMenu *)menu{
+    self.settings.advancedMode = NO;
+    [self updateStatusItem];
+    
+    [self.menuUpdateTimer invalidate];
+    self.menuUpdateTimer = nil;
 }
 
 @end

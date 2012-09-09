@@ -7,33 +7,64 @@
 //
 
 #import "Settings.h"
+#import "LLManager.h"
 
 @interface Settings()
 
 @property (nonatomic, strong) NSUserDefaults *userDefaults;
+@property (nonatomic, strong) NSMutableArray *notificationValues;
 
 @end
 
 @implementation Settings
 
-@synthesize advancedMode, userDefaults;
+@synthesize advancedMode, startAtLogin, notificationValues;
+@synthesize userDefaults;
 
-- (id)init{
-    self = [super init];
-    if (self){
-        userDefaults = [NSUserDefaults standardUserDefaults];
-    }
-    return self;
++ (Settings *)sharedSettings{
+    static Settings *sharedInstance = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedInstance = [[Settings alloc] init];
+        sharedInstance.userDefaults = [NSUserDefaults standardUserDefaults];
+        sharedInstance.notificationValues = [[sharedInstance.userDefaults objectForKey:@"notifications"] mutableCopy];
+    });
+    return sharedInstance;
 }
 
-- (NSCellStateValue)advancedMode{
-    return [userDefaults integerForKey:@"advanced"];
+- (BOOL)advancedMode{
+    return [self.userDefaults boolForKey:@"advanced"];
 }
 
-- (void)setAdvancedMode:(NSCellStateValue)advancedModeState{
+- (void)setAdvancedMode:(BOOL)advancedModeState{
     advancedMode = advancedModeState;
-    [userDefaults setInteger:advancedModeState forKey:@"advanced"];
-    [userDefaults synchronize];
+    [self.userDefaults setBool:advancedModeState forKey:@"advanced"];
+    [self.userDefaults synchronize];
+}
+
+- (BOOL)startAtLogin{
+    return [LLManager launchAtLogin];
+}
+
+- (void)setStartAtLogin:(BOOL)startAtLoginState{
+    startAtLogin = startAtLoginState;
+    [LLManager setLaunchAtLogin:startAtLoginState];
+}
+
+- (BOOL)notificationsContainValue:(NSNumber*)value{
+    return [[self.userDefaults valueForKey:@"notifications"] containsObject:value];
+}
+
+- (void)addNotificationValueInPercent:(NSNumber*)value{
+    [self.notificationValues addObject:value];
+    [self.userDefaults setObject:self.notificationValues forKey:@"notifications"];
+    [self.userDefaults synchronize];
+}
+
+- (void)removeNotificationValueInPercent:(NSNumber*)value{
+    [self.notificationValues removeObject:value];
+    [self.userDefaults setObject:self.notificationValues forKey:@"notifications"];
+    [self.userDefaults synchronize];
 }
 
 @end

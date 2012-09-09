@@ -10,4 +10,8 @@
 
 @interface BTRStatusNotificator : NSObject
 
++ (BTRStatusNotificator *)sharedNotificator;
+
+- (void)notifyWithMessage:(NSString *)message;
+
 @end

@@ -23,6 +23,9 @@
 @implementation PowerSource
 
 @synthesize timeRemaining;
+@synthesize advancedBatteryInfo, powerSourceDescription;
+@synthesize remainingHours, remainingMinutes;
+@synthesize current, capacity, cycleCount, watt, temperature, remainingChargeInPercent;
 
 - (id)init{
     self = [super init];
@@ -51,23 +54,55 @@
 - (NSNumber*)timeRemaining{
     if ([self isCharging]){
         return [self timeUntilFullyChargedInMinutes];
-    }else if([self isCharged]){
-        //TODO Message "charged"
-    }else if([self isFinishingCharge]){
-        //TODO Message "finishing"
-    }   
+    }
+//    else if([self isCharged]){
+//    }else if([self isFinishingCharge]){
+//    }   
     return [self timeUntilEmptyInMinutes];
+}
 
+- (NSNumber*)current{
+    return (NSNumber*)[self advancedAttributeValueForKey:@"Current"];
+}
+
+- (NSNumber*)capacity{
+    return (NSNumber*)[self advancedAttributeValueForKey:@"Capacity"];
+}
+
+- (NSNumber*)cycleCount{
+    return (NSNumber*)[self advancedAttributeValueForKey:@"Cycle Count"];
+}
+
+- (NSNumber*)watt{
+    NSNumber *amperage = [advancedBatteryInfo objectForKey:@"Amperage"];
+    NSNumber *voltage = [advancedBatteryInfo objectForKey:@"Voltage"];
+    return [NSNumber numberWithDouble:[amperage doubleValue] / 1000 * [voltage doubleValue] / 1000];
+}
+
+- (NSNumber*)temperature{
+    CFMutableDictionaryRef matching, properties = NULL;
+    io_registry_entry_t entry = 0;
+    matching = IOServiceNameMatching("AppleSmartBattery");
+    entry = IOServiceGetMatchingService(kIOMasterPortDefault, matching);
+    IORegistryEntryCreateCFProperties(entry, &properties, NULL, 0);
+    NSDictionary *advancedBatteryInformations = (__bridge NSDictionary *)properties;
+    return [NSNumber numberWithDouble:[[advancedBatteryInformations objectForKey:@"Temperature"] doubleValue] / 100];
 }
 
 - (NSString*)stringWithHumanReadableTimeRemaining{
+    if([self isCharged]) return NSLocalizedString(@"Charged", @"Charged notification");
     if([self isCalculating]) return NSLocalizedString(@"Calculating…", @"Calculating sidetext");
     int hours = floor([self.timeRemaining doubleValue]/60.0f);
     int minutes = floor(fmod([self.timeRemaining doubleValue], 60.0f));
     
+    remainingHours = [NSNumber numberWithInt:hours];
+    remainingMinutes = [NSNumber numberWithInt:minutes];
+    
     NSString* humanReadableTime = [[NSString alloc] initWithFormat:@"(%d:%02d)", hours, minutes];
     return humanReadableTime;
 }
+
+#pragma mark - Helper methods
 
 - (id)attributeValueForKey:(char const*)key{
     return [self.powerSourceDescription valueForKey:[NSString stringWithUTF8String:key]];
@@ -77,16 +112,8 @@
     return [self.advancedBatteryInfo valueForKey:key];
 }
 
-- (BOOL)isCharging{
-    return [self attributeValueForKey:kIOPSIsChargingKey] == @YES;
-}
-
 - (NSNumber*)timeUntilFullyChargedInMinutes{
     return (NSNumber*)[self attributeValueForKey:kIOPSTimeToFullChargeKey];
-}
-
-- (BOOL)isCharged{
-    return [self attributeValueForKey:kIOPSIsChargedKey] == @YES;
 }
 
 - (BOOL)isFinishingCharge{
@@ -97,15 +124,27 @@
     return (NSNumber*)[self attributeValueForKey:kIOPSTimeToEmptyKey];
 }
 
+- (BOOL)isCharged{
+    return [self attributeValueForKey:kIOPSIsChargedKey] == @YES;
+}
+
+- (BOOL)isCharging{
+    return [self attributeValueForKey:kIOPSIsChargingKey] == @YES;
+}
+
 - (BOOL)isCalculating{
     return [self.timeRemaining integerValue] == -1;
 }
 
-- (BOOL)lowBattery{
-    return [NSNumber numberWithInteger:LowBatteryWarningThreshold] == [self chargeInPercent];
+- (BOOL)lowBatteryWarning{
+    return self.remainingChargeInPercent <= [NSNumber numberWithInteger:LowBatteryWarningThreshold];
 }
 
-- (NSNumber*)chargeInPercent{
+- (BOOL)isOnBatteryPower{
+    return [[self attributeValueForKey:kIOPSPowerSourceStateKey] isEqualToString:[NSString stringWithUTF8String:kIOPSBatteryPowerValue]];
+}
+
+- (NSNumber*)remainingChargeInPercent{
     NSNumber *currentBatteryCapacity = [self attributeValueForKey:kIOPSCurrentCapacityKey];
     NSNumber *maxBatteryCapacity = [self attributeValueForKey:kIOPSMaxCapacityKey];
     return [NSNumber numberWithDouble:([currentBatteryCapacity doubleValue] / [maxBatteryCapacity doubleValue]) * 100];

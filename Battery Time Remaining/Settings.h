@@ -10,6 +10,13 @@
 
 @interface Settings : NSObject
 
-@property (nonatomic) NSCellStateValue advancedMode;
+@property (nonatomic) BOOL advancedMode;
+@property (nonatomic) BOOL startAtLogin;
+
++ (Settings *)sharedSettings;
+
+- (BOOL)notificationsContainValue:(NSNumber*)value;
+- (void)addNotificationValueInPercent:(NSNumber*)value;
+- (void)removeNotificationValueInPercent:(NSNumber*)value;
 
 @end

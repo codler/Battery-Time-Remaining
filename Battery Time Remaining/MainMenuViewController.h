@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface MainMenuViewController : NSViewController
+@interface MainMenuViewController : NSViewController <NSMenuDelegate>
 
 - (void)updateStatusItem;
 

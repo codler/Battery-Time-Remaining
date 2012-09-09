@@ -10,4 +10,13 @@
 
 @implementation PowerUsageMenuItem
 
+- (void)powerStateChanged:(NSNotification*)notification{
+    [super powerStateChanged:notification];
+    PowerSource *powerSource = (PowerSource*)[notification object];
+    
+    [self setHidden:[powerSource isCalculating] || (!self.settings.advancedMode && ![powerSource isCalculating])];
+    
+    self.title = [NSString stringWithFormat:NSLocalizedString(@"Power usage: %.2f Watt", @"Advanced battery info menuitem"), [powerSource.watt doubleValue]];
+}
+
 @end

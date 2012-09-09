@@ -11,13 +11,24 @@
 
 @interface PowerSource : NSObject
 
+@property(nonatomic, readonly, strong) NSNumber *remainingHours;
+@property(nonatomic, readonly, strong) NSNumber *remainingMinutes;
+@property(nonatomic, readonly, strong) NSNumber *current;
+@property(nonatomic, readonly, strong) NSNumber *capacity;
+@property(nonatomic, readonly, strong) NSNumber *cycleCount;
+@property(nonatomic, readonly, strong) NSNumber *watt;
+@property(nonatomic, readonly, strong) NSNumber *temperature;
+@property(nonatomic, readonly, strong) NSNumber *remainingChargeInPercent;
+
 - (NSString*)stringWithHumanReadableTimeRemaining;
 - (id)advancedAttributeValueForKey:(NSString*)key;
 - (id)attributeValueForKey:(char const*)key;
 
-- (BOOL)lowBattery;
-- (NSNumber*)chargeInPercent;
+- (NSNumber*)remainingChargeInPercent;
 - (BOOL)isCharged;
 - (BOOL)isCharging;
+- (BOOL)isCalculating;
+- (BOOL)lowBatteryWarning;
+- (BOOL)isOnBatteryPower;
 
 @end

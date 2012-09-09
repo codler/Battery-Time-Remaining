@@ -19,6 +19,7 @@
                                                  selector:@selector(powerStateChanged:)
                                                      name:PowerStateChangedNotification
                                                    object:nil];
+        self.settings = [Settings sharedSettings];
     }
     return self;
 }

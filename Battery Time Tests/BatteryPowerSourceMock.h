@@ -8,6 +8,6 @@
 
 #import "PowerSource.h"
 
-@interface BatteryPowerSource : PowerSource
+@interface BatteryPowerSourceMock : PowerSource
 
 @end

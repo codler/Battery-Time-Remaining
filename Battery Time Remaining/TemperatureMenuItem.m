@@ -10,4 +10,13 @@
 
 @implementation TemperatureMenuItem
 
+- (void)powerStateChanged:(NSNotification*)notification{
+    [super powerStateChanged:notification];
+    PowerSource *powerSource = (PowerSource*)[notification object];
+    
+    [self setHidden:[powerSource isCalculating] || (!self.settings.advancedMode && ![powerSource isCalculating])];
+    
+    self.title = [NSString stringWithFormat:NSLocalizedString(@"Temperature: %.1f°C", @"Advanced battery info menuitem"),  [powerSource.temperature doubleValue]];
+}
+
 @end

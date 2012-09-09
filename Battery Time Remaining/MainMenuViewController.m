@@ -10,9 +10,6 @@
 #import "MainMenu.h"
 #import "PowerSource.h"
 #import <IOKit/ps/IOPowerSources.h>
-#import <IOKit/ps/IOPSKeys.h>
-#import <IOKit/pwr_mgt/IOPM.h>
-#import <IOKit/pwr_mgt/IOPMLib.h>
 #import "BTRConstants.h"
 #import "StatusItemImageProvider.h"
 #import "Settings.h"

@@ -13,9 +13,7 @@
 		2841C7F115C91CC100F4F15F /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 2841C7EF15C91CC100F4F15F /* Credits.rtf */; };
 		2841C7F415C91CC100F4F15F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2841C7F315C91CC100F4F15F /* AppDelegate.m */; };
 		2841C7FE15C91CEF00F4F15F /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2841C7FD15C91CEF00F4F15F /* IOKit.framework */; };
-		28833BAE15D7B90B00741727 /* HttpGet.m in Sources */ = {isa = PBXBuildFile; fileRef = 28833BAD15D7B90B00741727 /* HttpGet.m */; };
 		28833BB215D7D4FF00741727 /* Readme.md in Resources */ = {isa = PBXBuildFile; fileRef = 28833BB115D7D4FF00741727 /* Readme.md */; };
-		28833BB415D7D61100741727 /* build_version in Resources */ = {isa = PBXBuildFile; fileRef = 28833BB315D7D61100741727 /* build_version */; };
 		28BA61A815D1B12500EDB674 /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 28BA61A715D1B12500EDB674 /* icon.icns */; };
 		28FEDA5E15DA5C9D00320B72 /* ServiceManagement.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28FEDA5D15DA5C9D00320B72 /* ServiceManagement.framework */; };
 		28FEDA6E15DA5ECA00320B72 /* LaunchAtLoginHelper.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = 28FEDA6B15DA5EB200320B72 /* LaunchAtLoginHelper.app */; };
@@ -53,6 +51,9 @@
 		B5BA425815FD2E1F005082D7 /* OpenEnergySaverPreferencesMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = B5BA425615FD2E1D005082D7 /* OpenEnergySaverPreferencesMenuItem.m */; };
 		B5BA425C15FD3D4B005082D7 /* BTRStatusNotificator.m in Sources */ = {isa = PBXBuildFile; fileRef = B5BA425B15FD3D4A005082D7 /* BTRStatusNotificator.m */; };
 		B5BA425D15FD3D4B005082D7 /* BTRStatusNotificator.m in Sources */ = {isa = PBXBuildFile; fileRef = B5BA425B15FD3D4A005082D7 /* BTRStatusNotificator.m */; };
+		B5BA425F15FE8832005082D7 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5BA425E15FE8832005082D7 /* Sparkle.framework */; };
+		B5BA426015FE8832005082D7 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5BA425E15FE8832005082D7 /* Sparkle.framework */; };
+		B5BA426215FE8A24005082D7 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B5BA425E15FE8832005082D7 /* Sparkle.framework */; };
 		B5C45B9315F94BDA00EEAD4D /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5C45B9215F94BDA00EEAD4D /* SenTestingKit.framework */; };
 		B5C45B9415F94BDA00EEAD4D /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2841C7E015C91CC100F4F15F /* Cocoa.framework */; };
 		B5C45B9A15F94BDA00EEAD4D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B5C45B9815F94BDA00EEAD4D /* InfoPlist.strings */; };
@@ -61,8 +62,6 @@
 		B5C45BA915F94DE700EEAD4D /* Settings.m in Sources */ = {isa = PBXBuildFile; fileRef = B5C45BA715F94DE700EEAD4D /* Settings.m */; };
 		B5C45BB515FA7AEE00EEAD4D /* MainMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B5C45BB315FA7AEE00EEAD4D /* MainMenuViewController.m */; };
 		B5C45BB615FA7AEE00EEAD4D /* MainMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B5C45BB315FA7AEE00EEAD4D /* MainMenuViewController.m */; };
-		B5C45BB715FA7AEE00EEAD4D /* MainMenuViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5C45BB415FA7AEE00EEAD4D /* MainMenuViewController.xib */; };
-		B5C45BB815FA7AEE00EEAD4D /* MainMenuViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5C45BB415FA7AEE00EEAD4D /* MainMenuViewController.xib */; };
 		B5C45BC415FAA89C00EEAD4D /* MainMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = B5C45BC315FAA89C00EEAD4D /* MainMenu.m */; };
 		B5C45BC915FAB17100EEAD4D /* PercentageMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = B5C45BC815FAB17100EEAD4D /* PercentageMenuItem.m */; };
 		B5C45BCD15FAB1D800EEAD4D /* MainMenuTest.m in Sources */ = {isa = PBXBuildFile; fileRef = B5C45BCC15FAB1D800EEAD4D /* MainMenuTest.m */; };
@@ -117,6 +116,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B5BA426115FE895D005082D7 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				B5BA426215FE8A24005082D7 /* Sparkle.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -135,10 +144,7 @@
 		2841C7F315C91CC100F4F15F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		2841C7FD15C91CEF00F4F15F /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		288305DF15DD005C0064D457 /* sv */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/Localizable.strings; sourceTree = "<group>"; };
-		28833BAC15D7B90B00741727 /* HttpGet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HttpGet.h; sourceTree = "<group>"; };
-		28833BAD15D7B90B00741727 /* HttpGet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HttpGet.m; sourceTree = "<group>"; };
 		28833BB115D7D4FF00741727 /* Readme.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Readme.md; sourceTree = SOURCE_ROOT; };
-		28833BB315D7D61100741727 /* build_version */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = build_version; sourceTree = SOURCE_ROOT; };
 		28BA61A715D1B12500EDB674 /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = icon.icns; path = ../icon.icns; sourceTree = "<group>"; };
 		28BA61A915D1B63300EDB674 /* Battery Time Remaining.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Battery Time Remaining.entitlements"; sourceTree = "<group>"; };
 		28C8E25415F684CD009AA6DB /* pt */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -147,6 +153,7 @@
 		28FEDA6215DA5EB200320B72 /* LLManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LLManager.h; path = ../LaunchAtLoginHelper/LLManager.h; sourceTree = "<group>"; };
 		28FEDA6315DA5EB200320B72 /* LLManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = LLManager.m; path = ../LaunchAtLoginHelper/LLManager.m; sourceTree = "<group>"; };
 		28FEDA6415DA5EB200320B72 /* LLStrings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LLStrings.h; path = ../LaunchAtLoginHelper/LLStrings.h; sourceTree = "<group>"; };
+		B5415C9A15FEA60B0021C0A9 /* release-notes */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "release-notes"; sourceTree = "<group>"; };
 		B5BA41EA15FB87F0005082D7 /* MainMenuViewControllerTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMenuViewControllerTest.h; sourceTree = "<group>"; };
 		B5BA41EB15FB87F0005082D7 /* MainMenuViewControllerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainMenuViewControllerTest.m; sourceTree = "<group>"; };
 		B5BA41ED15FB8A50005082D7 /* PowerSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PowerSource.h; sourceTree = "<group>"; };
@@ -177,7 +184,10 @@
 		B5BA425615FD2E1D005082D7 /* OpenEnergySaverPreferencesMenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenEnergySaverPreferencesMenuItem.m; sourceTree = "<group>"; };
 		B5BA425A15FD3D4A005082D7 /* BTRStatusNotificator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTRStatusNotificator.h; sourceTree = "<group>"; };
 		B5BA425B15FD3D4A005082D7 /* BTRStatusNotificator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTRStatusNotificator.m; sourceTree = "<group>"; };
-		B5C45B9115F94BD900EEAD4D /* Battery Time Tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = "Battery Time Tests.octest"; path = "Battery Time Remaining Tests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B5BA425E15FE8832005082D7 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
+		B5BA429215FE9696005082D7 /* Battery Time Remaining copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Battery Time Remaining copy-Info.plist"; path = "/Volumes/MacintoshSSDData/Users/oliversigge/Documents/Developer/github/Battery-Time-Remaining/Battery Time Remaining copy-Info.plist"; sourceTree = "<absolute>"; };
+		B5BA429315FE9D89005082D7 /* appcast.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = appcast.xml; path = ../appcast.xml; sourceTree = "<group>"; };
+		B5C45B9115F94BD900EEAD4D /* Battery Time Remaining Tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Battery Time Remaining Tests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5C45B9215F94BDA00EEAD4D /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		B5C45B9715F94BDA00EEAD4D /* Battery Time Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Battery Time Tests-Info.plist"; sourceTree = "<group>"; };
 		B5C45B9915F94BDA00EEAD4D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -188,7 +198,6 @@
 		B5C45BA715F94DE700EEAD4D /* Settings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Settings.m; sourceTree = "<group>"; };
 		B5C45BB215FA7AEE00EEAD4D /* MainMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMenuViewController.h; sourceTree = "<group>"; };
 		B5C45BB315FA7AEE00EEAD4D /* MainMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainMenuViewController.m; sourceTree = "<group>"; };
-		B5C45BB415FA7AEE00EEAD4D /* MainMenuViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenuViewController.xib; sourceTree = "<group>"; };
 		B5C45BC215FAA89C00EEAD4D /* MainMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMenu.h; sourceTree = "<group>"; };
 		B5C45BC315FAA89C00EEAD4D /* MainMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainMenu.m; sourceTree = "<group>"; };
 		B5C45BC715FAB17100EEAD4D /* PercentageMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PercentageMenuItem.h; sourceTree = "<group>"; };
@@ -223,6 +232,7 @@
 				28FEDA5E15DA5C9D00320B72 /* ServiceManagement.framework in Frameworks */,
 				2841C7FE15C91CEF00F4F15F /* IOKit.framework in Frameworks */,
 				2841C7E115C91CC100F4F15F /* Cocoa.framework in Frameworks */,
+				B5BA425F15FE8832005082D7 /* Sparkle.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -234,6 +244,7 @@
 				B5BA41F415FB9234005082D7 /* IOKit.framework in Frameworks */,
 				B5C45B9315F94BDA00EEAD4D /* SenTestingKit.framework in Frameworks */,
 				B5C45B9415F94BDA00EEAD4D /* Cocoa.framework in Frameworks */,
+				B5BA426015FE8832005082D7 /* Sparkle.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -243,11 +254,13 @@
 		2841C7D115C91CC100F4F15F = {
 			isa = PBXGroup;
 			children = (
+				B5415C9A15FEA60B0021C0A9 /* release-notes */,
 				B5BA421915FB9C8C005082D7 /* Libraries and Helpers */,
 				2841C7E615C91CC100F4F15F /* Battery Time Remaining */,
 				B5C45B9515F94BDA00EEAD4D /* Battery Time Remaining Tests */,
 				2841C7DF15C91CC100F4F15F /* Frameworks */,
 				2841C7DD15C91CC100F4F15F /* Products */,
+				B5BA429215FE9696005082D7 /* Battery Time Remaining copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -255,7 +268,7 @@
 			isa = PBXGroup;
 			children = (
 				2841C7DC15C91CC100F4F15F /* Battery Time Remaining.app */,
-				B5C45B9115F94BD900EEAD4D /* Battery Time Tests.octest */,
+				B5C45B9115F94BD900EEAD4D /* Battery Time Remaining Tests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -263,6 +276,7 @@
 		2841C7DF15C91CC100F4F15F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B5BA425E15FE8832005082D7 /* Sparkle.framework */,
 				280E9EBC15E0D18C00530934 /* QuartzCore.framework */,
 				28FEDA5D15DA5C9D00320B72 /* ServiceManagement.framework */,
 				2841C7FD15C91CEF00F4F15F /* IOKit.framework */,
@@ -295,8 +309,6 @@
 				28FEDA6415DA5EB200320B72 /* LLStrings.h */,
 				2841C7F215C91CC100F4F15F /* AppDelegate.h */,
 				2841C7F315C91CC100F4F15F /* AppDelegate.m */,
-				28833BAC15D7B90B00741727 /* HttpGet.h */,
-				28833BAD15D7B90B00741727 /* HttpGet.m */,
 				2841C7E715C91CC100F4F15F /* Supporting Files */,
 				B5BA423715FBC139005082D7 /* BTRConstants.h */,
 				B5BA423815FBC139005082D7 /* BTRConstants.m */,
@@ -307,8 +319,8 @@
 		2841C7E715C91CC100F4F15F /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				B5BA429315FE9D89005082D7 /* appcast.xml */,
 				D53375E315DC43380077CEF6 /* Localizable.strings */,
-				28833BB315D7D61100741727 /* build_version */,
 				28833BB115D7D4FF00741727 /* Readme.md */,
 				28BA61A715D1B12500EDB674 /* icon.icns */,
 				28BA61A915D1B63300EDB674 /* Battery Time Remaining.entitlements */,
@@ -406,7 +418,6 @@
 			children = (
 				B5C45BB215FA7AEE00EEAD4D /* MainMenuViewController.h */,
 				B5C45BB315FA7AEE00EEAD4D /* MainMenuViewController.m */,
-				B5C45BB415FA7AEE00EEAD4D /* MainMenuViewController.xib */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -463,6 +474,7 @@
 				2841C7D915C91CC100F4F15F /* Frameworks */,
 				2841C7DA15C91CC100F4F15F /* Resources */,
 				28FEDA5B15DA5B5900320B72 /* CopyFiles */,
+				B5BA426115FE895D005082D7 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -491,7 +503,7 @@
 			);
 			name = "Battery Time Remaining Tests";
 			productName = "Battery Time Tests";
-			productReference = B5C45B9115F94BD900EEAD4D /* Battery Time Tests.octest */;
+			productReference = B5C45B9115F94BD900EEAD4D /* Battery Time Remaining Tests.octest */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
@@ -551,9 +563,7 @@
 				2841C7F115C91CC100F4F15F /* Credits.rtf in Resources */,
 				28BA61A815D1B12500EDB674 /* icon.icns in Resources */,
 				28833BB215D7D4FF00741727 /* Readme.md in Resources */,
-				28833BB415D7D61100741727 /* build_version in Resources */,
 				D53375E515DC43380077CEF6 /* Localizable.strings in Resources */,
-				B5C45BB715FA7AEE00EEAD4D /* MainMenuViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -562,7 +572,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				B5C45B9A15F94BDA00EEAD4D /* InfoPlist.strings in Resources */,
-				B5C45BB815FA7AEE00EEAD4D /* MainMenuViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -592,7 +601,6 @@
 				28FEDA6F15DA5F8C00320B72 /* LLManager.m in Sources */,
 				2841C7ED15C91CC100F4F15F /* main.m in Sources */,
 				2841C7F415C91CC100F4F15F /* AppDelegate.m in Sources */,
-				28833BAE15D7B90B00741727 /* HttpGet.m in Sources */,
 				B5C45BA815F94DE700EEAD4D /* Settings.m in Sources */,
 				B5C45BB515FA7AEE00EEAD4D /* MainMenuViewController.m in Sources */,
 				B5C45BC415FAA89C00EEAD4D /* MainMenu.m in Sources */,
@@ -740,7 +748,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -759,8 +767,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "";
-				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Battery Time Remaining/Battery Time Remaining-Prefix.pch";
 				INFOPLIST_FILE = "Battery Time Remaining/Battery Time Remaining-Info.plist";
@@ -773,8 +784,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "Battery Time Remaining/Battery Time Remaining.entitlements";
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Battery Time Remaining/Battery Time Remaining-Prefix.pch";
 				INFOPLIST_FILE = "Battery Time Remaining/Battery Time Remaining-Info.plist";
@@ -788,7 +803,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Battery Time Tests/Battery Time Tests-Prefix.pch";
 				INFOPLIST_FILE = "Battery Time Tests/Battery Time Tests-Info.plist";
@@ -801,7 +819,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Battery Time Tests/Battery Time Tests-Prefix.pch";
 				INFOPLIST_FILE = "Battery Time Tests/Battery Time Tests-Info.plist";

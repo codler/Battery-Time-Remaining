@@ -8,7 +8,15 @@
 
 #import "BTRStatusNotificator.h"
 
+@interface BTRStatusNotificator ()
+
+@property (nonatomic, copy) NSString *currentIdentifier;
+
+@end
+
 @implementation BTRStatusNotificator
+
+@synthesize currentIdentifier;
 
 + (BTRStatusNotificator *)sharedNotificator{
     static BTRStatusNotificator *sharedInstance = nil;
@@ -19,7 +27,9 @@
     return sharedInstance;
 }
 
-- (void)notifyWithMessage:(NSString *)message{
+- (void)notifyWithMessage:(NSString *)message withId:(NSString*)identifier{
+    if([self wasNotifiedBeforeWithId:identifier]) return;
+    
     NSUserNotification *notification = [[NSUserNotification alloc] init];
     notification.title = [self appName];
     notification.informativeText = message;
@@ -31,6 +41,12 @@
 - (NSString*)appName{
     NSBundle* mainBundle = [NSBundle mainBundle];
     return [mainBundle objectForInfoDictionaryKey:@"CFBundleName"];
+}
+
+- (BOOL)wasNotifiedBeforeWithId:(NSString*)message{
+    BOOL isEqual = [message isEqualToString:self.currentIdentifier];
+    self.currentIdentifier = message;
+    return isEqual;
 }
 
 @end

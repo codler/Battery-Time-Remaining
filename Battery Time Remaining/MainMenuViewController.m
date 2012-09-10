@@ -14,6 +14,7 @@
 #import "StatusItemImageProvider.h"
 #import "Settings.h"
 #import "BTRStatusNotificator.h"
+#import <Sparkle/Sparkle.h>
 
 @interface MainMenuViewController ()
 
@@ -24,8 +25,6 @@
 @property(nonatomic, strong) NSTimer *menuUpdateTimer;
 @property(nonatomic, strong) Settings *settings;
 
-@property(nonatomic, strong) NSNumber *lastNotifiedPercentage;
-
 @end
 
 @implementation MainMenuViewController
@@ -34,7 +33,6 @@
 @synthesize statusItem;
 @synthesize powerSource;
 @synthesize menuUpdateTimer;
-@synthesize lastNotifiedPercentage;
 
 static void PowerSourceChanged(void * context){
     MainMenuViewController *object = (__bridge MainMenuViewController *)context;
@@ -44,7 +42,6 @@ static void PowerSourceChanged(void * context){
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.lastNotifiedPercentage = [NSNumber numberWithInt:-1];
         self.settings = [Settings sharedSettings];
         self.statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
         self.mainMenu = [[MainMenu alloc] init];
@@ -62,6 +59,7 @@ static void PowerSourceChanged(void * context){
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(advancedModeHasChanged:) name:AdvancedModeChangedNotification object:nil];
     
     [self updateStatusItem];
+    [self checkForUpdates];
     return self;
 }
 
@@ -94,17 +92,20 @@ static void PowerSourceChanged(void * context){
 
 - (void)notifyNotificationCenterWithPowerSource:(PowerSource*)aPowerSource{
     BTRStatusNotificator *notificator = [BTRStatusNotificator sharedNotificator];
-    if([self.settings notificationsContainValue:[self.powerSource remainingChargeInPercent]] && [self.powerSource isOnBatteryPower] && [self.lastNotifiedPercentage integerValue] != [self.powerSource.remainingChargeInPercent integerValue]){
-        self.lastNotifiedPercentage = self.powerSource.remainingChargeInPercent;
-        [notificator notifyWithMessage:[NSString stringWithFormat:NSLocalizedString(@"%1$ld:%2$02ld left (%3$ld%%)", @"Time remaining left notification"), [self.powerSource.remainingHours integerValue], [self.powerSource.remainingMinutes integerValue], [self.powerSource.remainingChargeInPercent integerValue]]];
+    if([self.settings notificationsContainValue:[self.powerSource remainingChargeInPercent]]){
+        [notificator notifyWithMessage:[NSString stringWithFormat:NSLocalizedString(@"%1$ld:%2$02ld left (%3$ld%%)", @"Time remaining left notification"), [self.powerSource.remainingHours integerValue], [self.powerSource.remainingMinutes integerValue], [self.powerSource.remainingChargeInPercent integerValue]] withId:[[self.powerSource remainingChargeInPercent] stringValue]];
     }
     if([self.powerSource isCharged]){
-        [notificator notifyWithMessage:NSLocalizedString(@"Charged", @"Charged notification")];
+        [notificator notifyWithMessage:NSLocalizedString(@"Charged", @"Charged notification") withId:@"charged"];
     }
 }
 
 - (void)advancedModeHasChanged:(NSNotification*)notification{
     [self updateStatusItem];
+}
+
+- (void)checkForUpdates{
+    [[SUUpdater sharedUpdater] checkForUpdatesInBackground];
 }
 
 - (void)dealloc{

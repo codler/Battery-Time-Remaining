@@ -12,6 +12,6 @@
 
 + (BTRStatusNotificator *)sharedNotificator;
 
-- (void)notifyWithMessage:(NSString *)message;
+- (void)notifyWithMessage:(NSString *)message withId:(NSString*)identifier;
 
 @end

@@ -31,7 +31,7 @@
     self = [super init];
     if (self) {
         CFTypeRef powerSourcesInfo = IOPSCopyPowerSourcesInfo();
-        NSArray *powerSourcesList = (__bridge NSArray*)IOPSCopyPowerSourcesList(powerSourcesInfo);
+        NSArray *powerSourcesList = (NSArray*)CFBridgingRelease(IOPSCopyPowerSourcesList(powerSourcesInfo));
         
         for (id powerSource in powerSourcesList) {
             self.powerSourceDescription = (__bridge NSDictionary*)IOPSGetPowerSourceDescription(powerSourcesInfo, (__bridge CFTypeRef)(powerSource));
@@ -44,9 +44,10 @@
 
             if (kIOReturnSuccess == IOMasterPort(MACH_PORT_NULL, &masterPort) &&
                 kIOReturnSuccess == IOPMCopyBatteryInfo(masterPort, &batteryInfo)){
-                self.advancedBatteryInfo = [(__bridge NSArray*)batteryInfo objectAtIndex:0];
+                self.advancedBatteryInfo = [(NSArray*)CFBridgingRelease(batteryInfo) objectAtIndex:0];
             }
         }
+        CFBridgingRelease(powerSourcesInfo);
     }
     return self;
 }

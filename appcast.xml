@@ -6,12 +6,12 @@
       <description>Most recent changes with links to updates.</description>
       <language>en</language>
          <item>
-            <title>Version 2.0</title>
+            <title>Version 1.6</title>
             <sparkle:releaseNotesLink>
                 https://raw.github.com/osigge/Battery-Time-Remaining/master/release-notes/en/1.6.html
             </sparkle:releaseNotesLink>
-            <pubDate>Wed, 09 Jan 2006 19:20:11 +0000</pubDate>
-            <enclosure url="https://github.com/downloads/osigge/Battery-Time-Remaining/Battery%20Time%20Remaining.zip" sparkle:version="2.0" length="1623481" type="application/octet-stream" sparkle:dsaSignature="<put dsa key here>" />
+            <pubDate>Wed, 11 Sep 2012 01:15:00 +0000</pubDate>
+            <enclosure url="https://github.com/downloads/osigge/Battery-Time-Remaining/Battery%20Time%20Remaining.zip" sparkle:version="1.6" length="1623481" type="application/octet-stream" sparkle:dsaSignature="<put dsa key here>" />
          </item>
    </channel>
 </rss>

@@ -185,7 +185,6 @@
 		B5BA425A15FD3D4A005082D7 /* BTRStatusNotificator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTRStatusNotificator.h; sourceTree = "<group>"; };
 		B5BA425B15FD3D4A005082D7 /* BTRStatusNotificator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTRStatusNotificator.m; sourceTree = "<group>"; };
 		B5BA425E15FE8832005082D7 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
-		B5BA429215FE9696005082D7 /* Battery Time Remaining copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Battery Time Remaining copy-Info.plist"; path = "/Volumes/MacintoshSSDData/Users/oliversigge/Documents/Developer/github/Battery-Time-Remaining/Battery Time Remaining copy-Info.plist"; sourceTree = "<absolute>"; };
 		B5BA429315FE9D89005082D7 /* appcast.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = appcast.xml; path = ../appcast.xml; sourceTree = "<group>"; };
 		B5C45B9115F94BD900EEAD4D /* Battery Time Remaining Tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Battery Time Remaining Tests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5C45B9215F94BDA00EEAD4D /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
@@ -260,7 +259,6 @@
 				B5C45B9515F94BDA00EEAD4D /* Battery Time Remaining Tests */,
 				2841C7DF15C91CC100F4F15F /* Frameworks */,
 				2841C7DD15C91CC100F4F15F /* Products */,
-				B5BA429215FE9696005082D7 /* Battery Time Remaining copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -309,9 +307,9 @@
 				28FEDA6415DA5EB200320B72 /* LLStrings.h */,
 				2841C7F215C91CC100F4F15F /* AppDelegate.h */,
 				2841C7F315C91CC100F4F15F /* AppDelegate.m */,
-				2841C7E715C91CC100F4F15F /* Supporting Files */,
 				B5BA423715FBC139005082D7 /* BTRConstants.h */,
 				B5BA423815FBC139005082D7 /* BTRConstants.m */,
+				2841C7E715C91CC100F4F15F /* Supporting Files */,
 			);
 			path = "Battery Time Remaining";
 			sourceTree = "<group>";
@@ -711,6 +709,62 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		22B8300C15FF3B8C00659E4C /* Ad Hoc */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				SDKROOT = macosx;
+			};
+			name = "Ad Hoc";
+		};
+		22B8300D15FF3B8C00659E4C /* Ad Hoc */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_IDENTITY = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Battery Time Remaining/Battery Time Remaining-Prefix.pch";
+				INFOPLIST_FILE = "Battery Time Remaining/Battery Time Remaining-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = "Ad Hoc";
+		};
+		22B8300E15FF3B8C00659E4C /* Ad Hoc */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+					"\"$(SRCROOT)\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Battery Time Tests/Battery Time Tests-Prefix.pch";
+				INFOPLIST_FILE = "Battery Time Tests/Battery Time Tests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = "Ad Hoc";
+		};
 		2841C7F815C91CC200F4F15F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -740,7 +794,7 @@
 			};
 			name = Debug;
 		};
-		2841C7F915C91CC200F4F15F /* Release */ = {
+		2841C7F915C91CC200F4F15F /* Mac App Store */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -748,7 +802,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
+				CODE_SIGN_IDENTITY = "";
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -758,10 +812,9 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
-				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
 			};
-			name = Release;
+			name = "Mac App Store";
 		};
 		2841C7FB15C91CC200F4F15F /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -780,11 +833,11 @@
 			};
 			name = Debug;
 		};
-		2841C7FC15C91CC200F4F15F /* Release */ = {
+		2841C7FC15C91CC200F4F15F /* Mac App Store */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "Battery Time Remaining/Battery Time Remaining.entitlements";
-				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -797,7 +850,7 @@
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
-			name = Release;
+			name = "Mac App Store";
 		};
 		B5C45BA015F94BDA00EEAD4D /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -815,7 +868,7 @@
 			};
 			name = Debug;
 		};
-		B5C45BA115F94BDA00EEAD4D /* Release */ = {
+		B5C45BA115F94BDA00EEAD4D /* Mac App Store */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
@@ -829,7 +882,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = octest;
 			};
-			name = Release;
+			name = "Mac App Store";
 		};
 /* End XCBuildConfiguration section */
 
@@ -838,28 +891,31 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2841C7F815C91CC200F4F15F /* Debug */,
-				2841C7F915C91CC200F4F15F /* Release */,
+				2841C7F915C91CC200F4F15F /* Mac App Store */,
+				22B8300C15FF3B8C00659E4C /* Ad Hoc */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = "Ad Hoc";
 		};
 		2841C7FA15C91CC200F4F15F /* Build configuration list for PBXNativeTarget "Battery Time Remaining" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2841C7FB15C91CC200F4F15F /* Debug */,
-				2841C7FC15C91CC200F4F15F /* Release */,
+				2841C7FC15C91CC200F4F15F /* Mac App Store */,
+				22B8300D15FF3B8C00659E4C /* Ad Hoc */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = "Ad Hoc";
 		};
 		B5C45B9F15F94BDA00EEAD4D /* Build configuration list for PBXNativeTarget "Battery Time Remaining Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				B5C45BA015F94BDA00EEAD4D /* Debug */,
-				B5C45BA115F94BDA00EEAD4D /* Release */,
+				B5C45BA115F94BDA00EEAD4D /* Mac App Store */,
+				22B8300E15FF3B8C00659E4C /* Ad Hoc */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = "Ad Hoc";
 		};
 /* End XCConfigurationList section */
 	};

@@ -138,7 +138,7 @@
 }
 
 - (BOOL)lowBatteryWarning{
-    return self.remainingChargeInPercent <= [NSNumber numberWithInteger:LowBatteryWarningThreshold];
+    return [self.remainingChargeInPercent isLessThanOrEqualTo:[NSNumber numberWithInteger:LowBatteryWarningThreshold]];
 }
 
 - (BOOL)isOnBatteryPower{

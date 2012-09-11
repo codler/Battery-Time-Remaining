@@ -25,7 +25,7 @@
 @synthesize timeRemaining;
 @synthesize advancedBatteryInfo, powerSourceDescription;
 @synthesize remainingHours, remainingMinutes;
-@synthesize current, capacity, cycleCount, watt, temperature, remainingChargeInPercent;
+@synthesize current, capacity, cycleCount, watt, temperature, remainingChargeInPercent, powerSource;
 
 - (id)init{
     self = [super init];
@@ -33,8 +33,8 @@
         CFTypeRef powerSourcesInfo = IOPSCopyPowerSourcesInfo();
         NSArray *powerSourcesList = (NSArray*)CFBridgingRelease(IOPSCopyPowerSourcesList(powerSourcesInfo));
         
-        for (id powerSource in powerSourcesList) {
-            self.powerSourceDescription = (__bridge NSDictionary*)IOPSGetPowerSourceDescription(powerSourcesInfo, (__bridge CFTypeRef)(powerSource));
+        for (id thePowerSource in powerSourcesList) {
+            self.powerSourceDescription = (__bridge NSDictionary*)IOPSGetPowerSourceDescription(powerSourcesInfo, (__bridge CFTypeRef)(thePowerSource));
             if (![self.powerSourceDescription valueForKey:[NSString stringWithUTF8String:kIOPSIsPresentKey]]){
                 continue;
             }
@@ -151,6 +151,10 @@
     NSNumber *currentBatteryCapacity = [self attributeValueForKey:kIOPSCurrentCapacityKey];
     NSNumber *maxBatteryCapacity = [self attributeValueForKey:kIOPSMaxCapacityKey];
     return [NSNumber numberWithDouble:([currentBatteryCapacity doubleValue] / [maxBatteryCapacity doubleValue]) * 100];
+}
+
+- (NSString*)powerSource{
+    return [self attributeValueForKey:kIOPSPowerSourceStateKey];
 }
 
 @end

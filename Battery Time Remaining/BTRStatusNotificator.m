@@ -49,4 +49,8 @@
     return isEqual;
 }
 
+- (void)resetNotifications{
+    self.currentIdentifier = @"";
+}
+
 @end

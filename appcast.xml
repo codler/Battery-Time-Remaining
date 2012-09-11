@@ -19,7 +19,7 @@
              ]]>
              </description>
             <pubDate>Wed, 11 Sep 2012 01:15:00 +0000</pubDate>
-            <enclosure url="https://github.com/downloads/osigge/Battery-Time-Remaining/Battery Time Remaining-1.6.zip" sparkle:shortVersionString="1.6" sparkle:version="1" length="697540" type="application/octet-stream" sparkle:dsaSignature="MCwCFDkR4oCBfdpE3VdBqAJH4fn4aFZ9AhQ0IVQMCuaXUJ6CerGgAkQcK32drg==" />
+            <enclosure url="https://github.com/downloads/osigge/Battery-Time-Remaining/Battery Time Remaining-1.6.zip" sparkle:shortVersionString="1.6" sparkle:version="1.6" length="697540" type="application/octet-stream" sparkle:dsaSignature="MCwCFDkR4oCBfdpE3VdBqAJH4fn4aFZ9AhQ0IVQMCuaXUJ6CerGgAkQcK32drg==" />
          </item>
    </channel>
 </rss>

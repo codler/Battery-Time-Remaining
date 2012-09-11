@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"  xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <channel>
+        <title>Battery Time Remaining</title>
+        <link>https://raw.github.com/osigge/Battery-Time-Remaining/master/appcast.xml</link>
+        <description>Show the estimated battery time remaining on top of your screen in Mac OS X 10.8 Mountain Lion.</description>
+        <language>en</language>
+        <item>
+            <title>Version 1.6.3</title>
+            <sparkle:minimumSystemVersion>10.8</sparkle:minimumSystemVersion>
+            <description><![CDATA[
+                <h3><span style="font-weight:bold;">New in version 1.6.3</span></h3>
+                <ul>
+                    <li>Autoupdate statusbaritem bugfix</li>
+                </ul>
+            ]]>
+            </description>
+            <pubDate>Wed, 12 Sep 2012 03:15:00 +0000</pubDate>
+            <enclosure url="https://github.com/downloads/osigge/Battery-Time-Remaining/Battery Time Remaining-1.6.3.zip" sparkle:shortVersionString="1.6.3" sparkle:version="4" length="697302" type="application/octet-stream" sparkle:dsaSignature="MCwCFEjShuqcdicLeiqgjGENqkCszOL9AhQ0JZBpXyF7x/l+qDLd/aFd+oRZfg==" />
+        </item>
+        <item>
+            <title>Version 1.6.2</title>
+            <sparkle:minimumSystemVersion>10.8</sparkle:minimumSystemVersion>
+            <description><![CDATA[
+                <h3><span style="font-weight:bold;">New in version 1.6.2</span></h3>
+                <ul>
+                    <li>Notification Hotfix</li>
+                </ul>
+            ]]>
+            </description>
+            <pubDate>Wed, 12 Sep 2012 02:15:00 +0000</pubDate>
+            <enclosure url="https://github.com/downloads/osigge/Battery-Time-Remaining/Battery Time Remaining-1.6.2.zip" sparkle:shortVersionString="1.6.2" sparkle:version="3" length="697273" type="application/octet-stream" sparkle:dsaSignature="MCwCFFIhyNpWOK0D6OLvNf/HyGwXUVmsAhRpi4+uEwFC2W0IYnaa7LiBi2iy6A==" />
+        </item>
+        <item>
+            <title>Version 1.6.1</title>
+            <sparkle:minimumSystemVersion>10.8</sparkle:minimumSystemVersion>
+            <description><![CDATA[
+                <h3><span style="font-weight:bold;">New in version 1.6.1</span></h3>
+                <ul>
+                <li>The additional info of the advanced mode is displayed on option + click</li>
+                    <li>Remaining time is now always in parenthesis</li>
+                    <li>Sparkle integration</li>
+                    <li>Major refactorings and rewrites</li>
+                    <li>Integrated Sparkle</li>
+                </ul>
+            ]]>
+            </description>
+            <pubDate>Wed, 12 Sep 2012 01:15:00 +0000</pubDate>
+            <enclosure url="https://github.com/downloads/osigge/Battery-Time-Remaining/Battery Time Remaining-1.6.1.zip" sparkle:shortVersionString="1.6.1" sparkle:version="2" length="697540" type="application/octet-stream" sparkle:dsaSignature="MCwCFDCH6a3f9vm3c3mGIHCjEiP8l7K8AhRkPIvKN5YsoFZ+OVEI6Z6f1gKX9w==" />
+        </item>
+    </channel>
+</rss>

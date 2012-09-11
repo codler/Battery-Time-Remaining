@@ -3,9 +3,6 @@ Battery Time Remaining
 
 Show the estimated battery time remaining on top of your screen in Mac OS X 10.8 Mountain Lion.
 
-![Normal mode](https://raw.github.com/codler/Battery-Time-Remaining/master/preview.png)
-![Advanced mode](https://raw.github.com/codler/Battery-Time-Remaining/master/preview_advanced.png)
-
 Why does this project exist?
 -----------------------------
 
@@ -39,10 +36,18 @@ Who did make this app?
 ----------------------
 
 * [codler](https://github.com/codler) / Han Lin Yap: created the [first version](https://github.com/codler/Battery-Time-Remaining) of the app
+* [osigge](https://github.com/osigge) / Oliver Sigge: major refactorings, rewrites and tests
 * [mac-cain13](https://github.com/mac-cain13) / Mathijs Kadijk: made some improvements
 
 Change log
 ----------
+
+2012-09-11 - **v1.6** - [diff](https://github.com/codler/Battery-Time-Remaining/compare/v1.5.2...v1.6)
+
+* The additional info of the advanced mode is displayed on option + click
+* Remaining time is now always in paranthesis
+* Sparkle integration
+* Major refactorings and rewrites
 
 2012-08-29 - **v1.5.2** - [diff](https://github.com/codler/Battery-Time-Remaining/compare/v1.5.1...v1.5.2)
 

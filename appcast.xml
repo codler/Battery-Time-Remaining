@@ -11,28 +11,16 @@
             <description><![CDATA[
                 <h3><span style="font-weight:bold;">New in version 1.6.1</span></h3>
                 <ul>
+                <li>The additional info of the advanced mode is displayed on option + click</li>
+                    <li>Remaining time is now always in parenthesis</li>
+                    <li>Sparkle integration</li>
+                    <li>Major refactorings and rewrites</li>
                     <li>Integrated Sparkle</li>
                 </ul>
             ]]>
             </description>
             <pubDate>Wed, 12 Sep 2012 01:15:00 +0000</pubDate>
-            <enclosure url="https://github.com/downloads/osigge/Battery-Time-Remaining/Battery Time Remaining-1.6.1.zip" sparkle:shortVersionString="1.6.1" sparkle:version="1.6.1" length="697540" type="application/octet-stream" sparkle:dsaSignature="MCwCFC76QiwZ7js/vp9SQMzXzJNdYWGCAhQf9uK57BGCMPjlQ1jTF6RJwAX2vA==" />
-        </item>
-        <item>
-            <title>Version 1.6</title>
-            <sparkle:minimumSystemVersion>10.8</sparkle:minimumSystemVersion>
-             <description><![CDATA[
-                 <h3><span style="font-weight:bold;">New in version 1.6</span></h3>
-                 <ul>
-                    <li>The additional info of the advanced mode is displayed on option + click</li>
-                    <li>Remaining time is now always in parenthesis</li>
-                    <li>Sparkle integration</li>
-                    <li>Major refactorings and rewrites</li>
-                 </ul>
-             ]]>
-             </description>
-            <pubDate>Wed, 11 Sep 2012 01:15:00 +0000</pubDate>
-            <enclosure url="https://github.com/downloads/osigge/Battery-Time-Remaining/Battery Time Remaining-1.6.zip" sparkle:shortVersionString="1.6" sparkle:version="1.6" length="697540" type="application/octet-stream" sparkle:dsaSignature="MCwCFDkR4oCBfdpE3VdBqAJH4fn4aFZ9AhQ0IVQMCuaXUJ6CerGgAkQcK32drg==" />
+            <enclosure url="https://github.com/downloads/osigge/Battery-Time-Remaining/Battery Time Remaining-1.6.1.zip" sparkle:shortVersionString="1.6.1" sparkle:version="2" length="697540" type="application/octet-stream" sparkle:dsaSignature="MCwCFDCH6a3f9vm3c3mGIHCjEiP8l7K8AhRkPIvKN5YsoFZ+OVEI6Z6f1gKX9w==" />
         </item>
     </channel>
 </rss>

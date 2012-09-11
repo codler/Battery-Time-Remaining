@@ -8,10 +8,10 @@
          <item>
             <title>Version 1.6</title>
             <sparkle:releaseNotesLink>
-                https://raw.github.com/osigge/Battery-Time-Remaining/master/release-notes/en/1.6.html
+                https://github.com/osigge/Battery-Time-Remaining/wiki/Version-1.6
             </sparkle:releaseNotesLink>
             <pubDate>Wed, 11 Sep 2012 01:15:00 +0000</pubDate>
-            <enclosure url="https://github.com/downloads/osigge/Battery-Time-Remaining/Battery%20Time%20Remaining.zip" sparkle:version="1.6" length="1623481" type="application/octet-stream" sparkle:dsaSignature="<put dsa key here>" />
+            <enclosure url="https://github.com/downloads/osigge/Battery-Time-Remaining/Battery%20Time%20Remaining-1.6.zip" sparkle:version="1.6" length="1623481" type="application/octet-stream" sparkle:dsaSignature="MCwCFDkR4oCBfdpE3VdBqAJH4fn4aFZ9AhQ0IVQMCuaXUJ6CerGgAkQcK32drg==" />
          </item>
    </channel>
 </rss>

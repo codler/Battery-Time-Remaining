@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"  xmlns:dc="http://purl.org/dc/elements/1.1/">
    <channel>
       <title>Battery Time Remaining</title>
-      <link>https://raw.github.com/osigge/Battery-Time-Remaining/hotfix/sparkle_github/appcast.xml</link>
+      <link>https://raw.github.com/osigge/Battery-Time-Remaining/master/appcast.xml</link>
       <description>Most recent changes with links to updates.</description>
       <language>en</language>
          <item>
             <title>Version 1.6</title>
             <sparkle:minimumSystemVersion>10.8</sparkle:minimumSystemVersion>
              <description><![CDATA[
-                 <h2>2012-09-11 - <span style="font-weight:bold;">Version 1.6</span></h2>
+                 <h3><span style="font-weight:bold;">New in version 1.6</span></h3>
                  <ul>
                     <li>The additional info of the advanced mode is displayed on option + click</li>
-                    <li>Remaining time is now always in paranthesis</li>
+                    <li>Remaining time is now always in parenthesis</li>
                     <li>Sparkle integration</li>
                     <li>Major refactorings and rewrites</li>
                  </ul>

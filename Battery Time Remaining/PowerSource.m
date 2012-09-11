@@ -87,6 +87,8 @@
     entry = IOServiceGetMatchingService(kIOMasterPortDefault, matching);
     IORegistryEntryCreateCFProperties(entry, &properties, NULL, 0);
     NSDictionary *advancedBatteryInformations = (__bridge NSDictionary *)properties;
+    IOObjectRelease(entry);
+    CFRelease(properties);
     return [NSNumber numberWithDouble:[[advancedBatteryInformations objectForKey:@"Temperature"] doubleValue] / 100];
 }
 

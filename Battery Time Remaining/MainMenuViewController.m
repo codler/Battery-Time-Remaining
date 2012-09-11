@@ -41,7 +41,7 @@ static void PowerSourceChanged(void * context){
     if(![object.powerSource.powerSource isEqualToString:currentPowerSource.powerSource]){
         [[BTRStatusNotificator sharedNotificator] resetNotifications];
     }
-    object.powerSource = currentPowerSource;
+    object.powerSource = nil;
     
     [object updateStatusItem];
 }
@@ -72,6 +72,8 @@ static void PowerSourceChanged(void * context){
 }
 
 - (void)updateStatusItem{
+    self.powerSource = [[PowerSource alloc] init];
+    
     NSString *humanReadableTime = [self.powerSource stringWithHumanReadableTimeRemaining];
     [self setStatusItemTitle:humanReadableTime];
     

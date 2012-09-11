@@ -141,6 +141,39 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		22B8301015FF3D6200659E4C /* Ad Hoc */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = "Ad Hoc";
+		};
+		22B8301115FF3D6200659E4C /* Ad Hoc */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = LaunchAtLoginHelper/LaunchAtLoginHelper.entitlements;
+				CODE_SIGN_IDENTITY = "";
+				INFOPLIST_FILE = "LaunchAtLoginHelper/LaunchAtLoginHelper-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.6.8;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = "Ad Hoc";
+		};
 		734C37B015414CE200994189 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -169,7 +202,7 @@
 			};
 			name = Debug;
 		};
-		734C37B115414CE200994189 /* Release */ = {
+		734C37B115414CE200994189 /* Mac App Store */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -188,7 +221,7 @@
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 			};
-			name = Release;
+			name = "Mac App Store";
 		};
 		734C37B315414CE200994189 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -202,7 +235,7 @@
 			};
 			name = Debug;
 		};
-		734C37B415414CE200994189 /* Release */ = {
+		734C37B415414CE200994189 /* Mac App Store */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = LaunchAtLoginHelper/LaunchAtLoginHelper.entitlements;
@@ -213,7 +246,7 @@
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
-			name = Release;
+			name = "Mac App Store";
 		};
 /* End XCBuildConfiguration section */
 
@@ -222,19 +255,21 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				734C37B015414CE200994189 /* Debug */,
-				734C37B115414CE200994189 /* Release */,
+				734C37B115414CE200994189 /* Mac App Store */,
+				22B8301015FF3D6200659E4C /* Ad Hoc */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = "Mac App Store";
 		};
 		734C37B215414CE200994189 /* Build configuration list for PBXNativeTarget "LaunchAtLoginHelper" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				734C37B315414CE200994189 /* Debug */,
-				734C37B415414CE200994189 /* Release */,
+				734C37B415414CE200994189 /* Mac App Store */,
+				22B8301115FF3D6200659E4C /* Ad Hoc */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = "Mac App Store";
 		};
 /* End XCConfigurationList section */
 	};

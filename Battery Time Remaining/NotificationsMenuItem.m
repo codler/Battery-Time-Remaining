@@ -25,7 +25,7 @@
         NSMenu *notificationMenu = [[NSMenu alloc] initWithTitle:@"NotificationMenu"];
         [notificationMenu setSubmenu:notificationMenu forItem:self];
         
-        for (int index = 5; index <= 100; index = index + 5){
+        for (int index = 5; index <= 95; index = index + 5){
             BOOL state = [self.settings notificationsContainValue:[NSNumber numberWithInt:index]];
 
             NSMenuItem *notificationSubmenuItem = [[NSMenuItem alloc] init];

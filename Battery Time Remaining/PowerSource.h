@@ -19,6 +19,7 @@
 @property(nonatomic, readonly, strong) NSNumber *watt;
 @property(nonatomic, readonly, strong) NSNumber *temperature;
 @property(nonatomic, readonly, strong) NSNumber *remainingChargeInPercent;
+@property(nonatomic, readonly, strong) NSString *powerSource;
 
 - (NSString*)stringWithHumanReadableTimeRemaining;
 - (id)advancedAttributeValueForKey:(NSString*)key;

@@ -6,6 +6,19 @@
         <description>Show the estimated battery time remaining on top of your screen in Mac OS X 10.8 Mountain Lion.</description>
         <language>en</language>
         <item>
+            <title>Version 1.6.2</title>
+            <sparkle:minimumSystemVersion>10.8</sparkle:minimumSystemVersion>
+            <description><![CDATA[
+                <h3><span style="font-weight:bold;">New in version 1.6.2</span></h3>
+                <ul>
+                    <li>Notification Hotfix</li>
+                </ul>
+            ]]>
+            </description>
+            <pubDate>Wed, 12 Sep 2012 02:15:00 +0000</pubDate>
+            <enclosure url="https://github.com/downloads/osigge/Battery-Time-Remaining/Battery Time Remaining-1.6.2.zip" sparkle:shortVersionString="1.6.2" sparkle:version="3" length="697273" type="application/octet-stream" sparkle:dsaSignature="MCwCFFIhyNpWOK0D6OLvNf/HyGwXUVmsAhRpi4+uEwFC2W0IYnaa7LiBi2iy6A==" />
+        </item>
+        <item>
             <title>Version 1.6.1</title>
             <sparkle:minimumSystemVersion>10.8</sparkle:minimumSystemVersion>
             <description><![CDATA[

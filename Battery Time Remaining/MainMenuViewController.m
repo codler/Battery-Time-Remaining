@@ -36,6 +36,13 @@
 
 static void PowerSourceChanged(void * context){
     MainMenuViewController *object = (__bridge MainMenuViewController *)context;
+    
+    PowerSource *currentPowerSource = [[PowerSource alloc] init];
+    if(![object.powerSource.powerSource isEqualToString:currentPowerSource.powerSource]){
+        [[BTRStatusNotificator sharedNotificator] resetNotifications];
+    }
+    object.powerSource = currentPowerSource;
+    
     [object updateStatusItem];
 }
 
@@ -50,6 +57,7 @@ static void PowerSourceChanged(void * context){
         
         self.statusItem.menu = self.mainMenu;
         self.statusItem.highlightMode = YES;
+        self.powerSource = [[PowerSource alloc] init];
     }
 
     CFRunLoopSourceRef loop = IOPSNotificationCreateRunLoopSource(PowerSourceChanged, (__bridge void *)self);
@@ -64,7 +72,6 @@ static void PowerSourceChanged(void * context){
 }
 
 - (void)updateStatusItem{
-    self.powerSource = [[PowerSource alloc] init];
     NSString *humanReadableTime = [self.powerSource stringWithHumanReadableTimeRemaining];
     [self setStatusItemTitle:humanReadableTime];
     
@@ -92,11 +99,12 @@ static void PowerSourceChanged(void * context){
 
 - (void)notifyNotificationCenterWithPowerSource:(PowerSource*)aPowerSource{
     BTRStatusNotificator *notificator = [BTRStatusNotificator sharedNotificator];
-    if([self.settings notificationsContainValue:[self.powerSource remainingChargeInPercent]]){
-        [notificator notifyWithMessage:[NSString stringWithFormat:NSLocalizedString(@"%1$ld:%2$02ld left (%3$ld%%)", @"Time remaining left notification"), [self.powerSource.remainingHours integerValue], [self.powerSource.remainingMinutes integerValue], [self.powerSource.remainingChargeInPercent integerValue]] withId:[[self.powerSource remainingChargeInPercent] stringValue]];
-    }
     if([self.powerSource isCharged]){
         [notificator notifyWithMessage:NSLocalizedString(@"Charged", @"Charged notification") withId:@"charged"];
+        return;
+    }
+    if([self.settings notificationsContainValue:self.powerSource.remainingChargeInPercent]){
+        [notificator notifyWithMessage:[NSString stringWithFormat:NSLocalizedString(@"%1$ld:%2$02ld left (%3$ld%%)", @"Time remaining left notification"), [self.powerSource.remainingHours integerValue], [self.powerSource.remainingMinutes integerValue], [self.powerSource.remainingChargeInPercent integerValue]] withId:[[self.powerSource remainingChargeInPercent] stringValue]];
     }
 }
 

@@ -33,6 +33,7 @@ static void PowerSourceChanged(void * context)
 
 @interface AppDelegate ()
 {
+    NSTimer *menuUpdateTimer;
     NSDictionary *batteryIcons;
     BOOL showParenthesis;
     BOOL isCapacityWarning;
@@ -296,6 +297,65 @@ static void PowerSourceChanged(void * context)
     
     CFRelease(psList);
     CFRelease(psBlob);
+}
+
+- (void)updateStatusItemAdvanced
+{
+    [self updateStatusItem];
+    
+    // Show power source data in menu
+    if (self.advancedSupported && ([[self.statusItem.menu itemWithTag:kBTRMenuSetting].submenu itemWithTag:kBTRMenuAdvanced].state == NSOnState || [[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask))
+    {
+        if ([[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask)
+        {
+            [[self.statusItem.menu itemWithTag:kBTRMenuPowerSourceAdvanced] setHidden:NO];
+            [[self.statusItem.menu itemWithTag:kBTRMenuNotification] setHidden:NO];
+        }
+        
+        NSDictionary *advancedBatteryInfo = [self getAdvancedBatteryInfo];
+        NSDictionary *moreAdvancedBatteryInfo = [self getMoreAdvancedBatteryInfo];
+        
+        // Unit mAh
+        NSNumber *currentBatteryPower = [advancedBatteryInfo objectForKey:@"Current"];
+        // Unit mAh
+        NSNumber *maxBatteryPower = [advancedBatteryInfo objectForKey:@"Capacity"];
+        // Unit mAh
+        NSNumber *Amperage = [advancedBatteryInfo objectForKey:@"Amperage"];
+        // Unit mV
+        NSNumber *Voltage = [advancedBatteryInfo objectForKey:@"Voltage"];
+        NSNumber *cycleCount = [advancedBatteryInfo objectForKey:@"Cycle Count"];
+        // Unit Wh
+        NSNumber *watt =  [NSNumber numberWithDouble:[Amperage doubleValue] / 1000 * [Voltage doubleValue] / 1000];
+        // Unit Celsius
+        NSNumber *temperature = [NSNumber numberWithDouble:[[moreAdvancedBatteryInfo objectForKey:@"Temperature"] doubleValue] / 100];
+        
+        [self.statusItem.menu itemWithTag:kBTRMenuPowerSourcePercent].title = [NSString stringWithFormat: NSLocalizedString(@"%ld %% left ( %ld/%ld mAh )", @"Advanced percentage left menuitem"), self.currentPercent, [currentBatteryPower integerValue], [maxBatteryPower integerValue]];
+        
+        // Each item in array will be a row in menu
+        NSArray *advancedBatteryInfoTexts = [NSArray arrayWithObjects:
+                                             [NSString stringWithFormat:NSLocalizedString(@"Cycle count: %ld", @"Advanced battery info menuitem"), [cycleCount integerValue]],
+                                             [NSString stringWithFormat:NSLocalizedString(@"Power usage: %.2f Watt", @"Advanced battery info menuitem"), [watt doubleValue]],
+                                             [NSString stringWithFormat:NSLocalizedString(@"Temperature: %.1f°C", @"Advanced battery info menuitem"), [temperature doubleValue]],
+                                             nil];
+        
+        NSDictionary *advancedAttributedStyle = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                 // Font
+                                                 [NSFont systemFontOfSize:[NSFont systemFontSize]+1.f],
+                                                 NSFontAttributeName,
+                                                 // Text color
+                                                 [NSColor disabledControlTextColor],
+                                                 NSForegroundColorAttributeName,
+                                                 nil];
+        
+        NSAttributedString *advancedAttributedTitle = [[NSAttributedString alloc] initWithString:[advancedBatteryInfoTexts componentsJoinedByString:@"\n"] attributes:advancedAttributedStyle];
+        
+        [self.statusItem.menu itemWithTag:kBTRMenuPowerSourceAdvanced].attributedTitle = advancedAttributedTitle;
+    }
+    else
+    {
+        [self.statusItem.menu itemWithTag:kBTRMenuPowerSourcePercent].title = [NSString stringWithFormat: NSLocalizedString(@"%ld %% left", @"Percentage left menuitem"), self.currentPercent];
+    }
+
 }
 
 - (void)setStatusBarImage:(NSImage *)image title:(NSString *)title
@@ -596,62 +656,15 @@ static void PowerSourceChanged(void * context)
 
 - (void)menuWillOpen:(NSMenu *)menu
 {
-#ifdef DEBUG_BATTERY_PERCENT
-    [self updateStatusItem];
-#endif
+    [self updateStatusItemAdvanced];
     
-    // Show power source data in menu
-    if (self.advancedSupported && ([[self.statusItem.menu itemWithTag:kBTRMenuSetting].submenu itemWithTag:kBTRMenuAdvanced].state == NSOnState || [[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask))
-    {
-        if ([[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask)
-        {
-            [[self.statusItem.menu itemWithTag:kBTRMenuPowerSourceAdvanced] setHidden:NO];
-            [[self.statusItem.menu itemWithTag:kBTRMenuNotification] setHidden:NO];
-        }
-        
-        NSDictionary *advancedBatteryInfo = [self getAdvancedBatteryInfo];
-        NSDictionary *moreAdvancedBatteryInfo = [self getMoreAdvancedBatteryInfo];
-        
-        // Unit mAh
-        NSNumber *currentBatteryPower = [advancedBatteryInfo objectForKey:@"Current"];
-        // Unit mAh
-        NSNumber *maxBatteryPower = [advancedBatteryInfo objectForKey:@"Capacity"];
-        // Unit mAh
-        NSNumber *Amperage = [advancedBatteryInfo objectForKey:@"Amperage"];
-        // Unit mV
-        NSNumber *Voltage = [advancedBatteryInfo objectForKey:@"Voltage"];
-        NSNumber *cycleCount = [advancedBatteryInfo objectForKey:@"Cycle Count"];
-        // Unit Wh
-        NSNumber *watt =  [NSNumber numberWithDouble:[Amperage doubleValue] / 1000 * [Voltage doubleValue] / 1000];
-        // Unit Celsius
-        NSNumber *temperature = [NSNumber numberWithDouble:[[moreAdvancedBatteryInfo objectForKey:@"Temperature"] doubleValue] / 100];
-        
-        [self.statusItem.menu itemWithTag:kBTRMenuPowerSourcePercent].title = [NSString stringWithFormat: NSLocalizedString(@"%ld %% left ( %ld/%ld mAh )", @"Advanced percentage left menuitem"), self.currentPercent, [currentBatteryPower integerValue], [maxBatteryPower integerValue]];
-        
-        // Each item in array will be a row in menu
-        NSArray *advancedBatteryInfoTexts = [NSArray arrayWithObjects:
-                                             [NSString stringWithFormat:NSLocalizedString(@"Cycle count: %ld", @"Advanced battery info menuitem"), [cycleCount integerValue]],
-                                             [NSString stringWithFormat:NSLocalizedString(@"Power usage: %.2f Watt", @"Advanced battery info menuitem"), [watt doubleValue]],
-                                             [NSString stringWithFormat:NSLocalizedString(@"Temperature: %.1f°C", @"Advanced battery info menuitem"), [temperature doubleValue]],
-                                              nil];
-        
-        NSDictionary *advancedAttributedStyle = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                 // Font
-                                                 [NSFont systemFontOfSize:[NSFont systemFontSize]+1.f],
-                                                 NSFontAttributeName,
-                                                 // Text color
-                                                 [NSColor disabledControlTextColor],
-                                                 NSForegroundColorAttributeName,
-                                                 nil];
-        
-        NSAttributedString *advancedAttributedTitle = [[NSAttributedString alloc] initWithString:[advancedBatteryInfoTexts componentsJoinedByString:@"\n"] attributes:advancedAttributedStyle];
-        
-        [self.statusItem.menu itemWithTag:kBTRMenuPowerSourceAdvanced].attributedTitle = advancedAttributedTitle;
-    }
-    else
-    {
-        [self.statusItem.menu itemWithTag:kBTRMenuPowerSourcePercent].title = [NSString stringWithFormat: NSLocalizedString(@"%ld %% left", @"Percentage left menuitem"), self.currentPercent];
-    }
+    // Update menu every 5 seconds
+    menuUpdateTimer = [NSTimer timerWithTimeInterval:5
+                                              target:self
+                                            selector:@selector(updateStatusItemAdvanced)
+                                            userInfo:nil
+                                             repeats:YES];
+    [[NSRunLoop currentRunLoop] addTimer:menuUpdateTimer forMode:NSRunLoopCommonModes];
     
 #ifdef CHECK_FOR_UPDATE
     // Update menu
@@ -702,6 +715,9 @@ static void PowerSourceChanged(void * context)
         [[self.statusItem.menu itemWithTag:kBTRMenuPowerSourceAdvanced] setHidden:YES];
         [[self.statusItem.menu itemWithTag:kBTRMenuNotification] setHidden:YES];
     }
+    
+    [menuUpdateTimer invalidate];
+    menuUpdateTimer = nil;
 }
 
 @end

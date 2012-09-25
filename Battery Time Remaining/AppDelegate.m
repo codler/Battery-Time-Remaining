@@ -601,8 +601,14 @@ static void PowerSourceChanged(void * context)
 #endif
     
     // Show power source data in menu
-    if (self.advancedSupported && [[self.statusItem.menu itemWithTag:kBTRMenuSetting].submenu itemWithTag:kBTRMenuAdvanced].state == NSOnState)
+    if (self.advancedSupported && ([[self.statusItem.menu itemWithTag:kBTRMenuSetting].submenu itemWithTag:kBTRMenuAdvanced].state == NSOnState || [[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask))
     {
+        if ([[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask)
+        {
+            [[self.statusItem.menu itemWithTag:kBTRMenuPowerSourceAdvanced] setHidden:NO];
+            [[self.statusItem.menu itemWithTag:kBTRMenuNotification] setHidden:NO];
+        }
+        
         NSDictionary *advancedBatteryInfo = [self getAdvancedBatteryInfo];
         NSDictionary *moreAdvancedBatteryInfo = [self getMoreAdvancedBatteryInfo];
         
@@ -687,6 +693,15 @@ static void PowerSourceChanged(void * context)
     }];
 #endif
     
+}
+
+- (void)menuDidClose:(NSMenu *)menu
+{
+    if ([[self.statusItem.menu itemWithTag:kBTRMenuSetting].submenu itemWithTag:kBTRMenuAdvanced].state == NSOffState)
+    {
+        [[self.statusItem.menu itemWithTag:kBTRMenuPowerSourceAdvanced] setHidden:YES];
+        [[self.statusItem.menu itemWithTag:kBTRMenuNotification] setHidden:YES];
+    }
 }
 
 @end

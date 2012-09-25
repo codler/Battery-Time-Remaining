@@ -463,6 +463,9 @@ static void PowerSourceChanged(void * context)
     NSImage *imgCharged = [self imageOffset:[self loadBatteryIconNamed:@"BatteryCharged"] top:EXTRA_TOP_OFFSET];
     NSImage *imgEmpty = [self imageOffset:[self loadBatteryIconNamed:@"BatteryEmpty"] top:EXTRA_TOP_OFFSET];
     
+    // Make the image black and white
+    imgCharged = [self imageBW:[self imageBW:imgCharged]];
+    
     // finally construct the dictionary from which we will retrieve the images at runtime
     batteryIcons = [NSDictionary dictionaryWithObjectsAndKeys:
                     imgCharging,                                       @"BatteryCharging",
@@ -475,6 +478,22 @@ static void PowerSourceChanged(void * context)
                     [self loadBatteryIconNamed:@"BatteryLevelCapR-M"], @"BatteryLevelCapR-M",
                     [self loadBatteryIconNamed:@"BatteryLevelCapR-R"], @"BatteryLevelCapR-R",
                     nil];
+}
+
+- (NSImage *)imageBW:(NSImage *)_image
+{
+    NSImage *image = [_image copy];
+    [image lockFocus];
+    
+    // http://stackoverflow.com/a/10033772/304894
+    CIImage *beginImage = [[CIImage alloc] initWithData:[image TIFFRepresentation]];
+    CIImage *blackAndWhite = [[CIFilter filterWithName:@"CIColorControls" keysAndValues:kCIInputImageKey, beginImage, @"inputBrightness", [NSNumber numberWithFloat:0.0], @"inputContrast", [NSNumber numberWithFloat:1.1], @"inputSaturation", [NSNumber numberWithFloat:0.0], nil] valueForKey:@"outputImage"];
+    CIImage *output = [[CIFilter filterWithName:@"CIExposureAdjust" keysAndValues:kCIInputImageKey, blackAndWhite, @"inputEV", [NSNumber numberWithFloat:0.7], nil] valueForKey:@"outputImage"];
+    [output drawInRect:NSMakeRect(0, 0, [_image size].width, [_image size].height) fromRect:NSRectFromCGRect([output extent]) operation:NSCompositeSourceOver fraction:1.0];
+    
+    [image unlockFocus];
+    
+    return image;
 }
 
 - (NSImage *)imageOffset:(NSImage *)_image top:(CGFloat)top

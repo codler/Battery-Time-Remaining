@@ -41,6 +41,8 @@ Who did make this app?
 * [codler](https://github.com/codler) / Han Lin Yap: created the [first version](https://github.com/codler/Battery-Time-Remaining) of the app
 * [mac-cain13](https://github.com/mac-cain13) / Mathijs Kadijk: made some improvements
 
+Icon provided by happytel.com free calling for all.
+
 Change log
 ----------
 

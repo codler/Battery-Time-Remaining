@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		280E9EBD15E0D18C00530934 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 280E9EBC15E0D18C00530934 /* QuartzCore.framework */; };
-		2824FFF01611A5D500CD3140 /* build_version in Resources */ = {isa = PBXBuildFile; fileRef = 28833BB315D7D61100741727 /* build_version */; };
 		2841C7E115C91CC100F4F15F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2841C7E015C91CC100F4F15F /* Cocoa.framework */; };
 		2841C7ED15C91CC100F4F15F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2841C7EC15C91CC100F4F15F /* main.m */; };
 		2841C7F115C91CC100F4F15F /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 2841C7EF15C91CC100F4F15F /* Credits.rtf */; };
@@ -265,7 +264,6 @@
 				28833BB215D7D4FF00741727 /* Readme.md in Resources */,
 				28833BB415D7D61100741727 /* build_version in Resources */,
 				D53375E515DC43380077CEF6 /* Localizable.strings in Resources */,
-				2824FFF01611A5D500CD3140 /* build_version in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

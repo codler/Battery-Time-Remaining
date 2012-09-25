@@ -33,10 +33,12 @@ static void PowerSourceChanged(void * context)
 
 @interface AppDelegate ()
 {
-    NSTimer *menuUpdateTimer;
     NSDictionary *batteryIcons;
-    BOOL showParenthesis;
+    NSTimer *menuUpdateTimer;
+    NSTimer *optionKeyPressedTimer;
+    BOOL isOptionKeyPressed;
     BOOL isCapacityWarning;
+    BOOL showParenthesis;
 }
 
 - (void)cacheBatteryIcon;
@@ -299,19 +301,13 @@ static void PowerSourceChanged(void * context)
     CFRelease(psBlob);
 }
 
-- (void)updateStatusItemAdvanced
+- (void)updateStatusItemMenu
 {
     [self updateStatusItem];
     
     // Show power source data in menu
-    if (self.advancedSupported && ([[self.statusItem.menu itemWithTag:kBTRMenuSetting].submenu itemWithTag:kBTRMenuAdvanced].state == NSOnState || [[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask))
+    if (self.advancedSupported && ([[self.statusItem.menu itemWithTag:kBTRMenuSetting].submenu itemWithTag:kBTRMenuAdvanced].state == NSOnState || isOptionKeyPressed))
     {
-        if ([[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask)
-        {
-            [[self.statusItem.menu itemWithTag:kBTRMenuPowerSourceAdvanced] setHidden:NO];
-            [[self.statusItem.menu itemWithTag:kBTRMenuNotification] setHidden:NO];
-        }
-        
         NSDictionary *advancedBatteryInfo = [self getAdvancedBatteryInfo];
         NSDictionary *moreAdvancedBatteryInfo = [self getMoreAdvancedBatteryInfo];
         
@@ -546,15 +542,13 @@ static void PowerSourceChanged(void * context)
     if ([defaults boolForKey:@"advanced"])
     {
         item.state = NSOffState;
-        [[self.statusItem.menu itemWithTag:kBTRMenuPowerSourceAdvanced] setHidden:YES];
-        [[self.statusItem.menu itemWithTag:kBTRMenuNotification] setHidden:YES];
+        [self showAdvanced:NO];
         [defaults setBool:NO forKey:@"advanced"];
     }
     else
     {
         item.state = NSOnState;
-        [[self.statusItem.menu itemWithTag:kBTRMenuPowerSourceAdvanced] setHidden:NO];
-        [[self.statusItem.menu itemWithTag:kBTRMenuNotification] setHidden:NO];
+        [self showAdvanced:YES];
         [defaults setBool:YES forKey:@"advanced"];
     }
     [defaults synchronize];
@@ -635,6 +629,30 @@ static void PowerSourceChanged(void * context)
     [self saveNotificationSetting];
 }
 
+- (void)showAdvanced:(BOOL)visible
+{
+    [[self.statusItem.menu itemWithTag:kBTRMenuPowerSourceAdvanced] setHidden:!visible];
+    [[self.statusItem.menu itemWithTag:kBTRMenuNotification] setHidden:!visible];
+}
+
+- (void)optionKeyPressed
+{
+    // http://stackoverflow.com/a/12333909/304894
+    // Get global modifier key flag, [[NSApp currentEvent] modifierFlags] doesn't update
+    CGEventRef event = CGEventCreate(NULL);
+    CGEventFlags flags = CGEventGetFlags(event);
+    CFRelease(event);
+    BOOL prevIsOptionKeyPressed = isOptionKeyPressed;
+    isOptionKeyPressed = (flags & kCGEventFlagMaskAlternate) == kCGEventFlagMaskAlternate;
+    
+    // Option key was pressed or released
+    if (prevIsOptionKeyPressed != isOptionKeyPressed)
+    {
+        [self showAdvanced:self.advancedSupported && ([[self.statusItem.menu itemWithTag:kBTRMenuSetting].submenu itemWithTag:kBTRMenuAdvanced].state == NSOnState || isOptionKeyPressed) ];
+        [self updateStatusItemMenu];
+    }
+}
+
 #pragma mark - NSUserNotificationCenterDelegate methods
 
 // Force show notification
@@ -656,12 +674,20 @@ static void PowerSourceChanged(void * context)
 
 - (void)menuWillOpen:(NSMenu *)menu
 {
-    [self updateStatusItemAdvanced];
+    [self updateStatusItemMenu];
+    
+    // Detect instant if option key is pressed
+    optionKeyPressedTimer = [NSTimer timerWithTimeInterval:0.1
+                                              target:self
+                                            selector:@selector(optionKeyPressed)
+                                            userInfo:nil
+                                             repeats:YES];
+    [[NSRunLoop currentRunLoop] addTimer:optionKeyPressedTimer forMode:NSRunLoopCommonModes];
     
     // Update menu every 5 seconds
     menuUpdateTimer = [NSTimer timerWithTimeInterval:5
                                               target:self
-                                            selector:@selector(updateStatusItemAdvanced)
+                                            selector:@selector(updateStatusItemMenu)
                                             userInfo:nil
                                              repeats:YES];
     [[NSRunLoop currentRunLoop] addTimer:menuUpdateTimer forMode:NSRunLoopCommonModes];
@@ -712,12 +738,14 @@ static void PowerSourceChanged(void * context)
 {
     if ([[self.statusItem.menu itemWithTag:kBTRMenuSetting].submenu itemWithTag:kBTRMenuAdvanced].state == NSOffState)
     {
-        [[self.statusItem.menu itemWithTag:kBTRMenuPowerSourceAdvanced] setHidden:YES];
-        [[self.statusItem.menu itemWithTag:kBTRMenuNotification] setHidden:YES];
+        [self showAdvanced:NO];
     }
     
     [menuUpdateTimer invalidate];
     menuUpdateTimer = nil;
+    
+    [optionKeyPressedTimer invalidate];
+    optionKeyPressedTimer = nil;
 }
 
 @end

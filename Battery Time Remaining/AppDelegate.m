@@ -210,16 +210,22 @@ static void PowerSourceChanged(void * context)
         
         NSString *psState = CFDictionaryGetValue(description, CFSTR(kIOPSPowerSourceStateKey));
         
-        psState =   ([psState isEqualToString:(NSString *)CFSTR(kIOPSBatteryPowerValue)]) ?
-                        NSLocalizedString(@"Battery Power", @"Powersource state") :
-                    ([psState isEqualToString:(NSString *)CFSTR(kIOPSACPowerValue)]) ?
-                        NSLocalizedString(@"AC Power", @"Powersource state") :
-                        NSLocalizedString(@"Off Line", @"Powersource state");
+        NSString *psStateTranslated =   ([psState isEqualToString:(NSString *)CFSTR(kIOPSBatteryPowerValue)]) ?
+                                            NSLocalizedString(@"Battery Power", @"Powersource state") :
+                                        ([psState isEqualToString:(NSString *)CFSTR(kIOPSACPowerValue)]) ?
+                                            NSLocalizedString(@"AC Power", @"Powersource state") :
+                                            NSLocalizedString(@"Off Line", @"Powersource state");
         
-        [self.statusItem.menu itemWithTag:kBTRMenuPowerSourceState].title = [NSString stringWithFormat:NSLocalizedString(@"Power source: %@", @"Powersource menuitem"), psState];
+        [self.statusItem.menu itemWithTag:kBTRMenuPowerSourceState].title = [NSString stringWithFormat:NSLocalizedString(@"Power source: %@", @"Powersource menuitem"), psStateTranslated];
         
+        // Still calculating the estimated time remaining...
+        // Fixes #22 - state after reboot
+        if ([psState isEqualToString:(NSString *)CFSTR(kIOPSBatteryPowerValue)] && CFDictionaryGetValue(description, CFSTR(kIOPSIsChargingKey)) == kCFBooleanFalse && (kIOPSTimeRemainingUnknown == timeRemaining || kIOPSTimeRemainingUnlimited == timeRemaining))
+        {
+            [self setStatusBarImage:[self getBatteryIconPercent:self.currentPercent] title:[NSString stringWithFormat:@" %@", NSLocalizedString(@"Calculating…", @"Calculating sidetext")]];
+        }
         // We're connected to an unlimited power source (AC adapter probably)
-        if (kIOPSTimeRemainingUnlimited == timeRemaining)
+        else if (kIOPSTimeRemainingUnlimited == timeRemaining)
         {
             // Check if the battery is charging atm
             if (CFDictionaryGetValue(description, CFSTR(kIOPSIsChargingKey)) == kCFBooleanTrue)
@@ -262,11 +268,6 @@ static void PowerSourceChanged(void * context)
                 }
             }
             
-        }
-        // Still calculating the estimated time remaining...
-        else if (kIOPSTimeRemainingUnknown == timeRemaining)
-        {
-            [self setStatusBarImage:[self getBatteryIconPercent:self.currentPercent] title:[NSString stringWithFormat:@" %@", NSLocalizedString(@"Calculating…", @"Calculating sidetext")]];
         }
         // Time is known!
         else

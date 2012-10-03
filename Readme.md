@@ -41,10 +41,24 @@ Who did make this app?
 * [codler](https://github.com/codler) / Han Lin Yap: created the [first version](https://github.com/codler/Battery-Time-Remaining) of the app
 * [mac-cain13](https://github.com/mac-cain13) / Mathijs Kadijk: made some improvements
 
-Icon provided by happytel.com free calling for all.
+App icon provided by happytel.com free calling for all.
 
 Change log
 ----------
+
+2012-09-03 - **v1.6** - [diff](https://github.com/codler/Battery-Time-Remaining/compare/v1.5.2...v1.6)
+
+* New app icon ([dizel247](https://github.com/dizel247) [#11](https://github.com/codler/Battery-Time-Remaining/issues/11))
+* Added fast switch between advanced mode by pressing option key. ([codler](https://github.com/codler))
+* Added Polish language ([alamilar](https://github.com/alamilar) [#38](https://github.com/codler/Battery-Time-Remaining/issues/38))
+* Added Portuguese language (dvm)
+* Added Simplified Chinese language ([zhangwen590](https://github.com/zhangwen590))
+* Improved notification ([codler](https://github.com/codler) [#20](https://github.com/codler/Battery-Time-Remaining/issues/20))
+* Improved translation ([codler](https://github.com/codler) [#26](https://github.com/codler/Battery-Time-Remaining/issues/26))
+* Improved battery icon ([codler](https://github.com/codler) [#29](https://github.com/codler/Battery-Time-Remaining/issues/29))
+* Improved menu ([codler](https://github.com/codler))
+* Fix memory leaks ([codler](https://github.com/codler))
+* Fix bug not showing correct on logon ([codler](https://github.com/codler) [#22](https://github.com/codler/Battery-Time-Remaining/issues/22))
 
 2012-08-29 - **v1.5.2** - [diff](https://github.com/codler/Battery-Time-Remaining/compare/v1.5.1...v1.5.2)
 

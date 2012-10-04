@@ -327,6 +327,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -355,6 +356,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "";
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -372,12 +374,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "Battery Time Remaining/Battery Time Remaining.entitlements";
-				CODE_SIGN_IDENTITY = "Developer ID Application: Han Lin Yap";
+				CODE_SIGN_IDENTITY = "Eric Ferreira";
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Battery Time Remaining/Battery Time Remaining-Prefix.pch";
 				INFOPLIST_FILE = "Battery Time Remaining/Battery Time Remaining-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Battery Time Remaining";
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
@@ -387,12 +389,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "Battery Time Remaining/Battery Time Remaining.entitlements";
-				CODE_SIGN_IDENTITY = "Developer ID Application: Han Lin Yap";
+				CODE_SIGN_IDENTITY = "Eric Ferreira";
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Battery Time Remaining/Battery Time Remaining-Prefix.pch";
 				INFOPLIST_FILE = "Battery Time Remaining/Battery Time Remaining-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Battery Time Remaining";
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};

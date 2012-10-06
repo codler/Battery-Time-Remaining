@@ -46,7 +46,7 @@ App icon provided by happytel.com free calling for all.
 Change log
 ----------
 
-2012-09-03 - **v1.6** - [diff](https://github.com/codler/Battery-Time-Remaining/compare/v1.5.2...v1.6)
+2012-10-03 - **v1.6** - [diff](https://github.com/codler/Battery-Time-Remaining/compare/v1.5.2...v1.6)
 
 * New app icon ([dizel247](https://github.com/dizel247) [#11](https://github.com/codler/Battery-Time-Remaining/issues/11))
 * Added fast switch between advanced mode by pressing option key. ([codler](https://github.com/codler))

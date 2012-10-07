@@ -540,6 +540,29 @@ static void PowerSourceChanged(void * context)
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/codler/Battery-Time-Remaining/downloads"]];
 }
 
+- (void)openMacAppStore:(id)sender
+{
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"macappstore://itunes.apple.com/app/id551420833?mt=12"]];
+}
+
+- (void)promptAutoUpdate:(id)sender
+{
+    NSAlert *alert = [NSAlert new];
+    [alert addButtonWithTitle:NSLocalizedString(@"Get Auto Updates", @"Update auto update prompt")];
+    [alert addButtonWithTitle:NSLocalizedString(@"No", @"Update auto update prompt")];
+    [alert setMessageText:NSLocalizedString(@"Do you want auto updates?", @"Update auto update prompt")];
+    NSInteger returnCode = [alert runModal];
+    
+    if (NSAlertSecondButtonReturn == returnCode)
+    {
+        [self openHomeUrl:nil];
+    }
+    else
+    {
+        [self openMacAppStore:nil];
+    }
+}
+
 - (void)toggleStartAtLogin:(id)sender
 {
     if ([LLManager launchAtLogin])
@@ -686,7 +709,7 @@ static void PowerSourceChanged(void * context)
     // User has clicked on the notification and will open home URL if newer version is available
     if ([[notification informativeText] isEqualToString:NSLocalizedString(@"A newer version is available", @"Update menuitem")])
     {
-        [self openHomeUrl:nil];
+        [self promptAutoUpdate:nil];
     }
 }
 
@@ -739,7 +762,7 @@ static void PowerSourceChanged(void * context)
         if (latestBuildVersion > currentBuildVersion)
         {
             updaterMenu.title = NSLocalizedString(@"A newer version is available", @"Update menuitem");
-            [updaterMenu setAction:@selector(openHomeUrl:)];
+            [updaterMenu setAction:@selector(promptAutoUpdate:)];
             [updaterMenu setEnabled:YES];
             [self notify:NSLocalizedString(@"A newer version is available", @"Update notification")];
         }

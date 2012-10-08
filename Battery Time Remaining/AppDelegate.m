@@ -48,10 +48,11 @@ static void PowerSourceChanged(void * context)
 
 @implementation AppDelegate
 
-@synthesize statusItem, notifications, previousPercent;
+@synthesize statusItem, notifications, previousPercent, window;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
+    [self preferenceWindow];
     self.advancedSupported = ([self getAdvancedBatteryInfo] != nil);
     [self cacheBatteryIcon];
     isCapacityWarning = NO;
@@ -479,6 +480,51 @@ static void PowerSourceChanged(void * context)
                     [self loadBatteryIconNamed:@"BatteryLevelCapR-M"], @"BatteryLevelCapR-M",
                     [self loadBatteryIconNamed:@"BatteryLevelCapR-R"], @"BatteryLevelCapR-R",
                     nil];
+}
+
+- (void)preferenceWindow
+{
+    int vW; // view Width
+    int vH; // view Height
+    int vLP; // view Left Padding
+    int vTP; // view Top Padding
+    int vAW; // view Auto Width (vW minus padding)
+    int vAH; // view Auto Height (vH minus padding)
+    int rH; // text row Height
+    
+    vW = vH = 300;
+    rH = 18;
+    vLP = vTP = 20;
+    vAW = vW - vLP * 2;
+    vAH = vH - vTP * 2;
+    
+    NSRect frame = NSMakeRect(0, 0, vW, vH);
+    
+    window = [[NSWindow alloc] initWithContentRect:frame styleMask:NSTitledWindowMask | NSClosableWindowMask backing:NSBackingStoreBuffered defer:NO];
+    
+    [window setTitle:@"Battery Time Remaining Preferences"];
+    
+    NSView *view = [[NSView new] initWithFrame:frame];
+
+    NSButton *btnAdvanced = [[NSButton alloc] initWithFrame:NSMakeRect(vLP, vAH - rH + vTP, vAW, rH)];
+    [btnAdvanced setButtonType:NSSwitchButton];
+    [btnAdvanced setTitle:NSLocalizedString(@"Advanced mode", @"Advanced mode setting")];
+    [btnAdvanced setTarget:[[self.statusItem.menu itemWithTag:kBTRMenuSetting].submenu itemWithTag:kBTRMenuAdvanced]];
+    [btnAdvanced setAction:@selector(toggleAdvanced:)];
+
+    NSButton *btnParenthesis = [[NSButton alloc] initWithFrame:NSMakeRect(vLP, vAH - rH * 2 + vTP, vAW, rH)];
+    [btnParenthesis setButtonType:NSSwitchButton];
+    [btnParenthesis setTitle:NSLocalizedString(@"Display time with parentheses", @"Display time with parentheses setting")];
+    [btnParenthesis setTarget:[[self.statusItem.menu itemWithTag:kBTRMenuSetting].submenu itemWithTag:kBTRMenuParenthesis]];
+    [btnParenthesis setAction:@selector(toggleParenthesis:)];
+    
+    [view addSubview:btnAdvanced];
+    [view addSubview:btnParenthesis];
+    [window setContentView:view];
+    [window makeKeyAndOrderFront:nil];
+    [window center];
+    
+    // [icon] ([time]) [percent] [mAh]
 }
 
 - (void)openEnergySaverPreference:(id)sender

@@ -31,6 +31,7 @@
 - (NSImage *)getBatteryIconNamed:(NSString *)iconName;
 - (NSImage *)getBatteryIconPercent:(NSInteger)percent;
 
+@property (strong) NSWindow *window;
 @property (strong) NSStatusItem *statusItem;
 @property (nonatomic) NSInteger previousPercent;
 @property (nonatomic) NSInteger currentPercent;

@@ -13,6 +13,7 @@
 		2841C7F115C91CC100F4F15F /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 2841C7EF15C91CC100F4F15F /* Credits.rtf */; };
 		2841C7F415C91CC100F4F15F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2841C7F315C91CC100F4F15F /* AppDelegate.m */; };
 		2841C7FE15C91CEF00F4F15F /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2841C7FD15C91CEF00F4F15F /* IOKit.framework */; };
+		28527E581622E8A800EE3644 /* ImageFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 28527E571622E8A800EE3644 /* ImageFilter.m */; };
 		28833BAE15D7B90B00741727 /* HttpGet.m in Sources */ = {isa = PBXBuildFile; fileRef = 28833BAD15D7B90B00741727 /* HttpGet.m */; };
 		28833BB215D7D4FF00741727 /* Readme.md in Resources */ = {isa = PBXBuildFile; fileRef = 28833BB115D7D4FF00741727 /* Readme.md */; };
 		28833BB415D7D61100741727 /* build_version in Resources */ = {isa = PBXBuildFile; fileRef = 28833BB315D7D61100741727 /* build_version */; };
@@ -69,6 +70,8 @@
 		2841C7F215C91CC100F4F15F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		2841C7F315C91CC100F4F15F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		2841C7FD15C91CEF00F4F15F /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		28527E561622E8A800EE3644 /* ImageFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageFilter.h; sourceTree = "<group>"; };
+		28527E571622E8A800EE3644 /* ImageFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageFilter.m; sourceTree = "<group>"; };
 		28563BBE1621A34500960191 /* it */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
 		288305DF15DD005C0064D457 /* sv */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/Localizable.strings; sourceTree = "<group>"; };
 		28833BAC15D7B90B00741727 /* HttpGet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HttpGet.h; sourceTree = "<group>"; };
@@ -152,6 +155,8 @@
 				28FEDA6315DA5EB200320B72 /* LLManager.m */,
 				28FEDA6415DA5EB200320B72 /* LLStrings.h */,
 				2841C7F215C91CC100F4F15F /* AppDelegate.h */,
+				28527E561622E8A800EE3644 /* ImageFilter.h */,
+				28527E571622E8A800EE3644 /* ImageFilter.m */,
 				2841C7F315C91CC100F4F15F /* AppDelegate.m */,
 				28833BAC15D7B90B00741727 /* HttpGet.h */,
 				28833BAD15D7B90B00741727 /* HttpGet.m */,
@@ -280,6 +285,7 @@
 				2841C7ED15C91CC100F4F15F /* main.m in Sources */,
 				2841C7F415C91CC100F4F15F /* AppDelegate.m in Sources */,
 				28833BAE15D7B90B00741727 /* HttpGet.m in Sources */,
+				28527E581622E8A800EE3644 /* ImageFilter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

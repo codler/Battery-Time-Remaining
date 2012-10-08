@@ -8,12 +8,12 @@
 
 #import "AppDelegate.h"
 #import "HttpGet.h"
+#import "ImageFilter.h"
 #import "LLManager.h"
 #import <IOKit/ps/IOPowerSources.h>
 #import <IOKit/ps/IOPSKeys.h>
 #import <IOKit/pwr_mgt/IOPM.h>
 #import <IOKit/pwr_mgt/IOPMLib.h>
-#import <QuartzCore/QuartzCore.h>
 
 //#define DEBUG_BATTERY_PERCENT
 #define CHECK_FOR_UPDATE
@@ -360,7 +360,7 @@ static void PowerSourceChanged(void * context)
     // Image
     [image setTemplate:( ! isCapacityWarning)];
     [self.statusItem setImage:image];
-    [self.statusItem setAlternateImage:[self imageInvertColor:image]];
+    [self.statusItem setAlternateImage:[ImageFilter invertColor:image]];
 
     // Title
     NSDictionary *attributedStyle = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -460,12 +460,12 @@ static void PowerSourceChanged(void * context)
 - (void)cacheBatteryIcon {
     // special treatment for the BatteryCharging, BatteryCharged, and BatteryEmpty images
     // they need to be shifted down by 2points to be in the same position as Apple's
-    NSImage *imgCharging = [self imageOffset:[self loadBatteryIconNamed:@"BatteryCharging"] top:EXTRA_TOP_OFFSET];
-    NSImage *imgCharged = [self imageOffset:[self loadBatteryIconNamed:@"BatteryCharged"] top:EXTRA_TOP_OFFSET];
-    NSImage *imgEmpty = [self imageOffset:[self loadBatteryIconNamed:@"BatteryEmpty"] top:EXTRA_TOP_OFFSET];
+    NSImage *imgCharging = [ImageFilter offset:[self loadBatteryIconNamed:@"BatteryCharging"] top:EXTRA_TOP_OFFSET];
+    NSImage *imgCharged = [ImageFilter offset:[self loadBatteryIconNamed:@"BatteryCharged"] top:EXTRA_TOP_OFFSET];
+    NSImage *imgEmpty = [ImageFilter offset:[self loadBatteryIconNamed:@"BatteryEmpty"] top:EXTRA_TOP_OFFSET];
     
     // Make the image black and white
-    imgCharged = [self imageBW:[self imageBW:imgCharged]];
+    imgCharged = [ImageFilter blackWhite:[ImageFilter blackWhite:imgCharged]];
     
     // finally construct the dictionary from which we will retrieve the images at runtime
     batteryIcons = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -479,55 +479,6 @@ static void PowerSourceChanged(void * context)
                     [self loadBatteryIconNamed:@"BatteryLevelCapR-M"], @"BatteryLevelCapR-M",
                     [self loadBatteryIconNamed:@"BatteryLevelCapR-R"], @"BatteryLevelCapR-R",
                     nil];
-}
-
-- (NSImage *)imageBW:(NSImage *)_image
-{
-    NSImage *image = [_image copy];
-    [image lockFocus];
-    
-    // http://stackoverflow.com/a/10033772/304894
-    CIImage *beginImage = [[CIImage alloc] initWithData:[image TIFFRepresentation]];
-    CIImage *blackAndWhite = [[CIFilter filterWithName:@"CIColorControls" keysAndValues:kCIInputImageKey, beginImage, @"inputBrightness", [NSNumber numberWithFloat:0.0], @"inputContrast", [NSNumber numberWithFloat:1.1], @"inputSaturation", [NSNumber numberWithFloat:0.0], nil] valueForKey:@"outputImage"];
-    CIImage *output = [[CIFilter filterWithName:@"CIExposureAdjust" keysAndValues:kCIInputImageKey, blackAndWhite, @"inputEV", [NSNumber numberWithFloat:0.7], nil] valueForKey:@"outputImage"];
-    [output drawInRect:NSMakeRect(0, 0, [_image size].width, [_image size].height) fromRect:NSRectFromCGRect([output extent]) operation:NSCompositeSourceOver fraction:1.0];
-    
-    [image unlockFocus];
-    
-    return image;
-}
-
-- (NSImage *)imageOffset:(NSImage *)_image top:(CGFloat)top
-{
-    NSImage *newImage = [[NSImage alloc] initWithSize:NSMakeSize(_image.size.width, _image.size.height + top)];
-    [newImage lockFocus];
-    
-    [[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationHigh];
-    [_image drawInRect:NSMakeRect(0, 0, _image.size.width, _image.size.height)
-               fromRect:NSMakeRect(0, 0, _image.size.width, _image.size.height)
-              operation:NSCompositeSourceOver
-               fraction:1.0];
-    
-    [newImage unlockFocus];
-    
-    return newImage;
-}
-
-- (NSImage *)imageInvertColor:(NSImage *)_image
-{
-    NSImage *image = [_image copy];
-    [image lockFocus];
-    
-    CIImage *ciImage = [[CIImage alloc] initWithData:[image TIFFRepresentation]];
-    CIFilter *filter = [CIFilter filterWithName:@"CIColorInvert"];
-    [filter setDefaults];
-    [filter setValue:ciImage forKey:@"inputImage"];
-    CIImage *output = [filter valueForKey:@"outputImage"];
-    [output drawInRect:NSMakeRect(0, 0, [_image size].width, [_image size].height) fromRect:NSRectFromCGRect([output extent]) operation:NSCompositeSourceOver fraction:1.0];
-    
-    [image unlockFocus];
-    
-    return image;
 }
 
 - (void)openEnergySaverPreference:(id)sender

@@ -46,6 +46,13 @@ App icon provided by happytel.com free calling for all.
 Change log
 ----------
 
+2012-11-01 - **v1.6.1** - [diff](https://github.com/codler/Battery-Time-Remaining/compare/v1.6...v1.6.1)
+
+* Added Italian language ([DMG1](https://github.com/DMG1) [#46](https://github.com/codler/Battery-Time-Remaining/issues/46))
+* Added Korean language ([JustyStyle](https://github.com/justystyle))
+* Updated French, German, Swedish languages ([codler](https://github.com/codler) [Velines](https://github.com/Velines) [Vinky41](https://github.com/Vinky41) [#48](https://github.com/codler/Battery-Time-Remaining/pull/48))
+* Prompt auto update ([codler](https://github.com/codler))
+
 2012-10-03 - **v1.6** - [diff](https://github.com/codler/Battery-Time-Remaining/compare/v1.5.2...v1.6)
 
 * New app icon ([dizel247](https://github.com/dizel247) [#11](https://github.com/codler/Battery-Time-Remaining/issues/11))

@@ -36,6 +36,9 @@ static void PowerSourceChanged(void * context)
     NSDictionary *batteryIcons;
     NSTimer *menuUpdateTimer;
     NSTimer *optionKeyPressedTimer;
+    NSString *previousState;
+    NSTimer *unpluggedTimer;
+    NSInteger unpluggedTimerCount;
     BOOL isOptionKeyPressed;
     BOOL isCapacityWarning;
     BOOL showParenthesis;
@@ -177,6 +180,12 @@ static void PowerSourceChanged(void * context)
     CFRelease(loop);
 }
 
+- (void)unpluggedTimerTick
+{
+    // increase counter by 15 seconds each tick of corresponding timer
+    unpluggedTimerCount += 15;
+}
+
 - (void)updateStatusItem
 {
     // reset warning state; new state will be calculated here anyway
@@ -217,6 +226,29 @@ static void PowerSourceChanged(void * context)
                                             NSLocalizedString(@"Off Line", @"Powersource state");
         
         [self.statusItem.menu itemWithTag:kBTRMenuPowerSourceState].title = [NSString stringWithFormat:NSLocalizedString(@"Power source: %@", @"Powersource menuitem"), psStateTranslated];
+
+        // Figure out what's changed: AC to Battery or vise versa
+        if(![previousState isEqualToString:psState]) {
+            if([psState isEqualToString:(NSString *)CFSTR(kIOPSBatteryPowerValue)]) {
+                // power source changed from AC to battery
+                // start counting time we spend on battery
+                unpluggedTimerCount = 0;
+                unpluggedTimer = [NSTimer
+                                  timerWithTimeInterval:15
+                                  target:self
+                                  selector:@selector(unpluggedTimerTick)
+                                  userInfo:nil
+                                  repeats:YES];
+                [[NSRunLoop currentRunLoop] addTimer:unpluggedTimer forMode:NSRunLoopCommonModes];
+            }
+            if([psState isEqualToString:(NSString *)CFSTR(kIOPSACPowerValue)]) {
+                // power source changed from battery to AC
+                // stop timer and reset
+                [unpluggedTimer invalidate];
+                unpluggedTimer = nil;
+            }
+            previousState = psState;
+        }
         
         // Still calculating the estimated time remaining...
         // Fixes #22 - state after reboot
@@ -328,10 +360,16 @@ static void PowerSourceChanged(void * context)
         
         [self.statusItem.menu itemWithTag:kBTRMenuPowerSourcePercent].title = [NSString stringWithFormat: NSLocalizedString(@"%ld %% left ( %ld/%ld mAh )", @"Advanced percentage left menuitem"), self.currentPercent, [currentBatteryPower integerValue], [maxBatteryPower integerValue]];
         
+        // time since unplugged
+        NSString *timeSinceUnplugged = [NSString stringWithFormat:@"%02lu:%02lu",
+                                        unpluggedTimerCount / 3600,
+                                        (unpluggedTimerCount / 60) % 60];
+
         // Each item in array will be a row in menu
         NSArray *advancedBatteryInfoTexts = [NSArray arrayWithObjects:
                                              [NSString stringWithFormat:NSLocalizedString(@"Cycle count: %ld", @"Advanced battery info menuitem"), [cycleCount integerValue]],
                                              [NSString stringWithFormat:NSLocalizedString(@"Power usage: %.2f Watt", @"Advanced battery info menuitem"), [watt doubleValue]],
+                                             [NSString stringWithFormat:NSLocalizedString((unpluggedTimer != nil) ? @"Time since unplugged: %@" : @"On battery while last unplugged: %@", @"Advanced battery info menuitem"), timeSinceUnplugged],
                                              [NSString stringWithFormat:NSLocalizedString(@"Temperature: %.1f°C", @"Advanced battery info menuitem"), [temperature doubleValue]],
                                              nil];
         

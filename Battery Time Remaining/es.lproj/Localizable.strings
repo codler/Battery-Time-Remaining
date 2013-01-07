@@ -1,0 +1,87 @@
+/* Time remaining left notification */
+"%1$ld:%2$02ld left (%3$ld%%)" = "%1$ld:%2$02ld restante (%3$ld%%)";
+
+/* Percentage left menuitem */
+"%ld %% left" = "%ld %% restante";
+
+/* Advanced percentage left menuitem */
+"%ld %% left ( %ld/%ld mAh )" = "%1$ld %% restante ( %2$ld/%3$ld mAh )";
+
+/* Update menuitem
+ Update notification */
+"A newer version is available" = "Hay una nueva versión disponible";
+
+/* Powersource state */
+"AC Power" = "AC";
+
+/* Advanced mode setting */
+"Advanced mode" = "Modo avanzado";
+
+/* Powersource state */
+"Battery Power" = "Batería";
+
+/* Battery Time Remaining notification */
+"Battery Time Remaining" = "Tiempo de batería restante";
+
+/* Calculating sidetext */
+"Calculating…" = "Calculando…";
+
+/* Charged notification */
+"Charged" = "Cargado";
+
+/* Update menuitem */
+"Checking for updates…" = "Buscando actualizaciones…";
+
+/* Update menuitem */
+"Could not check for updates" = "No se pudo buscar actualizaciones";
+
+/* Advanced battery info menuitem */
+"Cycle count: %ld" = "Número de ciclos: %ld";
+
+/* Display time with parentheses setting */
+"Display time with parentheses" = "Mostrar tiempo entre paréntesis";
+
+/* Update auto update prompt */
+"Do you want auto updates?" = "¿Desea actualizaciones automáticas?";
+
+/* Open Energy Saver Preferences menuitem */
+"Energy Saver Preferences…" = "Preferencias de ahorro de energía…";
+
+/* Update auto update prompt */
+"Get Auto Updates" = "Obtener actualizaciones automáticas";
+
+/* Remaining menuitem */
+"Loading…" = "Cargando…";
+
+/* Update auto update prompt */
+"No" = "No";
+
+/* Notification menuitem */
+"Notifications" = "Notificaciones";
+
+/* Powersource state */
+"Off Line" = "No conectado";
+
+/* Powersource menuitem */
+"Power source: %@" = "Alimentación: %@";
+
+/* Advanced battery info menuitem */
+"Power usage: %.2f Watt" = "Consumo: %.2f Watt";
+
+/* Quit menuitem */
+"Quit" = "Salir";
+
+/* Settings menuitem */
+"Settings" = "Configuración";
+
+/* Start at login setting */
+"Start at login" = "Arrancar al inicio";
+
+/* Advanced battery info menuitem */
+"Temperature: %.1f°C" = "Temperatura: %.1f°C";
+
+/* Powersource state */
+"Unknown" = "Desconocido";
+
+/* Update menuitem */
+"Up to date" = "Actualizado";

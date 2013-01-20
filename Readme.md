@@ -16,7 +16,7 @@ How do I install it?
 
 Two options:
 
-- Download [latest version](https://github.com/codler/Battery-Time-Remaining/downloads), unzip and run the App
+- Download [latest version](http://yap.nu/battery-time-remaining/), unzip and run the App
 - Download the source here from Github and compile it with XCode
 
 Is it accurate?
@@ -45,6 +45,11 @@ App icon provided by happytel.com free calling for all.
 
 Change log
 ----------
+
+2013-01-20 - **v1.6.2** - [diff](https://github.com/codler/Battery-Time-Remaining/compare/v1.6.1...v1.6.2)
+
+* Added Spanish language ([danielmartin](https://github.com/danielmartin) [#56](https://github.com/codler/Battery-Time-Remaining/pull/56))
+* Change home url and update url ([codler](https://github.com/codler) [#57](https://github.com/codler/Battery-Time-Remaining/issues/57))
 
 2012-11-01 - **v1.6.1** - [diff](https://github.com/codler/Battery-Time-Remaining/compare/v1.6...v1.6.1)
 

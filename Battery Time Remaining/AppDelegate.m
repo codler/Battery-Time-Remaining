@@ -10,6 +10,7 @@
 #import "HttpGet.h"
 #import "ImageFilter.h"
 #import "LLManager.h"
+#import "SystemPreferences.h"
 #import <IOKit/ps/IOPowerSources.h>
 #import <IOKit/ps/IOPSKeys.h>
 #import <IOKit/pwr_mgt/IOPM.h>
@@ -483,7 +484,14 @@ static void PowerSourceChanged(void * context)
 
 - (void)openEnergySaverPreference:(id)sender
 {
-    [[NSWorkspace sharedWorkspace] openFile:@"/System/Library/PreferencePanes/EnergySaver.prefPane"];
+    SystemPreferencesApplication *systemPrefs = [SBApplication applicationWithBundleIdentifier: @"com.apple.systempreferences"];
+    [systemPrefs activate];
+    
+    NSIndexSet *indexes = [[systemPrefs panes] indexesOfObjectsPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+        return [[(SystemPreferencesPane*)obj id] isEqualToString: @"com.apple.preference.energysaver"];
+    }];
+    SystemPreferencesPane *energySaverPanel = [[systemPrefs panes] objectAtIndex: [indexes firstIndex]];
+    [systemPrefs setCurrentPane: energySaverPanel];
 }
 
 - (void)openHomeUrl:(id)sender

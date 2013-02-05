@@ -87,7 +87,7 @@
 		28FEDA6215DA5EB200320B72 /* LLManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LLManager.h; path = ../LaunchAtLoginHelper/LLManager.h; sourceTree = "<group>"; };
 		28FEDA6315DA5EB200320B72 /* LLManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = LLManager.m; path = ../LaunchAtLoginHelper/LLManager.m; sourceTree = "<group>"; };
 		28FEDA6415DA5EB200320B72 /* LLStrings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LLStrings.h; path = ../LaunchAtLoginHelper/LLStrings.h; sourceTree = "<group>"; };
-		2CDF24CA16B51EC500B8B8C0 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		2CDF24CA16B51EC500B8B8C0 /* ru */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		2CDF24CB16B51ED400B8B8C0 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = ru; path = ru.lproj/Credits.rtf; sourceTree = "<group>"; };
 		68CCA33F1699145E0081001E /* es */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		C24C463B15E7DC8A00DC943D /* de */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };

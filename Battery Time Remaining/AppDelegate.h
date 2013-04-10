@@ -22,6 +22,7 @@
 #define kBTRMenuEnergySaverSetting  9
 #define kBTRMenuUpdater             10
 #define kBTRMenuQuitKey             11
+#define kBTRMenuFahrenheit           12
 
 #endif
 

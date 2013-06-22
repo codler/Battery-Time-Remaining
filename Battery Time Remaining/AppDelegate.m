@@ -42,7 +42,7 @@ static void PowerSourceChanged(void * context)
     BOOL isOptionKeyPressed;
     BOOL isCapacityWarning;
     BOOL showParenthesis;
-    BOOL displayFahrenheit;
+    BOOL showFahrenheit;
 }
 
 - (void)cacheBatteryIcon;
@@ -130,17 +130,17 @@ static void PowerSourceChanged(void * context)
     parenthesisSubmenuItem.state = (showParenthesis) ? NSOnState : NSOffState;
     
     // Display in Fahrenheit menu item
-    NSMenuItem *displayFahrenheitSubmenuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Display temperature in degrees Fahrenheit", @"Display temperature in Fahrenheit setting") action:@selector(toggleFahrenheit:) keyEquivalent:@""];
-    [displayFahrenheitSubmenuItem setTag:kBTRMenuFahrenheit];
-    displayFahrenheitSubmenuItem.target = self;
-    displayFahrenheit = [[NSUserDefaults standardUserDefaults] boolForKey:@"fahrenheit"];
-    displayFahrenheitSubmenuItem.state = (displayFahrenheit) ? NSOnState : NSOffState;
+    NSMenuItem *fahrenheitSubmenuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Display temperature in Fahrenheit", @"Display temperature in Fahrenheit setting") action:@selector(toggleFahrenheit:) keyEquivalent:@""];
+    [fahrenheitSubmenuItem setTag:kBTRMenuFahrenheit];
+    fahrenheitSubmenuItem.target = self;
+    showFahrenheit = [[NSUserDefaults standardUserDefaults] boolForKey:@"fahrenheit"];
+    fahrenheitSubmenuItem.state = (showFahrenheit) ? NSOnState : NSOffState;
 
     // Build the setting submenu
     NSMenu *settingSubmenu = [[NSMenu alloc] initWithTitle:@"Setting Menu"];
     [settingSubmenu addItem:advancedSubmenuItem];
     [settingSubmenu addItem:parenthesisSubmenuItem];
-    [settingSubmenu addItem:displayFahrenheitSubmenuItem];
+    [settingSubmenu addItem:fahrenheitSubmenuItem];
 
     // Settings menu item
     NSMenuItem *settingMenu = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Settings", @"Settings menuitem") action:nil keyEquivalent:@""];
@@ -387,12 +387,22 @@ static void PowerSourceChanged(void * context)
                                                   unpluggedTimerCount / 3600,
                                                   unpluggedTimerCount % 3600 / 60];
         
+        // Temperature
+        NSString *fahrenheitTranslated;
+        if (showFahrenheit) {
+            fahrenheitTranslated = [NSString stringWithFormat:NSLocalizedString(@"Temperature: %.1f°F", @"Advanced battery info menuitem"), [self convertCelsiusToFahrenheit:[temperature doubleValue]]];
+        }
+        else
+        {
+            fahrenheitTranslated = [NSString stringWithFormat:NSLocalizedString(@"Temperature: %.1f°C", @"Advanced battery info menuitem"), [temperature doubleValue]];
+        }
+        
         // Each item in array will be a row in menu
         NSArray *advancedBatteryInfoTexts = [NSArray arrayWithObjects:
                                              [NSString stringWithFormat:NSLocalizedString(@"Cycle count: %ld", @"Advanced battery info menuitem"), [cycleCount integerValue]],
                                              [NSString stringWithFormat:NSLocalizedString(@"Power usage: %.2f Watt", @"Advanced battery info menuitem"), [watt doubleValue]],
                                              timeSinceUnpluggedTranslated,
-                                             (displayFahrenheit) ? [NSString stringWithFormat:NSLocalizedString(@"Temperature: %.1f°F", @"Advanced battery info menuitem"), [self convertCelsiusToFahrenheit:[temperature doubleValue]]] : [NSString stringWithFormat:NSLocalizedString(@"Temperature: %.1f°C", @"Advanced battery info menuitem"), [temperature doubleValue]],
+                                             fahrenheitTranslated,
                                              nil];
         
         NSDictionary *advancedAttributedStyle = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -640,13 +650,13 @@ static void PowerSourceChanged(void * context)
     if ([defaults boolForKey:@"fahrenheit"])
     {
         item.state = NSOffState;
-        displayFahrenheit = NO;
+        showFahrenheit = NO;
         [defaults setBool:NO forKey:@"fahrenheit"];
     }
     else
     {
         item.state = NSOnState;
-        displayFahrenheit = YES;
+        showFahrenheit = YES;
         [defaults setBool:YES forKey:@"fahrenheit"];
     }
     [defaults synchronize];

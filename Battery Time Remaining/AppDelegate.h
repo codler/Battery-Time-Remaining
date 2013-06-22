@@ -19,10 +19,10 @@
 #define kBTRMenuSetting             6
 #define kBTRMenuAdvanced            7
 #define kBTRMenuParenthesis         8
-#define kBTRMenuEnergySaverSetting  9
-#define kBTRMenuUpdater             10
-#define kBTRMenuQuitKey             11
-#define kBTRMenuFahrenheit           12
+#define kBTRMenuFahrenheit          9
+#define kBTRMenuEnergySaverSetting  10
+#define kBTRMenuUpdater             11
+#define kBTRMenuQuitKey             12
 
 #endif
 

@@ -43,7 +43,7 @@ static void PowerSourceChanged(void * context)
     BOOL isCapacityWarning;
     BOOL showParenthesis;
     BOOL showFahrenheit;
-    BOOL whiteText;
+    BOOL showWhiteText;
 }
 
 - (void)cacheBatteryIcon;
@@ -138,18 +138,18 @@ static void PowerSourceChanged(void * context)
     fahrenheitSubmenuItem.state = (showFahrenheit) ? NSOnState : NSOffState;
 
     // Toggle Black & White Text
-    NSMenuItem *colorTextSubmenuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"White Text Color", @"White Text Color") action:@selector(toggleTextColor:) keyEquivalent:@""];
-    [colorTextSubmenuItem setTag:kBTRMenuWhiteText];
-    colorTextSubmenuItem.target = self;
-    whiteText = [[NSUserDefaults standardUserDefaults] boolForKey:@"whiteText"];
-    colorTextSubmenuItem.state = (whiteText) ? NSOnState : NSOffState;
+    NSMenuItem *whiteTextSubmenuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Display white text color", @"Display white text color") action:@selector(toggleWhiteText:) keyEquivalent:@""];
+    [whiteTextSubmenuItem setTag:kBTRMenuWhiteText];
+    whiteTextSubmenuItem.target = self;
+    showWhiteText = [[NSUserDefaults standardUserDefaults] boolForKey:@"whiteText"];
+    whiteTextSubmenuItem.state = (showWhiteText) ? NSOnState : NSOffState;
     
     // Build the setting submenu
     NSMenu *settingSubmenu = [[NSMenu alloc] initWithTitle:@"Setting Menu"];
     [settingSubmenu addItem:advancedSubmenuItem];
     [settingSubmenu addItem:parenthesisSubmenuItem];
     [settingSubmenu addItem:fahrenheitSubmenuItem];
-    [settingSubmenu addItem:colorTextSubmenuItem];
+    [settingSubmenu addItem:whiteTextSubmenuItem];
 
     // Settings menu item
     NSMenuItem *settingMenu = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Settings", @"Settings menuitem") action:nil keyEquivalent:@""];
@@ -448,9 +448,12 @@ static void PowerSourceChanged(void * context)
                                              NSFontAttributeName,
                                              nil];
     
-    if(whiteText) {
+    if (showWhiteText)
+    {
         [attributedStyle setObject:[NSColor whiteColor] forKey:NSForegroundColorAttributeName];
-    } else {
+    }
+    else
+    {
         [attributedStyle setObject:[NSColor blackColor] forKey:NSForegroundColorAttributeName];
     }
     
@@ -680,20 +683,20 @@ static void PowerSourceChanged(void * context)
     [self updateStatusItem];
 }
 
-- (void)toggleTextColor:(id)sender {
+- (void)toggleWhiteText:(id)sender {
     NSMenuItem     *item = sender;
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
     if ([defaults boolForKey:@"whiteText"])
     {
         item.state = NSOffState;
-        whiteText = NO;
+        showWhiteText = NO;
         [defaults setBool:NO forKey:@"whiteText"];
     }
     else
     {
         item.state = NSOnState;
-        whiteText = YES;
+        showWhiteText = YES;
         [defaults setBool:YES forKey:@"whiteText"];
     }
     [defaults synchronize];

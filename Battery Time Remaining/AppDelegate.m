@@ -42,10 +42,12 @@ static void PowerSourceChanged(void * context)
     BOOL isOptionKeyPressed;
     BOOL isCapacityWarning;
     BOOL showParenthesis;
+    BOOL displayFahrenheit;
 }
 
 - (void)cacheBatteryIcon;
 - (NSImage *)loadBatteryIconNamed:(NSString *)iconName;
+- (double)convertCelsiusToFahrenheit:(double)celsius;
 
 @end
 
@@ -126,11 +128,19 @@ static void PowerSourceChanged(void * context)
     parenthesisSubmenuItem.target = self;
     showParenthesis = [[NSUserDefaults standardUserDefaults] boolForKey:@"parentheses"];
     parenthesisSubmenuItem.state = (showParenthesis) ? NSOnState : NSOffState;
+    
+    // Display in Fahrenheit menu item
+    NSMenuItem *displayFahrenheitSubmenuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Display temperature in degrees Fahrenheit", @"Display temperature in Fahrenheit setting") action:@selector(toggleFahrenheit:) keyEquivalent:@""];
+    [displayFahrenheitSubmenuItem setTag:kBTRMenuFahrenheit];
+    displayFahrenheitSubmenuItem.target = self;
+    displayFahrenheit = [[NSUserDefaults standardUserDefaults] boolForKey:@"fahrenheit"];
+    displayFahrenheitSubmenuItem.state = (displayFahrenheit) ? NSOnState : NSOffState;
 
     // Build the setting submenu
     NSMenu *settingSubmenu = [[NSMenu alloc] initWithTitle:@"Setting Menu"];
     [settingSubmenu addItem:advancedSubmenuItem];
     [settingSubmenu addItem:parenthesisSubmenuItem];
+    [settingSubmenu addItem:displayFahrenheitSubmenuItem];
 
     // Settings menu item
     NSMenuItem *settingMenu = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Settings", @"Settings menuitem") action:nil keyEquivalent:@""];
@@ -382,7 +392,7 @@ static void PowerSourceChanged(void * context)
                                              [NSString stringWithFormat:NSLocalizedString(@"Cycle count: %ld", @"Advanced battery info menuitem"), [cycleCount integerValue]],
                                              [NSString stringWithFormat:NSLocalizedString(@"Power usage: %.2f Watt", @"Advanced battery info menuitem"), [watt doubleValue]],
                                              timeSinceUnpluggedTranslated,
-                                             [NSString stringWithFormat:NSLocalizedString(@"Temperature: %.1f°C", @"Advanced battery info menuitem"), [temperature doubleValue]],
+                                             (displayFahrenheit) ? [NSString stringWithFormat:NSLocalizedString(@"Temperature: %.1f°F", @"Advanced battery info menuitem"), [self convertCelsiusToFahrenheit:[temperature doubleValue]]] : [NSString stringWithFormat:NSLocalizedString(@"Temperature: %.1f°C", @"Advanced battery info menuitem"), [temperature doubleValue]],
                                              nil];
         
         NSDictionary *advancedAttributedStyle = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -622,6 +632,28 @@ static void PowerSourceChanged(void * context)
    [self updateStatusItem];
 }
 
+- (void)toggleFahrenheit:(id)sender
+{
+    NSMenuItem     *item = sender;
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    if ([defaults boolForKey:@"fahrenheit"])
+    {
+        item.state = NSOffState;
+        displayFahrenheit = NO;
+        [defaults setBool:NO forKey:@"fahrenheit"];
+    }
+    else
+    {
+        item.state = NSOnState;
+        displayFahrenheit = YES;
+        [defaults setBool:YES forKey:@"fahrenheit"];
+    }
+    [defaults synchronize];
+    
+    [self updateStatusItem];
+}
+
 - (void)notify:(NSString *)message
 {
     [self notify:@"Battery Time Remaining" message:message];
@@ -695,6 +727,11 @@ static void PowerSourceChanged(void * context)
         [self showAdvanced:self.advancedSupported && ([[self.statusItem.menu itemWithTag:kBTRMenuSetting].submenu itemWithTag:kBTRMenuAdvanced].state == NSOnState || isOptionKeyPressed) ];
         [self updateStatusItemMenu];
     }
+}
+
+- (double)convertCelsiusToFahrenheit:(double)celsius
+{
+    return ((celsius * 9.0) / 5.0 + 32.0);
 }
 
 #pragma mark - NSUserNotificationCenterDelegate methods

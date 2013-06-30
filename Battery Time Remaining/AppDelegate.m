@@ -43,7 +43,9 @@ static void PowerSourceChanged(void * context)
     BOOL isCapacityWarning;
     BOOL showParenthesis;
     BOOL showFahrenheit;
+    BOOL showPercentage;
     BOOL showWhiteText;
+    BOOL hideIcon;
 }
 
 - (void)cacheBatteryIcon;
@@ -130,27 +132,43 @@ static void PowerSourceChanged(void * context)
     showParenthesis = [[NSUserDefaults standardUserDefaults] boolForKey:@"parentheses"];
     parenthesisSubmenuItem.state = (showParenthesis) ? NSOnState : NSOffState;
     
-    // Display in Fahrenheit menu item
-    NSMenuItem *fahrenheitSubmenuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Display temperature in Fahrenheit", @"Display temperature in Fahrenheit setting") action:@selector(toggleFahrenheit:) keyEquivalent:@""];
+    // Fahrenheit menu item
+    NSMenuItem *fahrenheitSubmenuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Display Fahrenheit", @"Display Fahrenheit setting") action:@selector(toggleFahrenheit:) keyEquivalent:@""];
     [fahrenheitSubmenuItem setTag:kBTRMenuFahrenheit];
     fahrenheitSubmenuItem.target = self;
     showFahrenheit = [[NSUserDefaults standardUserDefaults] boolForKey:@"fahrenheit"];
     fahrenheitSubmenuItem.state = (showFahrenheit) ? NSOnState : NSOffState;
+    
+    // Percentage menu item
+    NSMenuItem *percentageSubmenuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Display percentage", @"Display percentage setting") action:@selector(togglePercentage:) keyEquivalent:@""];
+    [percentageSubmenuItem setTag:kBTRMenuPercentage];
+    percentageSubmenuItem.target = self;
+    showPercentage = [[NSUserDefaults standardUserDefaults] boolForKey:@"percentage"];
+    percentageSubmenuItem.state = (showPercentage) ? NSOnState : NSOffState;
 
     // Toggle Black & White Text
-    NSMenuItem *whiteTextSubmenuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Display white text color", @"Display white text color") action:@selector(toggleWhiteText:) keyEquivalent:@""];
+    NSMenuItem *whiteTextSubmenuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Display white text", @"Display white text") action:@selector(toggleWhiteText:) keyEquivalent:@""];
     [whiteTextSubmenuItem setTag:kBTRMenuWhiteText];
     whiteTextSubmenuItem.target = self;
     showWhiteText = [[NSUserDefaults standardUserDefaults] boolForKey:@"whiteText"];
     whiteTextSubmenuItem.state = (showWhiteText) ? NSOnState : NSOffState;
+    
+    // Icon menu item
+    NSMenuItem *hideIconSubmenuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Hide icon", @"Hide icon setting") action:@selector(toggleHideIcon:) keyEquivalent:@""];
+    [hideIconSubmenuItem setTag:kBTRMenuHideIcon];
+    hideIconSubmenuItem.target = self;
+    hideIcon = [[NSUserDefaults standardUserDefaults] boolForKey:@"hideIcon"];
+    hideIconSubmenuItem.state = (hideIcon) ? NSOnState : NSOffState;
     
     // Build the setting submenu
     NSMenu *settingSubmenu = [[NSMenu alloc] initWithTitle:@"Setting Menu"];
     [settingSubmenu addItem:advancedSubmenuItem];
     [settingSubmenu addItem:parenthesisSubmenuItem];
     [settingSubmenu addItem:fahrenheitSubmenuItem];
+    [settingSubmenu addItem:percentageSubmenuItem];
     [settingSubmenu addItem:whiteTextSubmenuItem];
-
+    [settingSubmenu addItem:hideIconSubmenuItem];
+    
     // Settings menu item
     NSMenuItem *settingMenu = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Settings", @"Settings menuitem") action:nil keyEquivalent:@""];
     [settingMenu setTag:kBTRMenuSetting];
@@ -437,9 +455,17 @@ static void PowerSourceChanged(void * context)
 - (void)setStatusBarImage:(NSImage *)image title:(NSString *)title
 {
     // Image
-    [image setTemplate:( ! isCapacityWarning)];
-    [self.statusItem setImage:image];
-    [self.statusItem setAlternateImage:[ImageFilter invertColor:image]];
+    if (!hideIcon)
+    {
+        [image setTemplate:( ! isCapacityWarning)];
+        [self.statusItem setImage:image];
+        [self.statusItem setAlternateImage:[ImageFilter invertColor:image]];
+    }
+    else
+    {
+        [self.statusItem setImage:nil];
+        [self.statusItem setAlternateImage:nil];
+    }
 
     // Title
     NSMutableDictionary *attributedStyle = [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -457,6 +483,10 @@ static void PowerSourceChanged(void * context)
         [attributedStyle setObject:[NSColor blackColor] forKey:NSForegroundColorAttributeName];
     }
     
+    if (showPercentage)
+    {
+        title = [NSString stringWithFormat:@"%ld %%", self.currentPercent];
+    }
 
     NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:title attributes:attributedStyle];
     self.statusItem.attributedTitle = attributedTitle;
@@ -582,7 +612,7 @@ static void PowerSourceChanged(void * context)
 
 - (void)openMacAppStore:(id)sender
 {
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"macappstore://itunes.apple.com/app/id551420833?mt=12"]];
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"macappstore://itunes.apple.com/app/id665678267?mt=12"]];
 }
 
 - (void)promptAutoUpdate:(id)sender
@@ -683,6 +713,28 @@ static void PowerSourceChanged(void * context)
     [self updateStatusItem];
 }
 
+- (void)togglePercentage:(id)sender
+{
+    NSMenuItem     *item = sender;
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    if ([defaults boolForKey:@"percentage"])
+    {
+        item.state = NSOffState;
+        showPercentage = NO;
+        [defaults setBool:NO forKey:@"percentage"];
+    }
+    else
+    {
+        item.state = NSOnState;
+        showPercentage = YES;
+        [defaults setBool:YES forKey:@"percentage"];
+    }
+    [defaults synchronize];
+    
+    [self updateStatusItem];
+}
+
 - (void)toggleWhiteText:(id)sender {
     NSMenuItem     *item = sender;
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -698,6 +750,28 @@ static void PowerSourceChanged(void * context)
         item.state = NSOnState;
         showWhiteText = YES;
         [defaults setBool:YES forKey:@"whiteText"];
+    }
+    [defaults synchronize];
+    
+    [self updateStatusItem];
+}
+
+- (void)toggleHideIcon:(id)sender
+{
+    NSMenuItem     *item = sender;
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    if ([defaults boolForKey:@"hideIcon"])
+    {
+        item.state = NSOffState;
+        hideIcon = NO;
+        [defaults setBool:NO forKey:@"hideIcon"];
+    }
+    else
+    {
+        item.state = NSOnState;
+        hideIcon = YES;
+        [defaults setBool:YES forKey:@"hideIcon"];
     }
     [defaults synchronize];
     

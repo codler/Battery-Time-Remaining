@@ -493,7 +493,7 @@ static void PowerSourceChanged(void * context)
 
 - (void)openMacAppStore:(id)sender
 {
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"macappstore://itunes.apple.com/app/id551420833?mt=12"]];
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"macappstore://itunes.apple.com/app/id665678267?mt=12"]];
 }
 
 - (void)promptAutoUpdate:(id)sender

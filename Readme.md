@@ -46,6 +46,10 @@ App icon provided by happytel.com free calling for all.
 Change log
 ----------
 
+2013-06-30 - **v1.6.3** - [diff](https://github.com/codler/Battery-Time-Remaining/compare/v1.6.2...v1.6.3)
+
+* Added Russian language ([ericbroska](https://github.com/ericbroska) [#58](https://github.com/codler/Battery-Time-Remaining/pull/58))
+
 2013-01-20 - **v1.6.2** - [diff](https://github.com/codler/Battery-Time-Remaining/compare/v1.6.1...v1.6.2)
 
 * Added Spanish language ([danielmartin](https://github.com/danielmartin) [#56](https://github.com/codler/Battery-Time-Remaining/pull/56))

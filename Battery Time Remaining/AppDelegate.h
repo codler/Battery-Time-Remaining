@@ -3,7 +3,7 @@
 //  Battery Time Remaining
 //
 //  Created by Han Lin Yap on 2012-08-01.
-//  Copyright (c) 2012 Han Lin Yap. All rights reserved.
+//  Copyright (c) 2013 Han Lin Yap. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>
@@ -19,9 +19,13 @@
 #define kBTRMenuSetting             6
 #define kBTRMenuAdvanced            7
 #define kBTRMenuParenthesis         8
-#define kBTRMenuEnergySaverSetting  9
-#define kBTRMenuUpdater             10
-#define kBTRMenuQuitKey             11
+#define kBTRMenuFahrenheit          9
+#define kBTRMenuPercentage          10
+#define kBTRMenuWhiteText           11
+#define kBTRMenuHideIcon            12
+#define kBTRMenuEnergySaverSetting  13
+#define kBTRMenuUpdater             14
+#define kBTRMenuQuitKey             15
 
 #endif
 

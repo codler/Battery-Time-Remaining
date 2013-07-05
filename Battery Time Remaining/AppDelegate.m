@@ -3,7 +3,7 @@
 //  Battery Time Remaining
 //
 //  Created by Han Lin Yap on 2012-08-01.
-//  Copyright (c) 2012 Han Lin Yap. All rights reserved.
+//  Copyright (c) 2013 Han Lin Yap. All rights reserved.
 //
 
 #import "AppDelegate.h"
@@ -36,13 +36,21 @@ static void PowerSourceChanged(void * context)
     NSDictionary *batteryIcons;
     NSTimer *menuUpdateTimer;
     NSTimer *optionKeyPressedTimer;
+    NSString *previousState;
+    NSTimer *unpluggedTimer;
+    NSInteger unpluggedTimerCount;
     BOOL isOptionKeyPressed;
     BOOL isCapacityWarning;
     BOOL showParenthesis;
+    BOOL showFahrenheit;
+    BOOL showPercentage;
+    BOOL showWhiteText;
+    BOOL hideIcon;
 }
 
 - (void)cacheBatteryIcon;
 - (NSImage *)loadBatteryIconNamed:(NSString *)iconName;
+- (double)convertCelsiusToFahrenheit:(double)celsius;
 
 @end
 
@@ -123,12 +131,44 @@ static void PowerSourceChanged(void * context)
     parenthesisSubmenuItem.target = self;
     showParenthesis = [[NSUserDefaults standardUserDefaults] boolForKey:@"parentheses"];
     parenthesisSubmenuItem.state = (showParenthesis) ? NSOnState : NSOffState;
+    
+    // Fahrenheit menu item
+    NSMenuItem *fahrenheitSubmenuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Display Fahrenheit", @"Display Fahrenheit setting") action:@selector(toggleFahrenheit:) keyEquivalent:@""];
+    [fahrenheitSubmenuItem setTag:kBTRMenuFahrenheit];
+    fahrenheitSubmenuItem.target = self;
+    showFahrenheit = [[NSUserDefaults standardUserDefaults] boolForKey:@"fahrenheit"];
+    fahrenheitSubmenuItem.state = (showFahrenheit) ? NSOnState : NSOffState;
+    
+    // Percentage menu item
+    NSMenuItem *percentageSubmenuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Display percentage", @"Display percentage setting") action:@selector(togglePercentage:) keyEquivalent:@""];
+    [percentageSubmenuItem setTag:kBTRMenuPercentage];
+    percentageSubmenuItem.target = self;
+    showPercentage = [[NSUserDefaults standardUserDefaults] boolForKey:@"percentage"];
+    percentageSubmenuItem.state = (showPercentage) ? NSOnState : NSOffState;
 
+    // Toggle Black & White Text
+    NSMenuItem *whiteTextSubmenuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Display white text", @"Display white text") action:@selector(toggleWhiteText:) keyEquivalent:@""];
+    [whiteTextSubmenuItem setTag:kBTRMenuWhiteText];
+    whiteTextSubmenuItem.target = self;
+    showWhiteText = [[NSUserDefaults standardUserDefaults] boolForKey:@"whiteText"];
+    whiteTextSubmenuItem.state = (showWhiteText) ? NSOnState : NSOffState;
+    
+    // Icon menu item
+    NSMenuItem *hideIconSubmenuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Hide icon", @"Hide icon setting") action:@selector(toggleHideIcon:) keyEquivalent:@""];
+    [hideIconSubmenuItem setTag:kBTRMenuHideIcon];
+    hideIconSubmenuItem.target = self;
+    hideIcon = [[NSUserDefaults standardUserDefaults] boolForKey:@"hideIcon"];
+    hideIconSubmenuItem.state = (hideIcon) ? NSOnState : NSOffState;
+    
     // Build the setting submenu
     NSMenu *settingSubmenu = [[NSMenu alloc] initWithTitle:@"Setting Menu"];
     [settingSubmenu addItem:advancedSubmenuItem];
     [settingSubmenu addItem:parenthesisSubmenuItem];
-
+    [settingSubmenu addItem:fahrenheitSubmenuItem];
+    [settingSubmenu addItem:percentageSubmenuItem];
+    [settingSubmenu addItem:whiteTextSubmenuItem];
+    [settingSubmenu addItem:hideIconSubmenuItem];
+    
     // Settings menu item
     NSMenuItem *settingMenu = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Settings", @"Settings menuitem") action:nil keyEquivalent:@""];
     [settingMenu setTag:kBTRMenuSetting];
@@ -177,6 +217,12 @@ static void PowerSourceChanged(void * context)
     CFRelease(loop);
 }
 
+- (void)unpluggedTimerTick
+{
+    // increase counter by 60 seconds each tick of corresponding timer
+    unpluggedTimerCount += 60;
+}
+
 - (void)updateStatusItem
 {
     // reset warning state; new state will be calculated here anyway
@@ -217,6 +263,32 @@ static void PowerSourceChanged(void * context)
                                             NSLocalizedString(@"Off Line", @"Powersource state");
         
         [self.statusItem.menu itemWithTag:kBTRMenuPowerSourceState].title = [NSString stringWithFormat:NSLocalizedString(@"Power source: %@", @"Powersource menuitem"), psStateTranslated];
+
+        // Figure out what's changed: AC to Battery or vise versa
+        if(![previousState isEqualToString:psState])
+        {
+            if([psState isEqualToString:(NSString *)CFSTR(kIOPSBatteryPowerValue)])
+            {
+                // power source changed from AC to battery
+                // start counting time we spend on battery
+                unpluggedTimerCount = 0;
+                unpluggedTimer = [NSTimer
+                                  timerWithTimeInterval:60
+                                  target:self
+                                  selector:@selector(unpluggedTimerTick)
+                                  userInfo:nil
+                                  repeats:YES];
+                [[NSRunLoop currentRunLoop] addTimer:unpluggedTimer forMode:NSRunLoopCommonModes];
+            }
+            else if([psState isEqualToString:(NSString *)CFSTR(kIOPSACPowerValue)])
+            {
+                // power source changed from battery to AC
+                // stop timer and reset
+                [unpluggedTimer invalidate];
+                unpluggedTimer = nil;
+            }
+            previousState = psState;
+        }
         
         // Still calculating the estimated time remaining...
         // Fixes #22 - state after reboot
@@ -328,11 +400,36 @@ static void PowerSourceChanged(void * context)
         
         [self.statusItem.menu itemWithTag:kBTRMenuPowerSourcePercent].title = [NSString stringWithFormat: NSLocalizedString(@"%ld %% left ( %ld/%ld mAh )", @"Advanced percentage left menuitem"), self.currentPercent, [currentBatteryPower integerValue], [maxBatteryPower integerValue]];
         
+        // time since unplugged
+        NSString *timeSinceUnplugged;
+        if (unpluggedTimer != nil)
+        {
+            timeSinceUnplugged = NSLocalizedString(@"Time since unplugged: %1$ld:%2$02ld", @"Advanced battery info menuitem");
+        }
+        else
+        {
+            timeSinceUnplugged = NSLocalizedString(@"On battery while last unplugged: %1$ld:%2$02ld", @"Advanced battery info menuitem");
+        }
+        NSString *timeSinceUnpluggedTranslated = [NSString stringWithFormat:timeSinceUnplugged,
+                                                  unpluggedTimerCount / 3600,
+                                                  unpluggedTimerCount % 3600 / 60];
+        
+        // Temperature
+        NSString *fahrenheitTranslated;
+        if (showFahrenheit) {
+            fahrenheitTranslated = [NSString stringWithFormat:NSLocalizedString(@"Temperature: %.1f°F", @"Advanced battery info menuitem"), [self convertCelsiusToFahrenheit:[temperature doubleValue]]];
+        }
+        else
+        {
+            fahrenheitTranslated = [NSString stringWithFormat:NSLocalizedString(@"Temperature: %.1f°C", @"Advanced battery info menuitem"), [temperature doubleValue]];
+        }
+        
         // Each item in array will be a row in menu
         NSArray *advancedBatteryInfoTexts = [NSArray arrayWithObjects:
                                              [NSString stringWithFormat:NSLocalizedString(@"Cycle count: %ld", @"Advanced battery info menuitem"), [cycleCount integerValue]],
                                              [NSString stringWithFormat:NSLocalizedString(@"Power usage: %.2f Watt", @"Advanced battery info menuitem"), [watt doubleValue]],
-                                             [NSString stringWithFormat:NSLocalizedString(@"Temperature: %.1f°C", @"Advanced battery info menuitem"), [temperature doubleValue]],
+                                             timeSinceUnpluggedTranslated,
+                                             fahrenheitTranslated,
                                              nil];
         
         NSDictionary *advancedAttributedStyle = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -358,16 +455,38 @@ static void PowerSourceChanged(void * context)
 - (void)setStatusBarImage:(NSImage *)image title:(NSString *)title
 {
     // Image
-    [image setTemplate:( ! isCapacityWarning)];
-    [self.statusItem setImage:image];
-    [self.statusItem setAlternateImage:[ImageFilter invertColor:image]];
+    if (!hideIcon)
+    {
+        [image setTemplate:( ! isCapacityWarning)];
+        [self.statusItem setImage:image];
+        [self.statusItem setAlternateImage:[ImageFilter invertColor:image]];
+    }
+    else
+    {
+        [self.statusItem setImage:nil];
+        [self.statusItem setAlternateImage:nil];
+    }
 
     // Title
-    NSDictionary *attributedStyle = [NSDictionary dictionaryWithObjectsAndKeys:
-                                     // Font
-                                     [NSFont menuFontOfSize:12.0f],
-                                     NSFontAttributeName,
-                                     nil];
+    NSMutableDictionary *attributedStyle = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                             // Font
+                                             [NSFont menuFontOfSize:12.0f],
+                                             NSFontAttributeName,
+                                             nil];
+    
+    if (showWhiteText)
+    {
+        [attributedStyle setObject:[NSColor whiteColor] forKey:NSForegroundColorAttributeName];
+    }
+    else
+    {
+        [attributedStyle setObject:[NSColor blackColor] forKey:NSForegroundColorAttributeName];
+    }
+    
+    if (showPercentage)
+    {
+        title = [NSString stringWithFormat:@"%ld %%", self.currentPercent];
+    }
 
     NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:title attributes:attributedStyle];
     self.statusItem.attributedTitle = attributedTitle;
@@ -572,6 +691,93 @@ static void PowerSourceChanged(void * context)
    [self updateStatusItem];
 }
 
+- (void)toggleFahrenheit:(id)sender
+{
+    NSMenuItem     *item = sender;
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    if ([defaults boolForKey:@"fahrenheit"])
+    {
+        item.state = NSOffState;
+        showFahrenheit = NO;
+        [defaults setBool:NO forKey:@"fahrenheit"];
+    }
+    else
+    {
+        item.state = NSOnState;
+        showFahrenheit = YES;
+        [defaults setBool:YES forKey:@"fahrenheit"];
+    }
+    [defaults synchronize];
+    
+    [self updateStatusItem];
+}
+
+- (void)togglePercentage:(id)sender
+{
+    NSMenuItem     *item = sender;
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    if ([defaults boolForKey:@"percentage"])
+    {
+        item.state = NSOffState;
+        showPercentage = NO;
+        [defaults setBool:NO forKey:@"percentage"];
+    }
+    else
+    {
+        item.state = NSOnState;
+        showPercentage = YES;
+        [defaults setBool:YES forKey:@"percentage"];
+    }
+    [defaults synchronize];
+    
+    [self updateStatusItem];
+}
+
+- (void)toggleWhiteText:(id)sender {
+    NSMenuItem     *item = sender;
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    if ([defaults boolForKey:@"whiteText"])
+    {
+        item.state = NSOffState;
+        showWhiteText = NO;
+        [defaults setBool:NO forKey:@"whiteText"];
+    }
+    else
+    {
+        item.state = NSOnState;
+        showWhiteText = YES;
+        [defaults setBool:YES forKey:@"whiteText"];
+    }
+    [defaults synchronize];
+    
+    [self updateStatusItem];
+}
+
+- (void)toggleHideIcon:(id)sender
+{
+    NSMenuItem     *item = sender;
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    if ([defaults boolForKey:@"hideIcon"])
+    {
+        item.state = NSOffState;
+        hideIcon = NO;
+        [defaults setBool:NO forKey:@"hideIcon"];
+    }
+    else
+    {
+        item.state = NSOnState;
+        hideIcon = YES;
+        [defaults setBool:YES forKey:@"hideIcon"];
+    }
+    [defaults synchronize];
+    
+    [self updateStatusItem];
+}
+
 - (void)notify:(NSString *)message
 {
     [self notify:@"Battery Time Remaining" message:message];
@@ -645,6 +851,11 @@ static void PowerSourceChanged(void * context)
         [self showAdvanced:self.advancedSupported && ([[self.statusItem.menu itemWithTag:kBTRMenuSetting].submenu itemWithTag:kBTRMenuAdvanced].state == NSOnState || isOptionKeyPressed) ];
         [self updateStatusItemMenu];
     }
+}
+
+- (double)convertCelsiusToFahrenheit:(double)celsius
+{
+    return ((celsius * 9.0) / 5.0 + 32.0);
 }
 
 #pragma mark - NSUserNotificationCenterDelegate methods

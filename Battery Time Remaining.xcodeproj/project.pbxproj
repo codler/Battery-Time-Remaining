@@ -13,6 +13,7 @@
 		2841C7F115C91CC100F4F15F /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 2841C7EF15C91CC100F4F15F /* Credits.rtf */; };
 		2841C7F415C91CC100F4F15F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2841C7F315C91CC100F4F15F /* AppDelegate.m */; };
 		2841C7FE15C91CEF00F4F15F /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2841C7FD15C91CEF00F4F15F /* IOKit.framework */; };
+		28473E3C1787505700D6CC7C /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 28473E3B1787505700D6CC7C /* LICENSE */; };
 		28527E581622E8A800EE3644 /* ImageFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 28527E571622E8A800EE3644 /* ImageFilter.m */; };
 		28833BAE15D7B90B00741727 /* HttpGet.m in Sources */ = {isa = PBXBuildFile; fileRef = 28833BAD15D7B90B00741727 /* HttpGet.m */; };
 		28833BB215D7D4FF00741727 /* Readme.md in Resources */ = {isa = PBXBuildFile; fileRef = 28833BB115D7D4FF00741727 /* Readme.md */; };
@@ -59,7 +60,7 @@
 		2822133616369BB70019A3EE /* ko */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 		2824FFEF1611A5D500CD3140 /* zh-Hans */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		28369FFA15EE902E005957A0 /* sk */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = sk; path = sk.lproj/Localizable.strings; sourceTree = "<group>"; };
-		2841C7DC15C91CC100F4F15F /* Battery Time Remaining.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Battery Time Remaining.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2841C7DC15C91CC100F4F15F /* Battery Time 2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Battery Time 2.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2841C7E015C91CC100F4F15F /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		2841C7E315C91CC100F4F15F /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		2841C7E415C91CC100F4F15F /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -71,6 +72,7 @@
 		2841C7F215C91CC100F4F15F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		2841C7F315C91CC100F4F15F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		2841C7FD15C91CEF00F4F15F /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		28473E3B1787505700D6CC7C /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = SOURCE_ROOT; };
 		28527E561622E8A800EE3644 /* ImageFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageFilter.h; sourceTree = "<group>"; };
 		28527E571622E8A800EE3644 /* ImageFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageFilter.m; sourceTree = "<group>"; };
 		28563BBE1621A34500960191 /* it */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -125,7 +127,7 @@
 		2841C7DD15C91CC100F4F15F /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				2841C7DC15C91CC100F4F15F /* Battery Time Remaining.app */,
+				2841C7DC15C91CC100F4F15F /* Battery Time 2.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -155,15 +157,15 @@
 		2841C7E615C91CC100F4F15F /* Battery Time Remaining */ = {
 			isa = PBXGroup;
 			children = (
-				28FEDA6215DA5EB200320B72 /* LLManager.h */,
-				28FEDA6315DA5EB200320B72 /* LLManager.m */,
-				28FEDA6415DA5EB200320B72 /* LLStrings.h */,
 				2841C7F215C91CC100F4F15F /* AppDelegate.h */,
-				28527E561622E8A800EE3644 /* ImageFilter.h */,
-				28527E571622E8A800EE3644 /* ImageFilter.m */,
 				2841C7F315C91CC100F4F15F /* AppDelegate.m */,
 				28833BAC15D7B90B00741727 /* HttpGet.h */,
 				28833BAD15D7B90B00741727 /* HttpGet.m */,
+				28527E561622E8A800EE3644 /* ImageFilter.h */,
+				28527E571622E8A800EE3644 /* ImageFilter.m */,
+				28FEDA6215DA5EB200320B72 /* LLManager.h */,
+				28FEDA6315DA5EB200320B72 /* LLManager.m */,
+				28FEDA6415DA5EB200320B72 /* LLStrings.h */,
 				2841C7E715C91CC100F4F15F /* Supporting Files */,
 			);
 			path = "Battery Time Remaining";
@@ -172,15 +174,16 @@
 		2841C7E715C91CC100F4F15F /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				D53375E315DC43380077CEF6 /* Localizable.strings */,
-				28833BB315D7D61100741727 /* build_version */,
-				28833BB115D7D4FF00741727 /* Readme.md */,
-				28BA61A715D1B12500EDB674 /* icon.icns */,
-				28BA61A915D1B63300EDB674 /* Battery Time Remaining.entitlements */,
 				2841C7E815C91CC100F4F15F /* Battery Time Remaining-Info.plist */,
-				2841C7EC15C91CC100F4F15F /* main.m */,
 				2841C7EE15C91CC100F4F15F /* Battery Time Remaining-Prefix.pch */,
+				28BA61A915D1B63300EDB674 /* Battery Time Remaining.entitlements */,
+				28833BB315D7D61100741727 /* build_version */,
 				2841C7EF15C91CC100F4F15F /* Credits.rtf */,
+				28BA61A715D1B12500EDB674 /* icon.icns */,
+				28473E3B1787505700D6CC7C /* LICENSE */,
+				D53375E315DC43380077CEF6 /* Localizable.strings */,
+				2841C7EC15C91CC100F4F15F /* main.m */,
+				28833BB115D7D4FF00741727 /* Readme.md */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -212,7 +215,7 @@
 			);
 			name = "Battery Time Remaining";
 			productName = "Battery Time Remaining";
-			productReference = 2841C7DC15C91CC100F4F15F /* Battery Time Remaining.app */;
+			productReference = 2841C7DC15C91CC100F4F15F /* Battery Time 2.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -278,6 +281,7 @@
 				28833BB215D7D4FF00741727 /* Readme.md in Resources */,
 				28833BB415D7D61100741727 /* build_version in Resources */,
 				D53375E515DC43380077CEF6 /* Localizable.strings in Resources */,
+				28473E3C1787505700D6CC7C /* LICENSE in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -397,7 +401,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Battery Time Remaining/Battery Time Remaining-Prefix.pch";
 				INFOPLIST_FILE = "Battery Time Remaining/Battery Time Remaining-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Battery Time 2";
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
@@ -412,7 +416,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Battery Time Remaining/Battery Time Remaining-Prefix.pch";
 				INFOPLIST_FILE = "Battery Time Remaining/Battery Time Remaining-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Battery Time 2";
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};

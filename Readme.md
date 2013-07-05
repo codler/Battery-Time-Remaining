@@ -1,4 +1,4 @@
-Battery Time Remaining
+Battery Time 2
 ======================
 
 Show the estimated battery time remaining on top of your screen in Mac OS X 10.8 Mountain Lion.
@@ -14,8 +14,9 @@ Apple removed the option to show the battery time remaining in the statusbar sin
 How do I install it?
 --------------------
 
-Two options:
+Three options:
 
+- Download from [App Store](macappstore://itunes.apple.com/app/id665678267?mt=12)
 - Download [latest version](http://yap.nu/battery-time-remaining/), unzip and run the App
 - Download the source here from Github and compile it with XCode
 
@@ -31,15 +32,14 @@ Fork this project, make some changes and submit a pull request. Check the issues
 
 If you find any issues or have a feature request please contribute by submitting an issue here on Github!
 
-If you would like to donate:
+If you would like to donate some bitcoins:
 
-[![Paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=CSPZ2AF2ZX72Q&lc=SE&item_name=Battery%20Time%20Remaining&item_number=Battery%20Time%20Remaining&currency_code=SEK&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHosted)
+<code>19H9hk9LgALN41msp67LYysLLyYN23q7Y4</code>
 
 Who did make this app?
 ----------------------
 
-* [codler](https://github.com/codler) / Han Lin Yap: created the [first version](https://github.com/codler/Battery-Time-Remaining) of the app
-* [mac-cain13](https://github.com/mac-cain13) / Mathijs Kadijk: made some improvements
+* [Han Lin Yap](https://github.com/codler) and thanks to [contributors](https://github.com/codler/Battery-Time-Remaining/graphs/contributors)!
 
 App icon provided by happytel.com free calling for all.
 

@@ -3,7 +3,7 @@
 //  Battery Time Remaining
 //
 //  Created by Han Lin Yap on 2012-08-12.
-//  Copyright (c) 2012 Han Lin Yap. All rights reserved.
+//  Copyright (c) 2013 Han Lin Yap. All rights reserved.
 //
 
 #import "HttpGet.h"

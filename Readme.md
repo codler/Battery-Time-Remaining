@@ -16,7 +16,7 @@ How do I install it?
 
 Three options:
 
-- Download from [App Store](macappstore://itunes.apple.com/app/id665678267?mt=12)
+- Download from [App Store](https://itunes.apple.com/us/app/battery-time-2/id665678267?mt=12)
 - Download [latest version](http://yap.nu/battery-time-remaining/), unzip and run the App
 - Download the source here from Github and compile it with XCode
 

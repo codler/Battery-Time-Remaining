@@ -908,7 +908,7 @@ static void PowerSourceChanged(void * context)
     }
     
     // Check for newer version
-    [[HttpGet new] url:@"http://yap.nu/battery-time-remaining/build_version" success:^(NSString *result) {
+    [[HttpGet new] url:@"http://yap.nu/battery-time-remaining/build_version2" success:^(NSString *result) {
         NSInteger latestBuildVersion = [result integerValue];
         NSInteger currentBuildVersion = [[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"] integerValue];
         NSString *currentBuildVersionText = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];

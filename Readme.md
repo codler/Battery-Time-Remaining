@@ -46,6 +46,14 @@ App icon provided by happytel.com free calling for all.
 Change log
 ----------
 
+2013-07-05 - **v2.0** - [diff](https://github.com/codler/Battery-Time-Remaining/compare/v1.6.3...v2.0)
+
+* Added Hide icon setting ([codler](https://github.com/codler) [#51](https://github.com/codler/Battery-Time-Remaining/issues/51))
+* Added Display Fahrenheit setting ([codler](https://github.com/codler) [danielmartin](https://github.com/danielmartin) [#60](https://github.com/codler/Battery-Time-Remaining/issues/60) [#62](https://github.com/codler/Battery-Time-Remaining/pull/62))
+* Added Display percentage setting ([codler](https://github.com/codler) [#55](https://github.com/codler/Battery-Time-Remaining/issues/55))
+* Added Display white text setting ([codler](https://github.com/codler) [JohnnySlagle](https://github.com/JohnnySlagle) [#64](https://github.com/codler/Battery-Time-Remaining/pull/64))
+* Show time since unplugged (advanced mode) ([alexanderad](https://github.com/alexanderad) [codler](https://github.com/codler) [#54](https://github.com/codler/Battery-Time-Remaining/pull/54))
+
 2013-06-30 - **v1.6.3** - [diff](https://github.com/codler/Battery-Time-Remaining/compare/v1.6.2...v1.6.3)
 
 * Added Russian language ([ericbroska](https://github.com/ericbroska) [#58](https://github.com/codler/Battery-Time-Remaining/pull/58))

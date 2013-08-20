@@ -90,6 +90,8 @@
 		2CDF24CA16B51EC500B8B8C0 /* ru */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		2CDF24CB16B51ED400B8B8C0 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = ru; path = ru.lproj/Credits.rtf; sourceTree = "<group>"; };
 		68CCA33F1699145E0081001E /* es */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
+		883AB19717C377E900F835CA /* zh-Hant-TW */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = "zh-Hant-TW"; path = "zh-Hant-TW.lproj/Credits.rtf"; sourceTree = "<group>"; };
+		883AB19817C377E900F835CA /* zh-Hant-TW */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant-TW"; path = "zh-Hant-TW.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		C24C463B15E7DC8A00DC943D /* de */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D53375E415DC43380077CEF6 /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D53375FC15DC44620077CEF6 /* nl */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -241,6 +243,7 @@
 				ko,
 				es,
 				ru,
+				"zh-Hant-TW",
 			);
 			mainGroup = 2841C7D115C91CC100F4F15F;
 			productRefGroup = 2841C7DD15C91CC100F4F15F /* Products */;
@@ -312,6 +315,7 @@
 			children = (
 				2841C7F015C91CC100F4F15F /* en */,
 				2CDF24CB16B51ED400B8B8C0 /* ru */,
+				883AB19717C377E900F835CA /* zh-Hant-TW */,
 			);
 			name = Credits.rtf;
 			sourceTree = "<group>";
@@ -332,6 +336,7 @@
 				2822133616369BB70019A3EE /* ko */,
 				68CCA33F1699145E0081001E /* es */,
 				2CDF24CA16B51EC500B8B8C0 /* ru */,
+				883AB19817C377E900F835CA /* zh-Hant-TW */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";

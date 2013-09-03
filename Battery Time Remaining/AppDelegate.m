@@ -294,7 +294,7 @@ static void PowerSourceChanged(void * context)
         // Fixes #22 - state after reboot
         if ([psState isEqualToString:(NSString *)CFSTR(kIOPSBatteryPowerValue)] && CFDictionaryGetValue(description, CFSTR(kIOPSIsChargingKey)) == kCFBooleanFalse && (kIOPSTimeRemainingUnknown == timeRemaining || kIOPSTimeRemainingUnlimited == timeRemaining))
         {
-            [self setStatusBarImage:[self getBatteryIconPercent:self.currentPercent] title:[NSString stringWithFormat:@" %@", NSLocalizedString(@"Calculating…", @"Calculating sidetext")]];
+            [self setStatusBarImage:[self getBatteryIconPercent:self.currentPercent] title:NSLocalizedString(@"Calculating…", @"Calculating sidetext")];
         }
         // We're connected to an unlimited power source (AC adapter probably)
         else if (kIOPSTimeRemainingUnlimited == timeRemaining)
@@ -311,20 +311,20 @@ static void PowerSourceChanged(void * context)
                     NSInteger hour = timeTilCharged / 60;
                     NSInteger minute = timeTilCharged % 60;
                     
-                    NSString *title = (showParenthesis) ? @" (%ld:%02ld)" : @" %ld:%02ld";
+                    NSString *title = @"%ld:%02ld";
                     
                     // Return the time remaining string
                     [self setStatusBarImage:[self getBatteryIconNamed:@"BatteryCharging"] title:[NSString stringWithFormat:title, hour, minute]];
                 }
                 else
                 {
-                    [self setStatusBarImage:[self getBatteryIconNamed:@"BatteryCharging"] title:[NSString stringWithFormat:@" %@", NSLocalizedString(@"Calculating…", @"Calculating sidetext")]];
+                    [self setStatusBarImage:[self getBatteryIconNamed:@"BatteryCharging"] title:NSLocalizedString(@"Calculating…", @"Calculating sidetext")];
                 }
             }
             else
             {
                 // Not charging and on a endless powersource
-                [self setStatusBarImage:[self getBatteryIconNamed:@"BatteryCharged"] title:@""];
+                [self setStatusBarImage:[self getBatteryIconNamed:@"BatteryCharged"] title:nil];
                 
                 NSNumber *currentBatteryCapacity = CFDictionaryGetValue(description, CFSTR(kIOPSCurrentCapacityKey));
                 NSNumber *maxBatteryCapacity = CFDictionaryGetValue(description, CFSTR(kIOPSMaxCapacityKey));
@@ -348,7 +348,7 @@ static void PowerSourceChanged(void * context)
             NSInteger hour = (int)timeRemaining / 3600;
             NSInteger minute = (int)timeRemaining % 3600 / 60;
             
-            NSString *title = (showParenthesis) ? @" (%ld:%02ld)" : @" %ld:%02ld";
+            NSString *title = @"%ld:%02ld";
             
             // Return the time remaining string
            [self setStatusBarImage:[self getBatteryIconPercent:self.currentPercent] title:[NSString stringWithFormat:title, hour, minute]];
@@ -458,8 +458,16 @@ static void PowerSourceChanged(void * context)
     if (!hideIcon)
     {
         [image setTemplate:( ! isCapacityWarning)];
-        [self.statusItem setImage:image];
-        [self.statusItem setAlternateImage:[ImageFilter invertColor:image]];
+        if (showWhiteText)
+        {
+            [self.statusItem setImage:[ImageFilter invertColor:image]];
+            [self.statusItem setAlternateImage:image];
+        }
+        else
+        {
+            [self.statusItem setImage:image];
+            [self.statusItem setAlternateImage:[ImageFilter invertColor:image]];
+        }
     }
     else
     {
@@ -478,14 +486,20 @@ static void PowerSourceChanged(void * context)
     {
         [attributedStyle setObject:[NSColor whiteColor] forKey:NSForegroundColorAttributeName];
     }
-    else
-    {
-        [attributedStyle setObject:[NSColor blackColor] forKey:NSForegroundColorAttributeName];
-    }
     
     if (showPercentage)
     {
         title = [NSString stringWithFormat:@"%ld %%", self.currentPercent];
+    }
+    
+    if (title != nil)
+    {
+        if (showParenthesis)
+        {
+            title = [NSString stringWithFormat:@"(%@)", title];
+        }
+        
+        title = [NSString stringWithFormat:@" %@", title];
     }
 
     NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:title attributes:attributedStyle];

@@ -62,7 +62,7 @@
 		2824942C17AE658B00DD0F74 /* build_version2 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = build_version2; sourceTree = SOURCE_ROOT; };
 		2824FFEF1611A5D500CD3140 /* zh-Hans */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		28369FFA15EE902E005957A0 /* sk */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = sk; path = sk.lproj/Localizable.strings; sourceTree = "<group>"; };
-		2841C7DC15C91CC100F4F15F /* Battery Time 2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Battery Time 2.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2841C7DC15C91CC100F4F15F /* Battery Time Remaining 2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Battery Time Remaining 2.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2841C7E015C91CC100F4F15F /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		2841C7E315C91CC100F4F15F /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		2841C7E415C91CC100F4F15F /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -131,7 +131,7 @@
 		2841C7DD15C91CC100F4F15F /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				2841C7DC15C91CC100F4F15F /* Battery Time 2.app */,
+				2841C7DC15C91CC100F4F15F /* Battery Time Remaining 2.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -220,7 +220,7 @@
 			);
 			name = "Battery Time Remaining";
 			productName = "Battery Time Remaining";
-			productReference = 2841C7DC15C91CC100F4F15F /* Battery Time 2.app */;
+			productReference = 2841C7DC15C91CC100F4F15F /* Battery Time Remaining 2.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -410,7 +410,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Battery Time Remaining/Battery Time Remaining-Prefix.pch";
 				INFOPLIST_FILE = "Battery Time Remaining/Battery Time Remaining-Info.plist";
-				PRODUCT_NAME = "Battery Time 2";
+				PRODUCT_NAME = "Battery Time Remaining 2";
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
@@ -425,7 +425,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Battery Time Remaining/Battery Time Remaining-Prefix.pch";
 				INFOPLIST_FILE = "Battery Time Remaining/Battery Time Remaining-Info.plist";
-				PRODUCT_NAME = "Battery Time 2";
+				PRODUCT_NAME = "Battery Time Remaining 2";
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};

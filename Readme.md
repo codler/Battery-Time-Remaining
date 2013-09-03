@@ -1,4 +1,4 @@
-Battery Time 2
+Battery Time Remaining 2
 ======================
 
 Show the estimated battery time remaining on top of your screen in Mac OS X 10.8 Mountain Lion.
@@ -45,6 +45,14 @@ App icon provided by happytel.com free calling for all.
 
 Change log
 ----------
+
+2013-09-03 - **v2.0.1** - [diff](https://github.com/codler/Battery-Time-Remaining/compare/v2.0...v2.0.1)
+
+* Added Hide time setting ([codler](https://github.com/codler))
+* Added Traditional Chinese Taiwan language ([mlkh0225](https://github.com/mlkh0225) [#68](https://github.com/codler/Battery-Time-Remaining/pull/68))
+* Improved status bar, able to see both percentage and time as same time. ([codler](https://github.com/codler) [#65](https://github.com/codler/Battery-Time-Remaining/issues/65))
+* Fix bug not showing correct color on menu select ([codler](https://github.com/codler))
+* Fix bug not showing parenthesis when showing percentage ([codler](https://github.com/codler))
 
 2013-09-03 - **v1.6.4** - [diff](https://github.com/codler/Battery-Time-Remaining/compare/v1.6.3...v1.6.4)
 

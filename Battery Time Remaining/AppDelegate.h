@@ -23,9 +23,10 @@
 #define kBTRMenuPercentage          10
 #define kBTRMenuWhiteText           11
 #define kBTRMenuHideIcon            12
-#define kBTRMenuEnergySaverSetting  13
-#define kBTRMenuUpdater             14
-#define kBTRMenuQuitKey             15
+#define kBTRMenuHideTime            13
+#define kBTRMenuEnergySaverSetting  14
+#define kBTRMenuUpdater             15
+#define kBTRMenuQuitKey             16
 
 #endif
 

@@ -46,6 +46,7 @@ static void PowerSourceChanged(void * context)
     BOOL showPercentage;
     BOOL showWhiteText;
     BOOL hideIcon;
+    BOOL hideTime;
 }
 
 - (void)cacheBatteryIcon;
@@ -159,6 +160,13 @@ static void PowerSourceChanged(void * context)
     hideIconSubmenuItem.target = self;
     hideIcon = [[NSUserDefaults standardUserDefaults] boolForKey:@"hideIcon"];
     hideIconSubmenuItem.state = (hideIcon) ? NSOnState : NSOffState;
+
+    // Time menu item
+    NSMenuItem *hideTimeSubmenuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Hide time", @"Hide time setting") action:@selector(toggleHideTime:) keyEquivalent:@""];
+    [hideTimeSubmenuItem setTag:kBTRMenuHideTime];
+    hideTimeSubmenuItem.target = self;
+    hideTime = [[NSUserDefaults standardUserDefaults] boolForKey:@"hideTime"];
+    hideTimeSubmenuItem.state = (hideTime) ? NSOnState : NSOffState;
     
     // Build the setting submenu
     NSMenu *settingSubmenu = [[NSMenu alloc] initWithTitle:@"Setting Menu"];
@@ -168,6 +176,7 @@ static void PowerSourceChanged(void * context)
     [settingSubmenu addItem:percentageSubmenuItem];
     [settingSubmenu addItem:whiteTextSubmenuItem];
     [settingSubmenu addItem:hideIconSubmenuItem];
+    [settingSubmenu addItem:hideTimeSubmenuItem];
     
     // Settings menu item
     NSMenuItem *settingMenu = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Settings", @"Settings menuitem") action:nil keyEquivalent:@""];
@@ -454,6 +463,12 @@ static void PowerSourceChanged(void * context)
 
 - (void)setStatusBarImage:(NSImage *)image title:(NSString *)title
 {
+    // Force show icon if no text
+    if (!showPercentage && hideTime)
+    {
+        hideIcon = NO;
+    }
+    
     // Image
     if (!hideIcon)
     {
@@ -487,9 +502,21 @@ static void PowerSourceChanged(void * context)
         [attributedStyle setObject:[NSColor whiteColor] forKey:NSForegroundColorAttributeName];
     }
     
+    if (hideTime)
+    {
+        title = nil;
+    }
+    
     if (showPercentage)
     {
-        title = [NSString stringWithFormat:@"%ld %%", self.currentPercent];
+        if (title != nil)
+        {
+            title = [NSString stringWithFormat:@"%ld %% %@", self.currentPercent, title];
+        }
+        else
+        {
+            title = [NSString stringWithFormat:@"%ld %%", self.currentPercent];
+        }
     }
     
     if (title != nil)
@@ -500,6 +527,10 @@ static void PowerSourceChanged(void * context)
         }
         
         title = [NSString stringWithFormat:@" %@", title];
+    }
+    else
+    {
+        title = @"";
     }
 
     NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:title attributes:attributedStyle];
@@ -786,6 +817,28 @@ static void PowerSourceChanged(void * context)
         item.state = NSOnState;
         hideIcon = YES;
         [defaults setBool:YES forKey:@"hideIcon"];
+    }
+    [defaults synchronize];
+    
+    [self updateStatusItem];
+}
+
+- (void)toggleHideTime:(id)sender
+{
+    NSMenuItem     *item = sender;
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    if ([defaults boolForKey:@"hideTime"])
+    {
+        item.state = NSOffState;
+        hideTime = NO;
+        [defaults setBool:NO forKey:@"hideTime"];
+    }
+    else
+    {
+        item.state = NSOnState;
+        hideTime = YES;
+        [defaults setBool:YES forKey:@"hideTime"];
     }
     [defaults synchronize];
     

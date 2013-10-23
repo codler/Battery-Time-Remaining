@@ -46,6 +46,17 @@ App icon provided by happytel.com free calling for all.
 Change log
 ----------
 
+2013-10-23 - **v2.0.2** - [diff](https://github.com/codler/Battery-Time-Remaining/compare/v2.0.1...v2.0.2)
+
+* Updated French language ([Vinky41](https://github.com/Vinky41) [#69](https://github.com/codler/Battery-Time-Remaining/pull/69))
+* Updated Traditional Chinese Taiwan language ([mlkh0225](https://github.com/mlkh0225) [#73](https://github.com/codler/Battery-Time-Remaining/pull/73))
+* Fix allow Mac with 2 GPUs to utilize integrated GPU ([airdrummingfool](https://github.com/airdrummingfool) [#74](https://github.com/codler/Battery-Time-Remaining/issues/74) [#75](https://github.com/codler/Battery-Time-Remaining/pull/75))
+
+2013-10-23 - **v1.6.5** - [diff](https://github.com/codler/Battery-Time-Remaining/compare/v1.6.4...v1.6.5)
+
+* Update French language ([Vinky41](https://github.com/Vinky41) [#69](https://github.com/codler/Battery-Time-Remaining/pull/69))
+* Fix allow Mac with 2 GPUs to utilize integrated GPU ([airdrummingfool](https://github.com/airdrummingfool) [#74](https://github.com/codler/Battery-Time-Remaining/issues/74) [#75](https://github.com/codler/Battery-Time-Remaining/pull/75))
+
 2013-09-03 - **v2.0.1** - [diff](https://github.com/codler/Battery-Time-Remaining/compare/v2.0...v2.0.1)
 
 * Added Hide time setting ([codler](https://github.com/codler))

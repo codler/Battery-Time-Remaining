@@ -46,6 +46,11 @@ App icon provided by happytel.com free calling for all.
 Change log
 ----------
 
+2013-10-23 - **v1.6.5** - [diff](https://github.com/codler/Battery-Time-Remaining/compare/v1.6.4...v1.6.5)
+
+* Update French language ([Vinky41](https://github.com/Vinky41) [#69](https://github.com/codler/Battery-Time-Remaining/pull/69))
+* Fix allow Mac with 2 GPUs to utilize integrated GPU ([airdrummingfool](https://github.com/airdrummingfool) [#74](https://github.com/codler/Battery-Time-Remaining/issues/74) [#75](https://github.com/codler/Battery-Time-Remaining/pull/75))
+
 2013-09-03 - **v1.6.4** - [diff](https://github.com/codler/Battery-Time-Remaining/compare/v1.6.3...v1.6.4)
 
 * Added Traditional Chinese Taiwan language ([mlkh0225](https://github.com/mlkh0225) [#68](https://github.com/codler/Battery-Time-Remaining/pull/68))

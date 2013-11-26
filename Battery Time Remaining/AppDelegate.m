@@ -23,6 +23,11 @@
 // exact same look.
 #define EXTRA_TOP_OFFSET    2.0f
 
+// Upper and lower percentage limits for "battery health" mode
+// These figures are extracted from http://batteryuniversity.com/learn/article/do_and_dont_battery_table
+#define kBatteryHealthModeUpperLimit 80
+#define kBatteryHealthModeLowerLimit 20
+
 // IOPS notification callback on power source change
 static void PowerSourceChanged(void * context)
 {
@@ -112,6 +117,11 @@ static void PowerSourceChanged(void * context)
         notificationSubmenuItem.state = (state) ? NSOnState : NSOffState;
         [notificationSubmenu addItem:notificationSubmenuItem];
     }
+    BOOL state = [[self.notifications valueForKey:@"battery health"] boolValue];
+    NSMenuItem *notificationSubmenuHealthItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Battery Health Mode", @"Battery Health Mode notification setting") action:@selector(toggleBatteryHealthMode:) keyEquivalent:@""];
+    notificationSubmenuHealthItem.state = (state) ? NSOnState : NSOffState;
+    [notificationSubmenu addItem:[NSMenuItem separatorItem]];
+    [notificationSubmenu addItem:notificationSubmenuHealthItem];
     
     // Notification menu item
     NSMenuItem *notificationMenu = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Notifications", @"Notification menuitem") action:nil keyEquivalent:@""];
@@ -324,6 +334,20 @@ static void PowerSourceChanged(void * context)
                     
                     // Return the time remaining string
                     [self setStatusBarImage:[self getBatteryIconNamed:@"BatteryCharging"] title:[NSString stringWithFormat:title, hour, minute]];
+
+                    if ([[self.notifications valueForKey:@"battery health"] boolValue])
+                    {
+                        if (self.currentPercent == kBatteryHealthModeUpperLimit)
+                        {
+                            // Send notification once
+                            if (self.previousPercent != self.currentPercent)
+                            {
+                                // Notify the user he/she should disconnect from power source and use battery
+                                [self notify:NSLocalizedString(@"Battery Time Remaining", @"Battery Time Remaining notification") message:[NSString stringWithFormat:NSLocalizedString(@"Your battery reached %d%%. You should disconnect your computer from the power source.", @"Disconnect from AC notification"), kBatteryHealthModeUpperLimit]];
+                                self.previousPercent = self.currentPercent;
+                            }
+                        }
+                    }
                 }
                 else
                 {
@@ -364,7 +388,20 @@ static void PowerSourceChanged(void * context)
 
             for (NSString *key in self.notifications)
             {
-                if ([[self.notifications valueForKey:key] boolValue] && [key intValue] == self.currentPercent)
+                if ([key isEqualToString:@"battery health"] &&
+                    [[self.notifications valueForKey:key] boolValue])
+                {
+                    if (self.currentPercent == kBatteryHealthModeLowerLimit)
+                    {
+                        // Send notification once
+                        if (self.previousPercent != self.currentPercent)
+                        {
+                            // Notify the user he/she should connect to AC
+                            [self notify:NSLocalizedString(@"Battery Time Remaining", @"Battery Time Remaining notification") message:[NSString stringWithFormat:NSLocalizedString(@"Your battery reached %d%%. You should connect your computer to a power source.", @"Connect to AC notification"), kBatteryHealthModeLowerLimit]];
+                        }
+                    }
+                }
+                else if ([[self.notifications valueForKey:key] boolValue] && [key intValue] == self.currentPercent)
                 {
                     // Send notification once
                     if (self.previousPercent != self.currentPercent)
@@ -893,6 +930,18 @@ static void PowerSourceChanged(void * context)
     
     [self.notifications setValue:[NSNumber numberWithBool:(item.state==NSOnState)?YES:NO] forKey:[NSString stringWithFormat:@"%ld", item.tag]];
     
+    [self saveNotificationSetting];
+}
+
+- (void)toggleBatteryHealthMode:(id)sender
+{
+    NSMenuItem *item = (NSMenuItem *)sender;
+
+    // Toggle state
+    item.state = (item.state==NSOnState) ? NSOffState : NSOnState;
+
+    [self.notifications setValue:[NSNumber numberWithBool:(item.state==NSOnState)?YES:NO] forKey:@"battery health"];
+
     [self saveNotificationSetting];
 }
 

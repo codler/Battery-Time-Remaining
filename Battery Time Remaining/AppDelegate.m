@@ -324,6 +324,17 @@ static void PowerSourceChanged(void * context)
                     
                     // Return the time remaining string
                     [self setStatusBarImage:[self getBatteryIconNamed:@"BatteryCharging"] title:[NSString stringWithFormat:title, hour, minute]];
+                    
+                    // Send notification once
+                    if (self.previousPercent != self.currentPercent)
+                    {
+                        if ([[self.notifications valueForKey:[@(self.currentPercent) stringValue]] boolValue] && self.currentPercent >= 50)
+                        {
+                            [self notify:NSLocalizedString(@"Battery Time Remaining", "Battery Time Remaining notification") message:[NSString stringWithFormat:NSLocalizedString(@"%1$ld:%2$02ld left (%3$ld%%)", @"Time remaining left notification"), hour, minute, self.currentPercent]];
+                        }
+                        self.previousPercent = self.currentPercent;
+                    }
+
                 }
                 else
                 {
@@ -362,19 +373,15 @@ static void PowerSourceChanged(void * context)
             // Return the time remaining string
            [self setStatusBarImage:[self getBatteryIconPercent:self.currentPercent] title:[NSString stringWithFormat:title, hour, minute]];
 
-            for (NSString *key in self.notifications)
+            // Send notification once
+            if (self.previousPercent != self.currentPercent)
             {
-                if ([[self.notifications valueForKey:key] boolValue] && [key intValue] == self.currentPercent)
+                if ([[self.notifications valueForKey:[@(self.currentPercent) stringValue]] boolValue] && self.currentPercent <= 50)
                 {
-                    // Send notification once
-                    if (self.previousPercent != self.currentPercent)
-                    {
-                        [self notify:NSLocalizedString(@"Battery Time Remaining", "Battery Time Remaining notification") message:[NSString stringWithFormat:NSLocalizedString(@"%1$ld:%2$02ld left (%3$ld%%)", @"Time remaining left notification"), hour, minute, self.currentPercent]];
-                    }
-                    break;
+                    [self notify:NSLocalizedString(@"Battery Time Remaining", "Battery Time Remaining notification") message:[NSString stringWithFormat:NSLocalizedString(@"%1$ld:%2$02ld left (%3$ld%%)", @"Time remaining left notification"), hour, minute, self.currentPercent]];
                 }
+                self.previousPercent = self.currentPercent;
             }
-            self.previousPercent = self.currentPercent;
         }
         
     }

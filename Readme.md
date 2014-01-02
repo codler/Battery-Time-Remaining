@@ -46,6 +46,11 @@ App icon provided by happytel.com free calling for all.
 Change log
 ----------
 
+2014-01-02 - **v2.1** - [diff](https://github.com/codler/Battery-Time-Remaining/compare/v2.0.2...v2.1)
+
+* Added notifications while charging ([codler](https://github.com/codler) [#79](https://github.com/codler/Battery-Time-Remaining/issues/79))
+* Updated German language ([Velines](https://github.com/Velines) [#80](https://github.com/codler/Battery-Time-Remaining/pull/80))
+
 2013-10-23 - **v2.0.2** - [diff](https://github.com/codler/Battery-Time-Remaining/compare/v2.0.1...v2.0.2)
 
 * Updated French language ([Vinky41](https://github.com/Vinky41) [#69](https://github.com/codler/Battery-Time-Remaining/pull/69))

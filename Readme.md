@@ -46,6 +46,10 @@ App icon provided by happytel.com free calling for all.
 Change log
 ----------
 
+2014-10-17 - **v3.0** - [diff](https://github.com/codler/Battery-Time-Remaining/compare/v2.1...v3.0)
+
+* Added support for OS X 10.10 Yosemite ([codler](https://github.com/codler) [#89](https://github.com/codler/Battery-Time-Remaining/issues/89))
+
 2014-01-02 - **v2.1** - [diff](https://github.com/codler/Battery-Time-Remaining/compare/v2.0.2...v2.1)
 
 * Added notifications while charging ([codler](https://github.com/codler) [#79](https://github.com/codler/Battery-Time-Remaining/issues/79))

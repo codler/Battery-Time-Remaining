@@ -599,10 +599,10 @@ static void PowerSourceChanged(void * context)
     }
     
     const CGFloat   drawingUnit         = [batteryLevelLeft size].width;
-    const CGFloat   capBarLeftOffset    = 3.0f * drawingUnit;
+    const CGFloat   capBarLeftOffset    = drawingUnit;
     CGFloat         capBarHeight        = [batteryLevelLeft size].height;
-    CGFloat         capBarTopOffset     = (([batteryOutline size].height - (EXTRA_TOP_OFFSET * drawingUnit)) - capBarHeight) / 2.0;
-    CGFloat         capBarLength        = ceil(percent / 8.0f) * drawingUnit; // max width is 13 units
+    CGFloat         capBarTopOffset     = ([batteryOutline size].height - EXTRA_TOP_OFFSET - capBarHeight) / 2.0;
+    CGFloat         capBarLength        = ceil(percent / 13.0f) * drawingUnit; // max width is 13 units
     if (capBarLength <= (2 * drawingUnit)) { capBarLength = (2 * drawingUnit) + 0.1f; }   // must be _greater_than_ the end segments
     
     [batteryOutline lockFocus];
@@ -632,7 +632,7 @@ static void PowerSourceChanged(void * context)
     // special treatment for the BatteryCharging, BatteryCharged, and BatteryEmpty images
     // they need to be shifted down by 2points to be in the same position as Apple's
     NSImage *imgCharging = [ImageFilter offset:[self loadBatteryIconNamed:@"BatteryCharging"] top:EXTRA_TOP_OFFSET];
-    NSImage *imgCharged = [ImageFilter offset:[self loadBatteryIconNamed:@"BatteryCharged"] top:EXTRA_TOP_OFFSET];
+    NSImage *imgCharged = [ImageFilter offset:[self loadBatteryIconNamed:@"BatteryChargedAndPlugged"] top:EXTRA_TOP_OFFSET];
     NSImage *imgEmpty = [ImageFilter offset:[self loadBatteryIconNamed:@"BatteryEmpty"] top:EXTRA_TOP_OFFSET];
     
     // Make the image black and white

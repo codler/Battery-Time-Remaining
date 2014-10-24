@@ -44,7 +44,6 @@ static void PowerSourceChanged(void * context)
     BOOL showParenthesis;
     BOOL showFahrenheit;
     BOOL showPercentage;
-    BOOL showWhiteText;
     BOOL hideIcon;
     BOOL hideTime;
 }
@@ -146,13 +145,6 @@ static void PowerSourceChanged(void * context)
     percentageSubmenuItem.target = self;
     showPercentage = [[NSUserDefaults standardUserDefaults] boolForKey:@"percentage"];
     percentageSubmenuItem.state = (showPercentage) ? NSOnState : NSOffState;
-
-    // Toggle Black & White Text
-    NSMenuItem *whiteTextSubmenuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Display white text", @"Display white text") action:@selector(toggleWhiteText:) keyEquivalent:@""];
-    [whiteTextSubmenuItem setTag:kBTRMenuWhiteText];
-    whiteTextSubmenuItem.target = self;
-    showWhiteText = [[NSUserDefaults standardUserDefaults] boolForKey:@"whiteText"];
-    whiteTextSubmenuItem.state = (showWhiteText) ? NSOnState : NSOffState;
     
     // Icon menu item
     NSMenuItem *hideIconSubmenuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Hide icon", @"Hide icon setting") action:@selector(toggleHideIcon:) keyEquivalent:@""];
@@ -174,7 +166,6 @@ static void PowerSourceChanged(void * context)
     [settingSubmenu addItem:parenthesisSubmenuItem];
     [settingSubmenu addItem:fahrenheitSubmenuItem];
     [settingSubmenu addItem:percentageSubmenuItem];
-    [settingSubmenu addItem:whiteTextSubmenuItem];
     [settingSubmenu addItem:hideIconSubmenuItem];
     [settingSubmenu addItem:hideTimeSubmenuItem];
     
@@ -479,22 +470,12 @@ static void PowerSourceChanged(void * context)
     // Image
     if (!hideIcon)
     {
-        [image setTemplate:( ! isCapacityWarning)];
-        if (showWhiteText)
-        {
-            [self.statusItem setImage:[ImageFilter invertColor:image]];
-            [self.statusItem setAlternateImage:image];
-        }
-        else
-        {
-            [self.statusItem setImage:image];
-            [self.statusItem setAlternateImage:[ImageFilter invertColor:image]];
-        }
+        [image setTemplate:!isCapacityWarning];
+        [self.statusItem setImage:image];
     }
     else
     {
         [self.statusItem setImage:nil];
-        [self.statusItem setAlternateImage:nil];
     }
 
     // Title
@@ -503,11 +484,6 @@ static void PowerSourceChanged(void * context)
                                              [NSFont menuFontOfSize:12.0f],
                                              NSFontAttributeName,
                                              nil];
-    
-    if (showWhiteText)
-    {
-        [attributedStyle setObject:[NSColor whiteColor] forKey:NSForegroundColorAttributeName];
-    }
     
     if (hideTime)
     {
@@ -634,9 +610,6 @@ static void PowerSourceChanged(void * context)
     NSImage *imgCharging = [ImageFilter offset:[self loadBatteryIconNamed:@"BatteryCharging"] top:EXTRA_TOP_OFFSET];
     NSImage *imgCharged = [ImageFilter offset:[self loadBatteryIconNamed:@"BatteryChargedAndPlugged"] top:EXTRA_TOP_OFFSET];
     NSImage *imgEmpty = [ImageFilter offset:[self loadBatteryIconNamed:@"BatteryEmpty"] top:EXTRA_TOP_OFFSET];
-    
-    // Make the image black and white
-    imgCharged = [ImageFilter blackWhite:[ImageFilter blackWhite:imgCharged]];
     
     // finally construct the dictionary from which we will retrieve the images at runtime
     batteryIcons = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -781,27 +754,6 @@ static void PowerSourceChanged(void * context)
         item.state = NSOnState;
         showPercentage = YES;
         [defaults setBool:YES forKey:@"percentage"];
-    }
-    [defaults synchronize];
-    
-    [self updateStatusItem];
-}
-
-- (void)toggleWhiteText:(id)sender {
-    NSMenuItem     *item = sender;
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    
-    if ([defaults boolForKey:@"whiteText"])
-    {
-        item.state = NSOffState;
-        showWhiteText = NO;
-        [defaults setBool:NO forKey:@"whiteText"];
-    }
-    else
-    {
-        item.state = NSOnState;
-        showWhiteText = YES;
-        [defaults setBool:YES forKey:@"whiteText"];
     }
     [defaults synchronize];
     

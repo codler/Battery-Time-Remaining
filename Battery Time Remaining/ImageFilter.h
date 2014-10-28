@@ -11,5 +11,6 @@
 @interface ImageFilter : NSObject
 
 + (NSImage *)offset:(NSImage *)_image top:(CGFloat)top;
++ (NSImage *)invertColor:(NSImage *)_image;
 
 @end

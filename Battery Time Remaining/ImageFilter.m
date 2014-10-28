@@ -27,4 +27,21 @@
     return newImage;
 }
 
++ (NSImage *)invertColor:(NSImage *)_image
+{
+    NSImage *image = [_image copy];
+    [image lockFocus];
+    
+    CIImage *ciImage = [[CIImage alloc] initWithData:[image TIFFRepresentation]];
+    CIFilter *filter = [CIFilter filterWithName:@"CIColorInvert"];
+    [filter setDefaults];
+    [filter setValue:ciImage forKey:@"inputImage"];
+    CIImage *output = [filter valueForKey:@"outputImage"];
+    [output drawInRect:NSMakeRect(0, 0, [_image size].width, [_image size].height) fromRect:NSRectFromCGRect([output extent]) operation:NSCompositeSourceOver fraction:1.0];
+    
+    [image unlockFocus];
+    
+    return image;
+}
+
 @end

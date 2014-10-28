@@ -39,6 +39,8 @@ static void PowerSourceChanged(void * context)
     NSString *previousState;
     NSTimer *unpluggedTimer;
     NSInteger unpluggedTimerCount;
+    BOOL isDarkMode;
+    BOOL isMenuOpen;
     BOOL isOptionKeyPressed;
     BOOL isCapacityWarning;
     BOOL showParenthesis;
@@ -63,7 +65,12 @@ static void PowerSourceChanged(void * context)
     self.advancedSupported = ([self getAdvancedBatteryInfo] != nil);
     [self cacheBatteryIcon];
     isCapacityWarning = NO;
-
+    isMenuOpen = NO;
+    
+    // Observe Dark mode changes
+    [[NSDistributedNotificationCenter defaultCenter] addObserver:self selector:@selector(darkModeChanged:) name:@"AppleInterfaceThemeChangedNotification" object:nil];
+    [self updateDarkMode];
+    
     // Init notification
     [[NSUserNotificationCenter defaultUserNotificationCenter] setDelegate:self];
     [self loadNotificationSetting];
@@ -470,7 +477,7 @@ static void PowerSourceChanged(void * context)
     // Image
     if (!hideIcon)
     {
-        [image setTemplate:!isCapacityWarning];
+        [image setTemplate:(isMenuOpen || !isCapacityWarning)];
         [self.statusItem setImage:image];
     }
     else
@@ -572,6 +579,11 @@ static void PowerSourceChanged(void * context)
         batteryLevelLeft    = [self getBatteryIconNamed:@"BatteryLevelCapR-L"];
         batteryLevelMiddle  = [self getBatteryIconNamed:@"BatteryLevelCapR-M"];
         batteryLevelRight   = [self getBatteryIconNamed:@"BatteryLevelCapR-R"];
+        
+        if (isDarkMode)
+        {
+            batteryOutline = [ImageFilter invertColor:batteryOutline];
+        }
     }
     
     const CGFloat   drawingUnit         = [batteryLevelLeft size].width;
@@ -884,6 +896,18 @@ static void PowerSourceChanged(void * context)
     return ((celsius * 9.0) / 5.0 + 32.0);
 }
 
+- (void)updateDarkMode
+{
+    NSDictionary *dict = [[NSUserDefaults standardUserDefaults] persistentDomainForName:NSGlobalDomain];
+    id style = [dict objectForKey:@"AppleInterfaceStyle"];
+    isDarkMode = ( style && [style isKindOfClass:[NSString class]] && NSOrderedSame == [style caseInsensitiveCompare:@"dark"] );
+}
+
+- (void)darkModeChanged:(NSNotification *)notif
+{
+    [self updateDarkMode];
+}
+
 #pragma mark - NSUserNotificationCenterDelegate methods
 
 // Force show notification
@@ -905,6 +929,9 @@ static void PowerSourceChanged(void * context)
 
 - (void)menuWillOpen:(NSMenu *)menu
 {
+    isMenuOpen = YES;
+    [self.statusItem.image setTemplate:YES];
+    
     [self updateStatusItemMenu];
     
     // Detect instant if option key is pressed
@@ -967,6 +994,9 @@ static void PowerSourceChanged(void * context)
 
 - (void)menuDidClose:(NSMenu *)menu
 {
+    isMenuOpen = NO;
+    [self.statusItem.image setTemplate:!isCapacityWarning];
+    
     if ([[self.statusItem.menu itemWithTag:kBTRMenuSetting].submenu itemWithTag:kBTRMenuAdvanced].state == NSOffState)
     {
         [self showAdvanced:NO];

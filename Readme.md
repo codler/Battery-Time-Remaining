@@ -46,7 +46,7 @@ App icon provided by happytel.com free calling for all.
 Change log
 ----------
 
-2014-10-28 - **v1.7.1** - [diff](https://github.com/codler/Battery-Time-Remaining/compare/v1.7.1...v1.7.1)
+2014-10-28 - **v1.7.1** - [diff](https://github.com/codler/Battery-Time-Remaining/compare/v1.7...v1.7.1)
 
 * Fix dark mode ([codler](https://github.com/codler)
 

@@ -486,11 +486,6 @@ static void PowerSourceChanged(void * context)
     }
 
     // Title
-    NSMutableDictionary *attributedStyle = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                             // Font
-                                             [NSFont menuFontOfSize:12.0f],
-                                             NSFontAttributeName,
-                                             nil];
     
     if (hideTime)
     {
@@ -523,6 +518,7 @@ static void PowerSourceChanged(void * context)
         title = @"";
     }
 
+    NSDictionary *attributedStyle = @{NSFontAttributeName: [NSFont menuBarFontOfSize:0], NSBaselineOffsetAttributeName: @(1)};
     NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:title attributes:attributedStyle];
     self.statusItem.attributedTitle = attributedTitle;
 }

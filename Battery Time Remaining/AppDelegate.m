@@ -309,8 +309,6 @@ static void PowerSourceChanged(void * context)
                 unpluggedTimer = nil;
             }
             previousState = psState;
-            
-            [self showCriticalBatteryAlert];
         }
         
         // Still calculating the estimated time remaining...

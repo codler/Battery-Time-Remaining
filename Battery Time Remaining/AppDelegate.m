@@ -178,7 +178,6 @@ static void PowerSourceChanged(void * context)
     hideTime = [[NSUserDefaults standardUserDefaults] boolForKey:@"hideTime"];
     hideTimeSubmenuItem.state = (hideTime) ? NSOnState : NSOffState;
     
-    
     // Build the setting submenu
     NSMenu *settingSubmenu = [[NSMenu alloc] initWithTitle:@"Setting Menu"];
     [settingSubmenu addItem:advancedSubmenuItem];
@@ -189,7 +188,6 @@ static void PowerSourceChanged(void * context)
     [settingSubmenu addItem:hideIconSubmenuItem];
     [settingSubmenu addItem:hideTimeSubmenuItem];
 
-    
     // Settings menu item
     NSMenuItem *settingMenu = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Settings", @"Settings menuitem") action:nil keyEquivalent:@""];
     [settingMenu setTag:kBTRMenuSetting];
@@ -396,6 +394,7 @@ static void PowerSourceChanged(void * context)
                 if (self.currentPercent == CRITICAL_BATTERY) {
                     [self showCriticalBatteryAlert];
                 }
+                
                 self.previousPercent = self.currentPercent;
             }
         }

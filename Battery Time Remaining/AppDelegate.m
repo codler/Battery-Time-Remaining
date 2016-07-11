@@ -295,6 +295,8 @@ static void PowerSourceChanged(void * context)
                 unpluggedTimer = nil;
             }
             previousState = psState;
+            
+            [self showLowBatteryDialog];
         }
         
         // Still calculating the estimated time remaining...

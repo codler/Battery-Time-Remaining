@@ -27,6 +27,7 @@
 #define kBTRMenuEnergySaverSetting  14
 #define kBTRMenuUpdater             15
 #define kBTRMenuQuitKey             16
+#define kBTRMenuLowBatteryDialog    17
 
 #endif
 

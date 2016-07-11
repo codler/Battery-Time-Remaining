@@ -48,6 +48,7 @@ static void PowerSourceChanged(void * context)
     BOOL showPercentage;
     BOOL hideIcon;
     BOOL hideTime;
+    BOOL showLowBatteryDialog;
 }
 
 - (void)cacheBatteryIcon;
@@ -167,6 +168,14 @@ static void PowerSourceChanged(void * context)
     hideTime = [[NSUserDefaults standardUserDefaults] boolForKey:@"hideTime"];
     hideTimeSubmenuItem.state = (hideTime) ? NSOnState : NSOffState;
     
+    // Low battery dialog item
+    NSMenuItem *showLowBatteryAlertSubmenuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Show low battery dialog", @"Show low battery dialog setting") action:@selector(toggleShowLowBatteryDialog:) keyEquivalent:@""];
+    [showLowBatteryAlertSubmenuItem setTag:kBTRMenuLowBatteryDialog];
+    showLowBatteryAlertSubmenuItem.target = self;
+    showLowBatteryDialog = [[NSUserDefaults standardUserDefaults] boolForKey:@"lowbatterydialog"];
+    showLowBatteryAlertSubmenuItem.state = (showLowBatteryDialog) ? NSOnState : NSOffState;
+    
+    
     // Build the setting submenu
     NSMenu *settingSubmenu = [[NSMenu alloc] initWithTitle:@"Setting Menu"];
     [settingSubmenu addItem:advancedSubmenuItem];
@@ -175,6 +184,8 @@ static void PowerSourceChanged(void * context)
     [settingSubmenu addItem:percentageSubmenuItem];
     [settingSubmenu addItem:hideIconSubmenuItem];
     [settingSubmenu addItem:hideTimeSubmenuItem];
+    [settingSubmenu addItem:showLowBatteryAlertSubmenuItem];
+
     
     // Settings menu item
     NSMenuItem *settingMenu = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Settings", @"Settings menuitem") action:nil keyEquivalent:@""];
@@ -380,7 +391,7 @@ static void PowerSourceChanged(void * context)
                 {
                     [self notify:NSLocalizedString(@"Battery Time Remaining", "Battery Time Remaining notification") message:[NSString stringWithFormat:NSLocalizedString(@"%1$ld:%2$02ld left (%3$ld%%)", @"Time remaining left notification"), hour, minute, self.currentPercent]];
                 }
-                // YATHARTH
+                
                 if (self.currentPercent == 10) {
                     [self showLowBatteryDialog];
                 }
@@ -394,10 +405,35 @@ static void PowerSourceChanged(void * context)
     CFRelease(psBlob);
 }
 
+- (void)toggleShowLowBatteryDialog:(id)sender
+{
+    NSMenuItem     *item = sender;
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    if ([defaults boolForKey:@"lowbatterydialog"])
+    {
+        item.state = NSOffState;
+        showLowBatteryDialog = NO;
+        [defaults setBool:NO forKey:@"lowbatterydialog"];
+    }
+    else
+    {
+        item.state = NSOnState;
+        showLowBatteryDialog = YES;
+        [defaults setBool:YES forKey:@"lowbatterydialog"];
+    }
+    [defaults synchronize];
+    
+    [self updateStatusItem];
+}
+
+// TODO: Rename related code from 'low battery dialog' to 'critical battery alert'
+// TODO: Reorder code and GUI
 - (void)showLowBatteryDialog
 {
-    // TODO: Add setting
-    // TODO: Internationalize
+    if (!showLowBatteryDialog) {
+        return;
+    }
     NSAlert *alert = [[NSAlert alloc] init];
     [alert setAlertStyle:NSWarningAlertStyle];
     [alert setMessageText:@"Low Battery"];

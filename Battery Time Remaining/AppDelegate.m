@@ -378,6 +378,10 @@ static void PowerSourceChanged(void * context)
                 {
                     [self notify:NSLocalizedString(@"Battery Time Remaining", "Battery Time Remaining notification") message:[NSString stringWithFormat:NSLocalizedString(@"%1$ld:%2$02ld left (%3$ld%%)", @"Time remaining left notification"), hour, minute, self.currentPercent]];
                 }
+                // YATHARTH
+                if (self.currentPercent == 10) {
+                    [self showLowBatteryDialog];
+                }
                 self.previousPercent = self.currentPercent;
             }
         }
@@ -386,6 +390,17 @@ static void PowerSourceChanged(void * context)
     
     CFRelease(psList);
     CFRelease(psBlob);
+}
+
+- (void)showLowBatteryDialog
+{
+    // TODO: Add setting
+    // TODO: Internationalize
+    NSAlert *alert = [[NSAlert alloc] init];
+    [alert setAlertStyle:NSWarningAlertStyle];
+    [alert setMessageText:@"Low Battery"];
+    [alert setInformativeText:@"Please connect your computer to a charger"];
+    [alert runModal];
 }
 
 - (void)updateStatusItemMenu

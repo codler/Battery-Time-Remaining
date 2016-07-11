@@ -878,8 +878,8 @@ static void PowerSourceChanged(void * context)
     
     NSAlert *alert = [[NSAlert alloc] init];
     [alert setAlertStyle:NSWarningAlertStyle];
-    [alert setMessageText:@"Critical Battery"];
-    [alert setInformativeText:@"Please connect your computer to a charger."];
+    [alert setMessageText:NSLocalizedString(@"Critical Battery",@"Title of alert")];
+    [alert setInformativeText:NSLocalizedString(@"Please connect your computer to a charger.","Body of critical battery alert")];
     [alert runModal];
 }
 

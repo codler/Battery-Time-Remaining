@@ -48,7 +48,7 @@ static void PowerSourceChanged(void * context)
     BOOL showPercentage;
     BOOL hideIcon;
     BOOL hideTime;
-    BOOL showLowBatteryDialog;
+    BOOL enableCriticalBatteryAlert;
 }
 
 - (void)cacheBatteryIcon;
@@ -132,6 +132,13 @@ static void PowerSourceChanged(void * context)
     advancedSubmenuItem.target = self;
     advancedSubmenuItem.state = ([[NSUserDefaults standardUserDefaults] boolForKey:@"advanced"]) ? NSOnState : NSOffState;
     [advancedSubmenuItem setHidden:!self.advancedSupported];
+    
+    // Critical battery alert item
+    NSMenuItem *enableCriticalBatteryAlertSubmenuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Enable critical battery alert", @"Enable critical battery alert/dialog setting") action:@selector(toggleEnableCriticalBatteryAlert:) keyEquivalent:@""];
+    [enableCriticalBatteryAlertSubmenuItem setTag:kBTRMenuCriticalBatteryAlert];
+    enableCriticalBatteryAlertSubmenuItem.target = self;
+    enableCriticalBatteryAlert = [[NSUserDefaults standardUserDefaults] boolForKey:@"criticalBatteryAlert"];
+    enableCriticalBatteryAlertSubmenuItem.state = (enableCriticalBatteryAlert) ? NSOnState : NSOffState;
 
     // Time display control menu item
     NSMenuItem *parenthesisSubmenuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Display time with parentheses", @"Display time with parentheses setting") action:@selector(toggleParenthesis:) keyEquivalent:@""];
@@ -168,23 +175,16 @@ static void PowerSourceChanged(void * context)
     hideTime = [[NSUserDefaults standardUserDefaults] boolForKey:@"hideTime"];
     hideTimeSubmenuItem.state = (hideTime) ? NSOnState : NSOffState;
     
-    // Low battery dialog item
-    NSMenuItem *showLowBatteryAlertSubmenuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Show low battery dialog", @"Show low battery dialog setting") action:@selector(toggleShowLowBatteryDialog:) keyEquivalent:@""];
-    [showLowBatteryAlertSubmenuItem setTag:kBTRMenuLowBatteryDialog];
-    showLowBatteryAlertSubmenuItem.target = self;
-    showLowBatteryDialog = [[NSUserDefaults standardUserDefaults] boolForKey:@"lowbatterydialog"];
-    showLowBatteryAlertSubmenuItem.state = (showLowBatteryDialog) ? NSOnState : NSOffState;
-    
     
     // Build the setting submenu
     NSMenu *settingSubmenu = [[NSMenu alloc] initWithTitle:@"Setting Menu"];
     [settingSubmenu addItem:advancedSubmenuItem];
+    [settingSubmenu addItem:enableCriticalBatteryAlertSubmenuItem];
     [settingSubmenu addItem:parenthesisSubmenuItem];
     [settingSubmenu addItem:fahrenheitSubmenuItem];
     [settingSubmenu addItem:percentageSubmenuItem];
     [settingSubmenu addItem:hideIconSubmenuItem];
     [settingSubmenu addItem:hideTimeSubmenuItem];
-    [settingSubmenu addItem:showLowBatteryAlertSubmenuItem];
 
     
     // Settings menu item
@@ -307,7 +307,7 @@ static void PowerSourceChanged(void * context)
             }
             previousState = psState;
             
-            [self showLowBatteryDialog];
+            [self showCriticalBatteryAlert];
         }
         
         // Still calculating the estimated time remaining...
@@ -393,7 +393,7 @@ static void PowerSourceChanged(void * context)
                 }
                 
                 if (self.currentPercent == 10) {
-                    [self showLowBatteryDialog];
+                    [self showCriticalBatteryAlert];
                 }
                 self.previousPercent = self.currentPercent;
             }
@@ -403,42 +403,6 @@ static void PowerSourceChanged(void * context)
     
     CFRelease(psList);
     CFRelease(psBlob);
-}
-
-- (void)toggleShowLowBatteryDialog:(id)sender
-{
-    NSMenuItem     *item = sender;
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    
-    if ([defaults boolForKey:@"lowbatterydialog"])
-    {
-        item.state = NSOffState;
-        showLowBatteryDialog = NO;
-        [defaults setBool:NO forKey:@"lowbatterydialog"];
-    }
-    else
-    {
-        item.state = NSOnState;
-        showLowBatteryDialog = YES;
-        [defaults setBool:YES forKey:@"lowbatterydialog"];
-    }
-    [defaults synchronize];
-    
-    [self updateStatusItem];
-}
-
-// TODO: Rename related code from 'low battery dialog' to 'critical battery alert'
-// TODO: Reorder code and GUI
-- (void)showLowBatteryDialog
-{
-    if (!showLowBatteryDialog) {
-        return;
-    }
-    NSAlert *alert = [[NSAlert alloc] init];
-    [alert setAlertStyle:NSWarningAlertStyle];
-    [alert setMessageText:@"Low Battery"];
-    [alert setInformativeText:@"Please connect your computer to a charger"];
-    [alert runModal];
 }
 
 - (void)updateStatusItemMenu
@@ -759,6 +723,28 @@ static void PowerSourceChanged(void * context)
     [self updateStatusItem];
 }
 
+- (void)toggleEnableCriticalBatteryAlert:(id)sender
+{
+    NSMenuItem     *item = sender;
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    if ([defaults boolForKey:@"criticalBatteryAlert"])
+    {
+        item.state = NSOffState;
+        enableCriticalBatteryAlert = NO;
+        [defaults setBool:NO forKey:@"criticalBatteryAlert"];
+    }
+    else
+    {
+        item.state = NSOnState;
+        enableCriticalBatteryAlert = YES;
+        [defaults setBool:YES forKey:@"criticalBatteryAlert"];
+    }
+    [defaults synchronize];
+    
+    [self updateStatusItem];
+}
+
 - (void)toggleParenthesis:(id)sender
 {
    NSMenuItem     *item = sender;
@@ -882,6 +868,19 @@ static void PowerSourceChanged(void * context)
     [notification setSoundName:NSUserNotificationDefaultSoundName];
     NSUserNotificationCenter *center = [NSUserNotificationCenter defaultUserNotificationCenter];
     [center scheduleNotification:notification];
+}
+
+- (void)showCriticalBatteryAlert
+{
+    if (!enableCriticalBatteryAlert) {
+        return;
+    }
+    
+    NSAlert *alert = [[NSAlert alloc] init];
+    [alert setAlertStyle:NSWarningAlertStyle];
+    [alert setMessageText:@"Critical Battery"];
+    [alert setInformativeText:@"Please connect your computer to a charger."];
+    [alert runModal];
 }
 
 - (void)loadNotificationSetting

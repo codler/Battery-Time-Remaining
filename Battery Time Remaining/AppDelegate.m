@@ -23,6 +23,9 @@
 // exact same look.
 #define EXTRA_TOP_OFFSET    2.0f
 
+// This value is used by the critical battery alert.
+#define CRITICAL_BATTERY    10
+
 // IOPS notification callback on power source change
 static void PowerSourceChanged(void * context)
 {
@@ -392,7 +395,7 @@ static void PowerSourceChanged(void * context)
                     [self notify:NSLocalizedString(@"Battery Time Remaining", "Battery Time Remaining notification") message:[NSString stringWithFormat:NSLocalizedString(@"%1$ld:%2$02ld left (%3$ld%%)", @"Time remaining left notification"), hour, minute, self.currentPercent]];
                 }
                 
-                if (self.currentPercent == 10) {
+                if (self.currentPercent == CRITICAL_BATTERY) {
                     [self showCriticalBatteryAlert];
                 }
                 self.previousPercent = self.currentPercent;

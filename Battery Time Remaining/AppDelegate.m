@@ -612,7 +612,14 @@ static void PowerSourceChanged(void * context)
 
 - (NSImage *)loadBatteryIconNamed:(NSString *)iconName
 {
-    NSString *fileName = [NSString stringWithFormat:@"/System/Library/CoreServices/Menu Extras/Battery.menu/Contents/Resources/%@.pdf", iconName];
+    NSString *fileNameTemplate;
+    NSOperatingSystemVersion osVersion = [[NSProcessInfo processInfo] operatingSystemVersion];
+    if(osVersion.minorVersion >= 12){
+        fileNameTemplate = @"/System/Library/PrivateFrameworks/BatteryUIKit.framework/Versions/A/Resources/%@.pdf";
+    }else{
+        fileNameTemplate = @"/System/Library/CoreServices/Menu Extras/Battery.menu/Contents/Resources/%@.pdf";
+    }
+    NSString *fileName = [NSString stringWithFormat:fileNameTemplate, iconName];
     return [[NSImage alloc] initWithContentsOfFile:fileName];
 }
 

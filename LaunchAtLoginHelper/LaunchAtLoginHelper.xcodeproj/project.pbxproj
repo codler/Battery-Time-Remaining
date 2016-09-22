@@ -215,6 +215,7 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				INFOPLIST_FILE = "LaunchAtLoginHelper/LaunchAtLoginHelper-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.6.8;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.codler.Battery-Time-Remaining-Helper2";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
@@ -228,6 +229,7 @@
 				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
 				INFOPLIST_FILE = "LaunchAtLoginHelper/LaunchAtLoginHelper-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.6.8;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.codler.Battery-Time-Remaining-Helper2";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;

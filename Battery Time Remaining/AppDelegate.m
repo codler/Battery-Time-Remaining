@@ -486,11 +486,7 @@ static void PowerSourceChanged(void * context)
     }
 
     // Title
-    NSMutableDictionary *attributedStyle = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                             // Font
-                                             [NSFont menuFontOfSize:12.0f],
-                                             NSFontAttributeName,
-                                             nil];
+    NSDictionary *attributedStyle = @{NSFontAttributeName: [NSFont menuBarFontOfSize:0], NSBaselineOffsetAttributeName: @(0)};
     
     if (hideTime)
     {

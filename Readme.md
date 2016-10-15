@@ -46,6 +46,14 @@ App icon provided by happytel.com free calling for all.
 Change log
 ----------
 
+2016-10-15 - **v4.0** - [diff](https://github.com/codler/Battery-Time-Remaining/compare/v3.1...v4.0)
+
+* Added support for macOS Sierra 10.12 ([nbppp2](https://github.com/nbppp2) [#105](https://github.com/codler/Battery-Time-Remaining/issues/105) [#107](https://github.com/codler/Battery-Time-Remaining/pull/107))
+
+2016-10-15 - **v1.8** - [diff](https://github.com/codler/Battery-Time-Remaining/compare/v1.7.1..v1.8)
+
+* Added support for macOS Sierra 10.12 ([codler](https://github.com/codler) [#105](https://github.com/codler/Battery-Time-Remaining/issues/105) [#107](https://github.com/codler/Battery-Time-Remaining/pull/107))
+
 2014-11-16 - **v3.1** - [diff](https://github.com/codler/Battery-Time-Remaining/compare/v3.0.1...v3.1)
 
 * Added Icon placement setting ([codler](https://github.com/codler) [#72](https://github.com/codler/Battery-Time-Remaining/issues/72))

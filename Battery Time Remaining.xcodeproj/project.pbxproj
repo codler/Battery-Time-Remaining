@@ -225,6 +225,11 @@
 			attributes = {
 				LastUpgradeCheck = 0440;
 				ORGANIZATIONNAME = "Han Lin Yap";
+				TargetAttributes = {
+					2841C7DB15C91CC100F4F15F = {
+						DevelopmentTeam = 9K37AQ8P25;
+					};
+				};
 			};
 			buildConfigurationList = 2841C7D615C91CC100F4F15F /* Build configuration list for PBXProject "Battery Time Remaining" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -366,7 +371,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 			};
@@ -388,7 +393,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				SDKROOT = macosx;
 			};
 			name = Release;
@@ -397,8 +402,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "Battery Time Remaining/Battery Time Remaining.entitlements";
-				CODE_SIGN_IDENTITY = "Developer ID Application: Han Lin Yap";
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 9K37AQ8P25;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Battery Time Remaining/Battery Time Remaining-Prefix.pch";
 				INFOPLIST_FILE = "Battery Time Remaining/Battery Time Remaining-Info.plist";
@@ -413,8 +419,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "Battery Time Remaining/Battery Time Remaining.entitlements";
-				CODE_SIGN_IDENTITY = "Developer ID Application: Han Lin Yap";
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 9K37AQ8P25;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Battery Time Remaining/Battery Time Remaining-Prefix.pch";
 				INFOPLIST_FILE = "Battery Time Remaining/Battery Time Remaining-Info.plist";

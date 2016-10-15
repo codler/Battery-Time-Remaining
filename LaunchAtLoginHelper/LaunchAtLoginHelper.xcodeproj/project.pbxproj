@@ -99,6 +99,11 @@
 				CLASSPREFIX = LLH;
 				LastUpgradeCheck = 0450;
 				ORGANIZATIONNAME = "David Keegan";
+				TargetAttributes = {
+					734C379315414CE200994189 = {
+						DevelopmentTeam = 9K37AQ8P25;
+					};
+				};
 			};
 			buildConfigurationList = 734C378E15414CE200994189 /* Build configuration list for PBXProject "LaunchAtLoginHelper" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -195,6 +200,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = LaunchAtLoginHelper/LaunchAtLoginHelper.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
+				DEVELOPMENT_TEAM = 9K37AQ8P25;
 				INFOPLIST_FILE = "LaunchAtLoginHelper/LaunchAtLoginHelper-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.6.8;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -207,7 +213,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = LaunchAtLoginHelper/LaunchAtLoginHelper.entitlements;
-				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				DEVELOPMENT_TEAM = 9K37AQ8P25;
 				INFOPLIST_FILE = "LaunchAtLoginHelper/LaunchAtLoginHelper-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.6.8;
 				PRODUCT_NAME = "$(TARGET_NAME)";

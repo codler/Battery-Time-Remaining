@@ -16,7 +16,7 @@
 #import <IOKit/pwr_mgt/IOPMLib.h>
 
 //#define DEBUG_BATTERY_PERCENT
-#define CHECK_FOR_UPDATE
+//#define CHECK_FOR_UPDATE
 
 // In Apple's battery gauge, the battery icon is rendered further down from the
 // top than NSStatusItem does it. Hence we add an extra top offset to get the
@@ -464,7 +464,7 @@ static void PowerSourceChanged(void * context)
 
 - (NSImage *)loadBatteryIconNamed:(NSString *)iconName
 {
-    NSString *fileName = [NSString stringWithFormat:@"/System/Library/CoreServices/Menu Extras/Battery.menu/Contents/Resources/%@.pdf", iconName];
+    NSString *fileName = [NSString stringWithFormat:@"/System/Library/PrivateFrameworks/BatteryUIKit.framework/Versions/A/Resources/%@.pdf", iconName];
     return [[NSImage alloc] initWithContentsOfFile:fileName];
 }
 

@@ -16,7 +16,7 @@
 #import <IOKit/pwr_mgt/IOPMLib.h>
 
 //#define DEBUG_BATTERY_PERCENT
-#define CHECK_FOR_UPDATE
+//#define CHECK_FOR_UPDATE
 
 // In Apple's battery gauge, the battery icon is rendered further down from the
 // top than NSStatusItem does it. Hence we add an extra top offset to get the
@@ -48,6 +48,7 @@ static void PowerSourceChanged(void * context)
     BOOL showPercentage;
     BOOL hideIcon;
     BOOL hideTime;
+    BOOL iconRight;
 }
 
 - (void)cacheBatteryIcon;
@@ -167,6 +168,13 @@ static void PowerSourceChanged(void * context)
     hideTime = [[NSUserDefaults standardUserDefaults] boolForKey:@"hideTime"];
     hideTimeSubmenuItem.state = (hideTime) ? NSOnState : NSOffState;
     
+    // Icon right menu item
+    NSMenuItem *iconRightSubmenuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Place icon on right side", @"Place icon on right side setting") action:@selector(toggleIconRight:) keyEquivalent:@""];
+    [iconRightSubmenuItem setTag:kBTRMenuIconRight];
+    iconRightSubmenuItem.target = self;
+    iconRight = [[NSUserDefaults standardUserDefaults] boolForKey:@"iconRight"];
+    iconRightSubmenuItem.state = (iconRight) ? NSOnState : NSOffState;
+    
     // Build the setting submenu
     NSMenu *settingSubmenu = [[NSMenu alloc] initWithTitle:@"Setting Menu"];
     [settingSubmenu addItem:advancedSubmenuItem];
@@ -175,6 +183,7 @@ static void PowerSourceChanged(void * context)
     [settingSubmenu addItem:percentageSubmenuItem];
     [settingSubmenu addItem:hideIconSubmenuItem];
     [settingSubmenu addItem:hideTimeSubmenuItem];
+    [settingSubmenu addItem:iconRightSubmenuItem];
     
     // Settings menu item
     NSMenuItem *settingMenu = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Settings", @"Settings menuitem") action:nil keyEquivalent:@""];
@@ -468,23 +477,6 @@ static void PowerSourceChanged(void * context)
 
 - (void)setStatusBarImage:(NSImage *)image title:(NSString *)title
 {
-    // Force show icon if no text
-    if (!showPercentage && hideTime)
-    {
-        hideIcon = NO;
-    }
-    
-    // Image
-    if (!hideIcon)
-    {
-        [image setTemplate:(isMenuOpen || !isCapacityWarning)];
-        [self.statusItem setImage:image];
-    }
-    else
-    {
-        [self.statusItem setImage:nil];
-    }
-
     // Title
     NSMutableDictionary *attributedStyle = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                              // Font
@@ -525,6 +517,29 @@ static void PowerSourceChanged(void * context)
 
     NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:title attributes:attributedStyle];
     self.statusItem.attributedTitle = attributedTitle;
+    
+    // Force show icon if no text
+    if (!showPercentage && hideTime)
+    {
+        hideIcon = NO;
+    }
+    
+    // Image
+    if (!hideIcon)
+    {
+        [image setTemplate:(isMenuOpen || !isCapacityWarning)];
+        [self.statusItem setImage:image];
+        
+        if (iconRight) {
+            [self.statusItem.button setImagePosition:NSImageRight];
+        } else {
+            [self.statusItem.button setImagePosition:NSImageLeft];
+        }
+    }
+    else
+    {
+        [self.statusItem setImage:nil];
+    }
 }
 
 - (NSDictionary *)getAdvancedBatteryInfo
@@ -612,7 +627,7 @@ static void PowerSourceChanged(void * context)
 
 - (NSImage *)loadBatteryIconNamed:(NSString *)iconName
 {
-    NSString *fileName = [NSString stringWithFormat:@"/System/Library/CoreServices/Menu Extras/Battery.menu/Contents/Resources/%@.pdf", iconName];
+    NSString *fileName = [NSString stringWithFormat:@"/System/Library/PrivateFrameworks/BatteryUIKit.framework/Versions/A/Resources/%@.pdf", iconName];
     return [[NSImage alloc] initWithContentsOfFile:fileName];
 }
 
@@ -810,6 +825,28 @@ static void PowerSourceChanged(void * context)
         item.state = NSOnState;
         hideTime = YES;
         [defaults setBool:YES forKey:@"hideTime"];
+    }
+    [defaults synchronize];
+    
+    [self updateStatusItem];
+}
+
+- (void)toggleIconRight:(id)sender
+{
+    NSMenuItem     *item = sender;
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    if ([defaults boolForKey:@"iconRight"])
+    {
+        item.state = NSOffState;
+        iconRight = NO;
+        [defaults setBool:NO forKey:@"iconRight"];
+    }
+    else
+    {
+        item.state = NSOnState;
+        iconRight = YES;
+        [defaults setBool:YES forKey:@"iconRight"];
     }
     [defaults synchronize];
     

@@ -351,7 +351,7 @@ static void PowerSourceChanged(void * context)
             else
             {
                 // Not charging and on a endless powersource
-                [self setStatusBarImage:[self getBatteryIconNamed:@"BatteryCharged"] title:nil];
+                [self setStatusBarImage:[self getBatteryIconNamed:@"BatteryCharged"] title:NSLocalizedString(@"Charged", @"Charged sidetext")];
                 
                 NSNumber *currentBatteryCapacity = CFDictionaryGetValue(description, CFSTR(kIOPSCurrentCapacityKey));
                 NSNumber *maxBatteryCapacity = CFDictionaryGetValue(description, CFSTR(kIOPSMaxCapacityKey));

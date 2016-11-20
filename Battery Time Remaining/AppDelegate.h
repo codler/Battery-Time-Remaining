@@ -21,9 +21,9 @@
 #define kBTRMenuParenthesis          8
 #define kBTRMenuFahrenheit           9
 #define kBTRMenuPercentage           10
-#define kBTRMenuWhiteText            11
-#define kBTRMenuHideIcon             12
-#define kBTRMenuHideTime             13
+#define kBTRMenuHideIcon             11
+#define kBTRMenuHideTime             12
+#define kBTRMenuIconRight            13
 #define kBTRMenuEnergySaverSetting   14
 #define kBTRMenuUpdater              15
 #define kBTRMenuQuitKey              16

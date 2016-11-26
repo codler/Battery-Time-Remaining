@@ -23,6 +23,9 @@
 // exact same look.
 #define EXTRA_TOP_OFFSET    2.0f
 
+// This value is used by the critical battery alert.
+#define CRITICAL_BATTERY    10
+
 // IOPS notification callback on power source change
 static void PowerSourceChanged(void * context)
 {
@@ -48,6 +51,7 @@ static void PowerSourceChanged(void * context)
     BOOL showPercentage;
     BOOL hideIcon;
     BOOL hideTime;
+    BOOL enableCriticalBatteryAlert;
     BOOL iconRight;
 }
 
@@ -132,6 +136,13 @@ static void PowerSourceChanged(void * context)
     advancedSubmenuItem.target = self;
     advancedSubmenuItem.state = ([[NSUserDefaults standardUserDefaults] boolForKey:@"advanced"]) ? NSOnState : NSOffState;
     [advancedSubmenuItem setHidden:!self.advancedSupported];
+    
+    // Critical battery alert item
+    NSMenuItem *enableCriticalBatteryAlertSubmenuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Enable critical battery alert", @"Enable critical battery alert/dialog setting") action:@selector(toggleEnableCriticalBatteryAlert:) keyEquivalent:@""];
+    [enableCriticalBatteryAlertSubmenuItem setTag:kBTRMenuCriticalBatteryAlert];
+    enableCriticalBatteryAlertSubmenuItem.target = self;
+    enableCriticalBatteryAlert = [[NSUserDefaults standardUserDefaults] boolForKey:@"criticalBatteryAlert"];
+    enableCriticalBatteryAlertSubmenuItem.state = (enableCriticalBatteryAlert) ? NSOnState : NSOffState;
 
     // Time display control menu item
     NSMenuItem *parenthesisSubmenuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Display time with parentheses", @"Display time with parentheses setting") action:@selector(toggleParenthesis:) keyEquivalent:@""];
@@ -178,6 +189,7 @@ static void PowerSourceChanged(void * context)
     // Build the setting submenu
     NSMenu *settingSubmenu = [[NSMenu alloc] initWithTitle:@"Setting Menu"];
     [settingSubmenu addItem:advancedSubmenuItem];
+    [settingSubmenu addItem:enableCriticalBatteryAlertSubmenuItem];
     [settingSubmenu addItem:parenthesisSubmenuItem];
     [settingSubmenu addItem:fahrenheitSubmenuItem];
     [settingSubmenu addItem:percentageSubmenuItem];
@@ -387,6 +399,11 @@ static void PowerSourceChanged(void * context)
                 {
                     [self notify:NSLocalizedString(@"Battery Time Remaining", "Battery Time Remaining notification") message:[NSString stringWithFormat:NSLocalizedString(@"%1$ld:%2$02ld left (%3$ld%%)", @"Time remaining left notification"), hour, minute, self.currentPercent]];
                 }
+                
+                if (self.currentPercent == CRITICAL_BATTERY) {
+                    [self showCriticalBatteryAlert];
+                }
+                
                 self.previousPercent = self.currentPercent;
             }
         }
@@ -721,6 +738,28 @@ static void PowerSourceChanged(void * context)
     [self updateStatusItem];
 }
 
+- (void)toggleEnableCriticalBatteryAlert:(id)sender
+{
+    NSMenuItem     *item = sender;
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    if ([defaults boolForKey:@"criticalBatteryAlert"])
+    {
+        item.state = NSOffState;
+        enableCriticalBatteryAlert = NO;
+        [defaults setBool:NO forKey:@"criticalBatteryAlert"];
+    }
+    else
+    {
+        item.state = NSOnState;
+        enableCriticalBatteryAlert = YES;
+        [defaults setBool:YES forKey:@"criticalBatteryAlert"];
+    }
+    [defaults synchronize];
+    
+    [self updateStatusItem];
+}
+
 - (void)toggleParenthesis:(id)sender
 {
    NSMenuItem     *item = sender;
@@ -866,6 +905,19 @@ static void PowerSourceChanged(void * context)
     [notification setSoundName:NSUserNotificationDefaultSoundName];
     NSUserNotificationCenter *center = [NSUserNotificationCenter defaultUserNotificationCenter];
     [center scheduleNotification:notification];
+}
+
+- (void)showCriticalBatteryAlert
+{
+    if (!enableCriticalBatteryAlert) {
+        return;
+    }
+    
+    NSAlert *alert = [[NSAlert alloc] init];
+    [alert setAlertStyle:NSWarningAlertStyle];
+    [alert setMessageText:NSLocalizedString(@"Critical Battery",@"Title of alert")];
+    [alert setInformativeText:NSLocalizedString(@"Please connect your computer to a charger.","Body of critical battery alert")];
+    [alert runModal];
 }
 
 - (void)loadNotificationSetting

@@ -11,22 +11,23 @@
 #ifndef _BTR_MENU
 #define _BTR_MENU
 
-#define kBTRMenuPowerSourcePercent  1
-#define kBTRMenuPowerSourceState    2
-#define kBTRMenuPowerSourceAdvanced 3
-#define kBTRMenuStartAtLogin        4
-#define kBTRMenuNotification        5
-#define kBTRMenuSetting             6
-#define kBTRMenuAdvanced            7
-#define kBTRMenuParenthesis         8
-#define kBTRMenuFahrenheit          9
-#define kBTRMenuPercentage          10
-#define kBTRMenuHideIcon            11
-#define kBTRMenuHideTime            12
-#define kBTRMenuIconRight           13
-#define kBTRMenuEnergySaverSetting  14
-#define kBTRMenuUpdater             15
-#define kBTRMenuQuitKey             16
+#define kBTRMenuPowerSourcePercent   1
+#define kBTRMenuPowerSourceState     2
+#define kBTRMenuPowerSourceAdvanced  3
+#define kBTRMenuStartAtLogin         4
+#define kBTRMenuNotification         5
+#define kBTRMenuSetting              6
+#define kBTRMenuAdvanced             7
+#define kBTRMenuParenthesis          8
+#define kBTRMenuFahrenheit           9
+#define kBTRMenuPercentage           10
+#define kBTRMenuHideIcon             11
+#define kBTRMenuHideTime             12
+#define kBTRMenuIconRight            13
+#define kBTRMenuEnergySaverSetting   14
+#define kBTRMenuUpdater              15
+#define kBTRMenuQuitKey              16
+#define kBTRMenuCriticalBatteryAlert 17
 
 #endif
 
